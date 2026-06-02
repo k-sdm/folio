@@ -42,7 +42,7 @@ export function ArenaFrame() {
 
   return (
     <div
-      className="relative h-full aspect-[724/1024] select-none"
+      className="relative h-full w-auto aspect-[724/1024] select-none"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >

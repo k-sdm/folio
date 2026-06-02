@@ -36,7 +36,7 @@ export function SkyVase() {
   }, []);
 
   return (
-    <div className="relative h-full aspect-[1104/1731] select-none">
+    <div className="relative h-full w-auto aspect-[1104/1731] select-none">
       {IMAGES.map((n, i) => {
         const mask = masks[i];
         const masked = mask && mask !== "none";

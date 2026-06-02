@@ -1,4 +1,4 @@
-import { ArenaFrame } from "@/components/arena-frame";
+import { ProjectStage } from "@/components/projects/project-stage";
 
 export default function Home() {
   return (
@@ -8,10 +8,7 @@ export default function Home() {
       </h1>
 
       <section className="mt-12">
-        <h2 className="mb-4 text-sm font-mono uppercase tracking-widest text-foreground/50">
-          Arena Frame
-        </h2>
-        <ArenaFrame />
+        <ProjectStage />
       </section>
     </main>
   );

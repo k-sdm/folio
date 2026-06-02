@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useArenaFrame } from "./arena-frame-provider";
+import { useArenaFrame } from "@/components/arena-frame-provider";
 
 // Frame image is 724 x 1024. The video player is 573 x 950 at (95, 35).
 // Expressed as percentages so it scales with the responsive frame image.
@@ -12,6 +12,14 @@ const SLOT_STYLE: React.CSSProperties = {
   height: `${(950 / 1024) * 100}%`,
 };
 
+/**
+ * Arena Frame — a self-contained project object. Front/back frame photos swap
+ * on hover; the playing video (owned by ArenaFrameProvider so it persists across
+ * navigation) is glued over the screen-cutout slot registered here.
+ *
+ * Sized by height: render inside a height-constrained parent and the width
+ * follows the 724×1024 aspect ratio.
+ */
 export function ArenaFrame() {
   const { setSlot, setHovered } = useArenaFrame();
   const slotRef = useRef<HTMLDivElement>(null);
@@ -34,7 +42,7 @@ export function ArenaFrame() {
 
   return (
     <div
-      className="relative mx-auto aspect-[724/1024] w-full max-w-[360px] select-none"
+      className="relative h-full aspect-[724/1024] select-none"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >

@@ -39,9 +39,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${khTeka.variable} ${khTekaMono.variable} h-full antialiased`}
+      className={`${khTeka.variable} ${khTekaMono.variable} antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground">
+      <body className="bg-background text-foreground">
         {children}
         <Analytics />
       </body>

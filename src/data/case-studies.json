@@ -1,13 +1,96 @@
 {
  "postingCard": {
-  "name": "Posting Card",
-  "credit": "Posting Card, 2024 with Industrial Facility",
+  "name": "Arena Frame",
+  "credit": "",
   "hero": {
-   "mp4": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-transcode.mp4",
-   "webm": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-transcode.webm",
-   "poster": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-poster-00001.jpg"
+   "image": "/projects/arena-frame/6a207b1f35f16b45199df174_frame1.webp"
   },
   "blocks": [
+   {
+    "type": "text",
+    "text": "Arena Frame is an open-source object that displays a channel's content on a colour eink screen, letting you revisit your references in the physical world",
+    "runs": [
+     {
+      "t": "Arena Frame",
+      "href": "https://www.are.na/editorial/introducing-are-na-frame-an-open-source-e-ink-display-for-channels"
+     },
+     {
+      "t": " is an open-source object that displays a channel's content on a colour eink screen, letting you revisit your references in the physical world"
+     }
+    ]
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/arena-frame/6a207b1f3eda858024291246_world_mp4.mp4",
+    "webm": "/projects/arena-frame/6a207b1f3eda858024291246_world_webm.webm",
+    "poster": "/projects/arena-frame/6a207b1f3eda858024291246_world_poster.0000000.jpg",
+    "size": "small"
+   },
+   {
+    "type": "text",
+    "text": "Released through the gift shop as their first hardware release, and sold out in 2 hours.",
+    "runs": [
+     {
+      "t": "Released through the "
+     },
+     {
+      "t": "gift shop",
+      "href": "https://store.are.na/products/are-na-frame?variant=47623684227223"
+     },
+     {
+      "t": " as their first hardware release, and sold out in 2 hours."
+     }
+    ]
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6a207d69b4f3e497796cf740_original_ea67086b9055e0dfc100f3b4ab422ac6.webp",
+    "size": "small"
+   },
+   {
+    "type": "text",
+    "text": "Instructions to build your own can be found here",
+    "runs": [
+     {
+      "t": "Instructions to build your own can be found "
+     },
+     {
+      "t": "here",
+      "href": "https://github.com/k-sdm/arena-frame"
+     }
+    ]
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/arena-frame/6a207b203dab3d816015c9c8_sf_mp4.mp4",
+    "webm": "/projects/arena-frame/6a207b203dab3d816015c9c8_sf_webm.webm",
+    "poster": "/projects/arena-frame/6a207b203dab3d816015c9c8_sf_poster.0000000.jpg"
+   },
+   {
+    "type": "grid",
+    "images": [
+     "/projects/arena-frame/6a208094f2f6b54d5f96d1e6_dwdyxrr7r7r7lzdahac3.webp",
+     "/projects/arena-frame/6a20809dce5330b6b8d521f0_Layers-ezgif.com-video-to-gif-converter.gif",
+     "/projects/arena-frame/6a20809205dfc7efb5ec7a86_wsfl2o7zktlu3fezwcvn.webp",
+     "/projects/arena-frame/6a2080916a7e6e87c2688a3e_wg4jeeoj8udjjytxykfp.webp",
+     "/projects/arena-frame/6a2080928cd0f66cf3cc2f97_d3jvrdrjzh8ud71alpd4.webp",
+     "/projects/arena-frame/6a208091b4f3e497796e3f4a_b3n8syhvqjo8amwc44cw.webp",
+     "/projects/arena-frame/6a208091ad9219e6124e6c66_cpwy7xqhsmfmnrqu4odh.webp",
+     "/projects/arena-frame/6a2080911e1463f725a41829_d0hugssiuppuwe5ocwlx.webp",
+     "/projects/arena-frame/6a2080913fd3ae6008a11fa7_vwudqrv5n97tzm1xz8hg.webp",
+     "/projects/arena-frame/6a208091b44b61480ec7e6c8_gq8z7jgvpq2zj59dhbs5.webp"
+    ]
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-transcode.mp4",
+    "webm": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-transcode.webm",
+    "poster": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-poster-00001.jpg"
+   },
+   {
+    "type": "text",
+    "text": "The idea began with Posting Card in 2024"
+   },
    {
     "type": "text",
     "text": "A simple networked device for growing and sustaining friendships. It uses a multi-colour e-ink display to let a close group share their lives in a slower, more intentional way."
@@ -18,23 +101,19 @@
    },
    {
     "type": "text",
-    "text": "The internal project was launched under Future Facility — a technology-focused offshoot of the main studio — as a way to develop and communicate the studio’s capabilities.",
+    "text": "The internal project was comissioned by Future Facility — a technology-focused offshoot of Industrial facility — as a way to develop and communicate the studio’s capabilities.",
     "runs": [
      {
-      "t": "The internal project was launched under "
+      "t": "The internal project was comissioned by "
      },
      {
       "t": "Future Facility",
       "href": "https://www.futurefacility.co.uk/about"
      },
      {
-      "t": " — a technology-focused offshoot of the main studio — as a way to develop and communicate the studio’s capabilities."
+      "t": " — a technology-focused offshoot of Industrial facility — as a way to develop and communicate the studio’s capabilities."
      }
     ]
-   },
-   {
-    "type": "text",
-    "text": "Thank you Sam, Kim and Leo"
    },
    {
     "type": "video",
@@ -172,56 +251,48 @@
    {
     "type": "text",
     "text": "It provides a gentler, more mindful alternative for sharing images and text with a small circle of friends who can truly be themselves, free from the pressure of likes, notifications, and read receipts. Using only a simple network structure and a handful of components."
-   }
-  ],
-  "process": [
-   "/projects/arena-frame/683889d3d4d7d634d9b24b68_Insta.webp",
-   "/projects/arena-frame/683ee5c0cf510edf67c5dbd9_IMG_0611_2.webp",
-   "/projects/arena-frame/683889d390732728e41f6fd4_Frame_11.webp",
-   "/projects/arena-frame/683e0ba6b1517bb5541d0601_process_-_5.webp",
-   "/projects/arena-frame/683889da2ac4419ab86acbd6_IMG_1019.webp",
-   "/projects/arena-frame/683889d9dc184dc0758d729e_original_d9f8901fcf4a4b867aea74c3d3bdd1cf_1.webp",
-   "/projects/arena-frame/683ee5c003a63aa548f44d33_IMG_0618.webp",
-   "/projects/arena-frame/683889d957ab524f12edb29d_little_disc.webp",
-   "/projects/arena-frame/683889d995ac08d80ad12489_Frame_1.webp",
-   "/projects/arena-frame/68388bb25a037d6fbe2ef5c4_image_52.webp",
-   "/projects/arena-frame/683889d9c9255206463117dd_monocle.webp",
-   "/projects/arena-frame/683889d99e502dae56523fc0_IMG_1150.webp",
-   "/projects/arena-frame/683e0b4eefa3aa6e2815ff2b_Group_17.webp",
-   "/projects/arena-frame/683889d975e266e54d6eb394_IMG_1288.webp",
-   "/projects/arena-frame/683889d9bdd2cf60a7a7555f_CASE_1.webp",
-   "/projects/arena-frame/683889d91deb503995e001e9_11._Billboards.webp",
-   "/projects/arena-frame/683889d90707644ccb820b47_original_cb51b663df85ce7054cd29b0fbbe6963_1.webp",
-   "/projects/arena-frame/6839dac8f8cb56b1efbcec37_SIDE.webp",
-   "/projects/arena-frame/683889d61deb503995dffdfa_original_92564aec3f45051a7838aef9da14a4a7_1.webp",
-   "/projects/arena-frame/6839e5229f01c27463ac4368_Quote.webp",
-   "/projects/arena-frame/683889d675f9b3541179f423_Option_A.webp",
-   "/projects/arena-frame/683889d3c925520646311501_Instagram_story_-_22.webp",
-   "/projects/arena-frame/6839dac9b51883677769f73d_DETAIL.1.webp",
-   "/projects/arena-frame/683889d3a83626f4cdae7da9_image_617.webp",
-   "/projects/arena-frame/683889d382ca2bff1c82bd94_image_7.webp",
-   "/projects/arena-frame/683889d3fe317d6ca30c4113_Frame_16.webp",
-   "/projects/arena-frame/6839d16a5f1a65ef8242f6d2_eno.webp",
-   "/projects/arena-frame/683889d3c35438aa602b6857_DETAIL.8.webp",
-   "/projects/arena-frame/683889d3a4a99aaed1ce7714_Frame_2.webp",
-   "/projects/arena-frame/683889d385c66157c85f7aa9_DETAIL.3.webp",
-   "/projects/arena-frame/683889d37a64cd07d6a4ec14_Frame_12.webp",
-   "/projects/arena-frame/683889d326818bd0e0e4407c_image_2.webp",
-   "/projects/arena-frame/683ee5bf01a5b7eaf3bb1ab8_IMG_0847_1_.webp",
-   "/projects/arena-frame/68388bb26efb795a0e56c4b9_image_53.webp"
-  ],
-  "creditRuns": [
-   {
-    "t": "Posting Card, 2024"
    },
    {
-    "t": "with "
-   },
-   {
-    "t": "Industrial Facility",
-    "href": "https://www.industrialfacility.co.uk/"
+    "type": "grid",
+    "images": [
+     "/projects/arena-frame/683889d3d4d7d634d9b24b68_Insta.webp",
+     "/projects/arena-frame/683ee5c0cf510edf67c5dbd9_IMG_0611_2.webp",
+     "/projects/arena-frame/683889d390732728e41f6fd4_Frame_11.webp",
+     "/projects/arena-frame/683e0ba6b1517bb5541d0601_process_-_5.webp",
+     "/projects/arena-frame/683889da2ac4419ab86acbd6_IMG_1019.webp",
+     "/projects/arena-frame/683889d9dc184dc0758d729e_original_d9f8901fcf4a4b867aea74c3d3bdd1cf_1.webp",
+     "/projects/arena-frame/683ee5c003a63aa548f44d33_IMG_0618.webp",
+     "/projects/arena-frame/683889d957ab524f12edb29d_little_disc.webp",
+     "/projects/arena-frame/683889d995ac08d80ad12489_Frame_1.webp",
+     "/projects/arena-frame/68388bb25a037d6fbe2ef5c4_image_52.webp",
+     "/projects/arena-frame/683889d9c9255206463117dd_monocle.webp",
+     "/projects/arena-frame/683889d99e502dae56523fc0_IMG_1150.webp",
+     "/projects/arena-frame/683e0b4eefa3aa6e2815ff2b_Group_17.webp",
+     "/projects/arena-frame/683889d975e266e54d6eb394_IMG_1288.webp",
+     "/projects/arena-frame/683889d9bdd2cf60a7a7555f_CASE_1.webp",
+     "/projects/arena-frame/683889d91deb503995e001e9_11._Billboards.webp",
+     "/projects/arena-frame/683889d90707644ccb820b47_original_cb51b663df85ce7054cd29b0fbbe6963_1.webp",
+     "/projects/arena-frame/6839dac8f8cb56b1efbcec37_SIDE.webp",
+     "/projects/arena-frame/683889d61deb503995dffdfa_original_92564aec3f45051a7838aef9da14a4a7_1.webp",
+     "/projects/arena-frame/6839e5229f01c27463ac4368_Quote.webp",
+     "/projects/arena-frame/683889d675f9b3541179f423_Option_A.webp",
+     "/projects/arena-frame/683889d3c925520646311501_Instagram_story_-_22.webp",
+     "/projects/arena-frame/6839dac9b51883677769f73d_DETAIL.1.webp",
+     "/projects/arena-frame/683889d3a83626f4cdae7da9_image_617.webp",
+     "/projects/arena-frame/683889d382ca2bff1c82bd94_image_7.webp",
+     "/projects/arena-frame/683889d3fe317d6ca30c4113_Frame_16.webp",
+     "/projects/arena-frame/6839d16a5f1a65ef8242f6d2_eno.webp",
+     "/projects/arena-frame/683889d3c35438aa602b6857_DETAIL.8.webp",
+     "/projects/arena-frame/683889d3a4a99aaed1ce7714_Frame_2.webp",
+     "/projects/arena-frame/683889d385c66157c85f7aa9_DETAIL.3.webp",
+     "/projects/arena-frame/683889d37a64cd07d6a4ec14_Frame_12.webp",
+     "/projects/arena-frame/683889d326818bd0e0e4407c_image_2.webp",
+     "/projects/arena-frame/683ee5bf01a5b7eaf3bb1ab8_IMG_0847_1_.webp",
+     "/projects/arena-frame/68388bb26efb795a0e56c4b9_image_53.webp"
+    ]
    }
-  ]
+  ],
+  "process": []
  },
  "journey": {
   "name": "Journey",

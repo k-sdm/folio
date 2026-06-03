@@ -7,7 +7,8 @@ type Run = { t: string; href?: string };
 type Block =
   | { type: "text"; text: string; runs?: Run[] }
   | { type: "image"; src: string; size: "large" | "small" }
-  | ({ type: "video" } & Media);
+  | { type: "grid"; images: string[] }
+  | ({ type: "video"; size?: "large" | "small" } & Media);
 type ProjectData = {
   name: string;
   credit: string;
@@ -64,6 +65,23 @@ function Video({ media, className }: { media: Media; className?: string }) {
 const TEXT_CLASS =
   "mx-auto max-w-3xl text-center text-[14px] md:text-[42px] font-light leading-snug text-black";
 
+// Masonry grid: 80vw mobile / 65vw desktop, 2 → 3 columns.
+function Masonry({ images }: { images: string[] }) {
+  return (
+    <div className="mx-auto w-[80vw] columns-2 gap-3 [&>img]:mb-3 md:w-[65vw] md:columns-3 md:gap-6 md:[&>img]:mb-6">
+      {images.map((src, i) => (
+        <img
+          key={i}
+          src={src}
+          alt=""
+          loading="lazy"
+          className="block w-full break-inside-avoid"
+        />
+      ))}
+    </div>
+  );
+}
+
 export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
   const data = DATA[id];
   return (
@@ -81,9 +99,11 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
             <Video media={data.hero} className="mx-auto block w-[80vw] md:w-[65vw]" />
           ))}
 
-        <p className={`${TEXT_CLASS} mt-12 md:mt-24`}>
-          <RichText text={data.credit} runs={data.creditRuns} />
-        </p>
+        {(data.credit || data.creditRuns) && (
+          <p className={`${TEXT_CLASS} mt-12 md:mt-24`}>
+            <RichText text={data.credit} runs={data.creditRuns} />
+          </p>
+        )}
 
         <div className="mt-16 flex flex-col items-center gap-12 md:mt-32 md:gap-24">
           {data.blocks.map((b, i) => {
@@ -103,21 +123,20 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                   className={`block w-[80vw] ${b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]"}`}
                 />
               );
-            return <Video key={i} media={b} className="block w-[80vw] md:w-[65vw]" />;
+            if (b.type === "grid") return <Masonry key={i} images={b.images} />;
+            return (
+              <Video
+                key={i}
+                media={b}
+                className={`block w-[80vw] ${b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]"}`}
+              />
+            );
           })}
         </div>
 
         {data.process.length > 0 && (
-          <div className="mx-auto mt-20 w-[80vw] columns-2 gap-3 [&>img]:mb-3 md:mt-40 md:w-[65vw] md:columns-3 md:gap-6 md:[&>img]:mb-6">
-            {data.process.map((src, i) => (
-              <img
-                key={i}
-                src={src}
-                alt=""
-                loading="lazy"
-                className="block w-full break-inside-avoid"
-              />
-            ))}
+          <div className="mt-20 md:mt-40">
+            <Masonry images={data.process} />
           </div>
         )}
       </main>

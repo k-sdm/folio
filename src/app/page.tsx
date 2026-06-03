@@ -8,13 +8,12 @@ export default function Home() {
         <img
           src="/vectors/NAME.svg"
           alt="Kiran Scott de Martinville"
-          className="block h-auto w-full max-w-[520px]"
+          className="h-auto w-full max-w-[520px]"
         />
       </h1>
 
-      {/* Fill the rest of the viewport so the tallest object (the vase) reaches
-          up to the wordmark; the carousel sits on the bottom. */}
-      <div className="min-h-0 flex-1">
+      {/* Carousel pinned to the bottom of the page */}
+      <div className="mt-auto pt-12">
         <ProjectStage />
       </div>
     </main>

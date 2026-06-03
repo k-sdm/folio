@@ -3,9 +3,9 @@
   "name": "Posting Card",
   "credit": "Posting Card, 2024 with Industrial Facility",
   "hero": {
-   "mp4": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.mp4",
-   "webm": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.webm",
-   "poster": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-poster-00001.jpg"
+   "mp4": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-transcode.mp4",
+   "webm": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-transcode.webm",
+   "poster": "/projects/arena-frame/683eb43a8169cc45418a3194__MConvertereu_POSTING_CARD_HERO_1_-poster-00001.jpg"
   },
   "blocks": [
    {
@@ -23,6 +23,12 @@
    {
     "type": "text",
     "text": "Thank you Sam, Kim and Leo"
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.mp4",
+    "webm": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.webm",
+    "poster": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-poster-00001.jpg"
    },
    {
     "type": "text",
@@ -142,11 +148,6 @@
    {
     "type": "text",
     "text": "It provides a gentler, more mindful alternative for sharing images and text with a small circle of friends who can truly be themselves, free from the pressure of likes, notifications, and read receipts. Using only a simple network structure and a handful of components."
-   },
-   {
-    "type": "image",
-    "src": "/projects/arena-frame/677d3697eed40584d33caba4_23.webp",
-    "size": "large"
    }
   ],
   "process": [
@@ -189,7 +190,9 @@
  "journey": {
   "name": "Journey",
   "credit": "Journey, 2024",
-  "hero": null,
+  "hero": {
+   "image": "/projects/journey/677d3697eed40584d33caba4_23-p-2000.webp"
+  },
   "blocks": [
    {
     "type": "text",
@@ -457,11 +460,6 @@
    {
     "type": "text",
     "text": "research process"
-   },
-   {
-    "type": "image",
-    "src": "/projects/journey/6787e877520166cdaea1e4cf_0.webp",
-    "size": "large"
    }
   ],
   "process": [
@@ -487,9 +485,7 @@
   "name": "Stereophones",
   "credit": "Stereophones, 2023",
   "hero": {
-   "mp4": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.mp4",
-   "webm": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.webm",
-   "poster": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-poster-00001.jpg"
+   "image": "/projects/stereophones/6787e877520166cdaea1e4cf_0.webp"
   },
   "blocks": [
    {
@@ -534,6 +530,12 @@
    {
     "type": "text",
     "text": "all talking together to create depth through haptic behaviours"
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.mp4",
+    "webm": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.webm",
+    "poster": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-poster-00001.jpg"
    },
    {
     "type": "text",

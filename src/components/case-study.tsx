@@ -2,7 +2,7 @@
 import { SiteHeader } from "@/components/site-header";
 import caseStudies from "@/data/case-studies.json";
 
-type Media = { mp4?: string; webm?: string; poster?: string };
+type Media = { mp4?: string; webm?: string; poster?: string; image?: string };
 type Block =
   | { type: "text"; text: string }
   | { type: "image"; src: string; size: "large" | "small" }
@@ -44,9 +44,16 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
     <div className="flex min-h-dvh flex-col">
       <SiteHeader href="/" />
       <main className="px-6 pb-32">
-        {data.hero && (
-          <Video media={data.hero} className="mx-auto block w-[80vw]" />
-        )}
+        {data.hero &&
+          (data.hero.image ? (
+            <img
+              src={data.hero.image}
+              alt=""
+              className="mx-auto block w-[80vw]"
+            />
+          ) : (
+            <Video media={data.hero} className="mx-auto block w-[80vw]" />
+          ))}
 
         <p className={`${TEXT_CLASS} mt-12`}>{data.credit}</p>
 

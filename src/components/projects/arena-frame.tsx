@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ObjectLabel } from "./object-label";
 
 const VIDEO_COUNT = 8;
 const FREEZE_MS = 18_000;
@@ -24,7 +25,7 @@ const SLOT_STYLE: React.CSSProperties = {
  * The video cycles frame_1..frame_8.webm: random start, freeze the first frame
  * for 18s, play, freeze the last frame for 18s, then advance (8 → 1).
  */
-export function ArenaFrame() {
+export function ArenaFrame({ name, year }: { name: string; year: string }) {
   const [hovered, setHovered] = useState(false);
   // null until mounted, then a random start (avoids SSR hydration mismatch).
   const [index, setIndex] = useState<number | null>(null);
@@ -124,6 +125,8 @@ export function ArenaFrame() {
           hovered ? "opacity-100" : "opacity-0"
         }`}
       />
+
+      <ObjectLabel name={name} year={year} show={hovered} />
     </div>
   );
 }

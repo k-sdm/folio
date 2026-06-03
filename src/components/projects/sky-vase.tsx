@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { DEFAULT_LAT, seasonalT, vaseMasks } from "@/lib/vase-gradient";
+import { ObjectLabel } from "./object-label";
 
 const IMAGES = [1, 2, 3, 4, 5, 6];
 
@@ -9,7 +10,7 @@ const IMAGES = [1, 2, 3, 4, 5, 6];
 // centred on the vase reference rectangle (x:134 w:637, full height). All as %.
 const DATE_BOX = {
   left: `${((134 + 637 / 2) / 1066) * 100}%`, // 42.45% — rect horizontal centre
-  top: `${((772 + 1286 / 2) / 2267) * 100}%`, // 62.417% — design y:772 reference
+  top: `${((762 + 1286 / 2) / 2267) * 100}%`, // design y:762 reference
   width: `${(1286 / 1066) * 100}%`, // 120.638%
   height: `${(242 / 2267) * 100}%`, // 10.675%
 };
@@ -22,7 +23,7 @@ const DATE_BOX = {
  * Hovering the vase (its reference rectangle) crossfades to vase_hover.webp and
  * reveals today's date (YYMMDD) as a rotated, screen-blended label.
  */
-export function SkyVase() {
+export function SkyVase({ name, year }: { name: string; year: string }) {
   // Deterministic mid-season default → identical on server & client (no
   // hydration mismatch). Refined to the real date/latitude after mount.
   const [masks, setMasks] = useState<string[]>(() => vaseMasks(0.5));
@@ -144,6 +145,8 @@ export function SkyVase() {
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       />
+
+      <ObjectLabel name={name} year={year} show={hovered} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ObjectLabel } from "./object-label";
 
 const LEVELS = [1, 2, 3];
 const STEP_MS = 10 * 60 * 1000; // 10 minutes
@@ -13,7 +14,7 @@ const STEP_MS = 10 * 60 * 1000; // 10 minutes
  *
  * Sized by width on mobile, height on desktop (see ProjectStage).
  */
-export function Journey() {
+export function Journey({ name, year }: { name: string; year: string }) {
   const [level, setLevel] = useState(1); // 1 → 2 (10 min) → 3 (20 min)
   const [hovered, setHovered] = useState(false);
 
@@ -59,6 +60,8 @@ export function Journey() {
           hovered ? "opacity-100" : "opacity-0"
         }`}
       />
+
+      <ObjectLabel name={name} year={year} show={hovered} />
     </div>
   );
 }

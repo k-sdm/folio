@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { SkyVase } from "./sky-vase";
 import { ArenaFrame } from "./arena-frame";
 import { Journey } from "./journey";
 import { Stereophones } from "./stereophones";
 
+type ObjectProps = { name: string; year: string };
+
 type Project = {
   key: string;
-  label: string;
-  node: ReactNode;
+  name: string;
+  year: string;
+  Component: (props: ObjectProps) => React.ReactNode;
   /** Source image pixel size — objects are rendered to scale against this. */
   px: { w: number; h: number };
 };
@@ -20,10 +23,10 @@ type Project = {
 const PROJECTS: Project[] = [
   // Vase footprint uses its reference rectangle (637 wide), not the full image
   // width, so the transparent side padding doesn't make the gaps uneven.
-  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 637, h: 2267 } },
-  { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, px: { w: 833, h: 1178 } },
-  { key: "journey", label: "Journey", node: <Journey />, px: { w: 723, h: 1186 } },
-  { key: "stereophones", label: "Stereophones", node: <Stereophones />, px: { w: 1580, h: 1798 } },
+  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, px: { w: 637, h: 2267 } },
+  { key: "arena-frame", name: "Arena Frame", year: "2026", Component: ArenaFrame, px: { w: 833, h: 1178 } },
+  { key: "journey", name: "Journey", year: "2024", Component: Journey, px: { w: 723, h: 1186 } },
+  { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, px: { w: 1580, h: 1798 } },
 ];
 
 // Desktop: the tallest object fills the viewport below the 80px header.
@@ -78,7 +81,7 @@ export function ProjectStage() {
               } as CSSProperties
             }
           >
-            {p.node}
+            <p.Component name={p.name} year={p.year} />
           </div>
         );
       })}

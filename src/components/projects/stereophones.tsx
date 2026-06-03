@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ObjectLabel } from "./object-label";
 
 /**
  * Stereophones — a self-contained project object. Shows stereophones.webp and
@@ -10,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
  *
  * Sized by height: width follows the 1580×1798 aspect ratio.
  */
-export function Stereophones() {
+export function Stereophones({ name, year }: { name: string; year: string }) {
   const [hovered, setHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -57,6 +58,8 @@ export function Stereophones() {
           hovered ? "opacity-100" : "opacity-0"
         }`}
       />
+
+      <ObjectLabel name={name} year={year} show={hovered} />
     </div>
   );
 }

@@ -1,24 +1,18 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
-
-// Both vectors share one scale (NAME 2215×114, logo 134×146) derived from
-// --name-h; auto-fits so they fill the width on mobile and cap on desktop.
-const HEADER_STYLE = {
-  "--name-h": "min(27px, calc((100vw - 72px) / 21))",
-} as CSSProperties;
 
 /**
  * Full-width site header: NAME wordmark (left) + logo (right). Both link to
  * `href` — home links to /about, every other page links back to /.
+ *
+ * Both vectors share one scale derived from --name-h (NAME 2215×114, logo
+ * 134×146). It auto-fits to the available width: mobile fills the row; desktop
+ * caps larger (40.5px ≈ +50%) and accounts for the wider md padding.
  */
 export function SiteHeader({ href }: { href: string }) {
   const label = href === "/" ? "Home" : "About";
   return (
-    <header className="sticky top-0 z-50 flex h-20 items-center bg-background px-6">
-      <div
-        className="flex w-full items-start justify-between gap-3"
-        style={HEADER_STYLE}
-      >
+    <header className="sticky top-0 z-50 flex h-20 items-center bg-background px-6 md:px-12">
+      <div className="flex w-full items-start justify-between gap-3 [--name-h:min(27px,calc((100vw_-_72px)_/_21))] md:[--name-h:min(40.5px,calc((100vw_-_108px)_/_21))]">
         <h1 className="shrink-0">
           <Link href={href} className="contents">
             {/* eslint-disable-next-line @next/next/no-img-element */}

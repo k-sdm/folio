@@ -14,8 +14,8 @@ type Project = {
   name: string;
   year: string;
   Component: (props: ObjectProps) => React.ReactNode;
-  /** Click target. external → new tab; otherwise an in-app route. */
-  href: string;
+  /** Click target. external → new tab; otherwise an in-app route. Omit = no link. */
+  href?: string;
   external?: boolean;
   /** Source image pixel size — objects are rendered to scale against this. */
   px: { w: number; h: number };
@@ -27,7 +27,8 @@ type Project = {
 const PROJECTS: Project[] = [
   // Vase footprint uses its reference rectangle (637 wide), not the full image
   // width, so the transparent side padding doesn't make the gaps uneven.
-  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, href: "https://skyva.se", external: true, px: { w: 637, h: 2267 } },
+  // Sky Vase is unlinked for now (skyva.se not released yet).
+  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, px: { w: 637, h: 2267 } },
   { key: "arena-frame", name: "Arena Frame", year: "2026", Component: ArenaFrame, href: "/arena-frame", px: { w: 833, h: 1178 } },
   { key: "journey", name: "Journey", year: "2024", Component: Journey, href: "/journey", px: { w: 723, h: 1186 } },
   { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, href: "/stereophones", px: { w: 1580, h: 1798 } },
@@ -77,7 +78,7 @@ export function ProjectStage() {
         return (
           <div
             key={p.key}
-            className="flex shrink-0 cursor-pointer justify-center"
+            className={`flex shrink-0 justify-center ${p.href ? "cursor-pointer" : ""}`}
             style={
               {
                 "--obj-mobile-w": mobileW,
@@ -86,7 +87,9 @@ export function ProjectStage() {
               } as CSSProperties
             }
           >
-            {p.external ? (
+            {!p.href ? (
+              node
+            ) : p.external ? (
               <a
                 href={p.href}
                 target="_blank"

@@ -8,7 +8,7 @@ export default function Home() {
       <SiteHeader href="/about" />
 
       {/* Project stage fills the rest of the page */}
-      <main className="min-h-0 flex-1 px-6">
+      <main className="min-h-0 flex-1 px-6 md:px-12">
         <ProjectStage />
       </main>
     </div>

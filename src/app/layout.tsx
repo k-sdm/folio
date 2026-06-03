@@ -19,6 +19,12 @@ const khTeka = localFont({
   display: "swap",
 });
 
+const khTekaMono = localFont({
+  src: [{ path: "../fonts/KHTekaMonoTRIAL-Bold.otf", weight: "700", style: "normal" }],
+  variable: "--font-kh-teka-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Kiran Scott — Personal Site",
   description: "Personal website and portfolio of Kiran Scott.",
@@ -32,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${khTeka.variable} h-full antialiased`}
+      className={`${khTeka.variable} ${khTekaMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
         {children}

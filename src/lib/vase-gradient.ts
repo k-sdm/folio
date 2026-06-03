@@ -112,17 +112,19 @@ const rstop = (frac: number) =>
 export function vaseMasks(t: number): string[] {
   const a = imageAnchors(t).map(toImageOffset); // image-space anchors, ascending
   const band = rstop(VASE_BAND_BOTTOM);
+  const last = a.length - 1;
   const head = `radial-gradient(${CURVE_RX}% ${CURVE_RY}% at ${CURVE_CX.toFixed(
     3,
   )}% -${CURVE_ABOVE}%`;
   return a.map((_, i) => {
-    if (i === 0) return "none"; // solid base — the only layer shown below the band
-    // Transparent above the previous anchor, ramp to opaque at our own anchor,
-    // opaque down to the bottom of the vase body, then hard-cut to transparent.
-    // Below the band every photo is identical (base + shadow), so clipping the
-    // upper layers there leaves a single shadow instead of 6 stacked ones.
+    if (i === 0) return "none"; // solid base behind everything (top of the vase)
+    // Transparent above the previous anchor, ramp to opaque at our own anchor.
+    // vase_6 (last) stays opaque through the bottom so the shadow is vase_6's;
+    // the middle layers clip at the band so their shadows don't stack.
+    const tail =
+      i === last ? `#000 100%` : `#000 ${band}, transparent ${band}`;
     return `${head}, transparent 0%, transparent ${rstop(a[i - 1])}, #000 ${rstop(
       a[i],
-    )}, #000 ${band}, transparent ${band})`;
+    )}, ${tail})`;
   });
 }

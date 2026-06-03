@@ -17,13 +17,15 @@ type Project = {
 // size every object by its real pixel height using one shared scale factor — no
 // per-object fudge. Add a project here and it slots into the scrolling row.
 const PROJECTS: Project[] = [
-  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 1066, h: 2267 } },
+  // Vase footprint uses its reference rectangle (637 wide), not the full image
+  // width, so the transparent side padding doesn't make the gaps uneven.
+  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 637, h: 2267 } },
   { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, px: { w: 833, h: 1178 } },
   { key: "journey", label: "Journey", node: <Journey />, px: { w: 768, h: 1067 } },
 ];
 
-// On-screen height of the tallest object; the rest scale from it by pixel ratio.
-const REF_HEIGHT = "min(82vh, 760px)";
+// The tallest object fills the available height; the rest scale by pixel ratio.
+const REF_HEIGHT = "100%";
 const MAX_PX_H = Math.max(...PROJECTS.map((p) => p.px.h));
 
 export function ProjectStage() {
@@ -42,7 +44,7 @@ export function ProjectStage() {
     <div
       ref={scrollRef}
       onWheel={onWheel}
-      className="flex items-end gap-16 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="flex h-full items-end gap-16 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       style={{ scrollSnapType: "x proximity" }}
     >
       {PROJECTS.map((p) => (

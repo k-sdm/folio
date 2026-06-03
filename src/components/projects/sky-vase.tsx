@@ -146,15 +146,13 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         onMouseLeave={() => setHovered(false)}
       />
 
-      {/* Sit 40px (image-relative) above the date text (box top y:762). */}
+      {/* 10% (of box height) above the hover image's content top (alpha row
+          682 / 2267), so the label sits in the transparent space above the vase. */}
       <ObjectLabel
         name={name}
         year={year}
         show={hovered}
-        style={{
-          top: `${((762 - 40) / 2267) * 100}%`,
-          transform: "translateY(-100%)",
-        }}
+        style={{ bottom: `${(1 - (682 / 2267 - 0.1)) * 100}%` }}
       />
     </div>
   );

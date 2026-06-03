@@ -61,7 +61,7 @@ export function Journey({ name, year }: { name: string; year: string }) {
         }`}
       />
 
-      <ObjectLabel name={name} year={year} show={hovered} className="top-5" />
+      <ObjectLabel name={name} year={year} show={hovered} className="bottom-[110%]" />
     </div>
   );
 }

@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { ArenaFrameProvider } from "@/components/arena-frame-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const khTeka = localFont({
+  src: [
+    { path: "../fonts/KHTeka-Light.otf", weight: "300", style: "normal" },
+    { path: "../fonts/KHTeka-LightItalic.otf", weight: "300", style: "italic" },
+    { path: "../fonts/KHTeka-Regular.otf", weight: "400", style: "normal" },
+    { path: "../fonts/KHTeka-RegularItalic.otf", weight: "400", style: "italic" },
+    { path: "../fonts/KHTeka-Medium.otf", weight: "500", style: "normal" },
+    { path: "../fonts/KHTeka-MediumItalic.otf", weight: "500", style: "italic" },
+    { path: "../fonts/KHTeka-Bold.otf", weight: "700", style: "normal" },
+    { path: "../fonts/KHTeka-BoldItalic.otf", weight: "700", style: "italic" },
+    { path: "../fonts/KHTeka-Black.otf", weight: "900", style: "normal" },
+    { path: "../fonts/KHTeka-BlackItalic.otf", weight: "900", style: "italic" },
+  ],
+  variable: "--font-kh-teka",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${khTeka.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
         <ArenaFrameProvider>{children}</ArenaFrameProvider>

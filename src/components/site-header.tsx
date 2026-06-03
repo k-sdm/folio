@@ -11,7 +11,7 @@ import Link from "next/link";
 export function SiteHeader({ href }: { href: string }) {
   const label = href === "/" ? "Home" : "About";
   return (
-    <header className="sticky top-0 z-50 flex h-20 items-start bg-background px-3 pt-3 md:h-24 md:px-6 md:pt-6">
+    <header className="sticky top-0 z-50 flex items-start bg-background px-3 py-3 md:h-24 md:px-6 md:pt-6 md:pb-0">
       <div className="flex w-full items-start justify-between gap-3 [--name-h:min(27px,calc((100vw_-_72px)_/_21))] md:[--name-h:min(40.5px,calc((100vw_-_108px)_/_21))]">
         <h1 className="shrink-0">
           <Link href={href} className="contents">

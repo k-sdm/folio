@@ -1,16 +1,48 @@
 import { SiteHeader } from "@/components/site-header";
 
+// Same styling as project body text: KH Teka Light, 100% black,
+// 14px mobile / 42px desktop.
+const TEXT = "text-[14px] md:text-[42px] font-light leading-snug text-black";
+
+const LINKS = [
+  { label: "IG", href: "https://www.instagram.com/kiran.sdm/" },
+  { label: "X", href: "https://x.com/kiransdm" },
+  { label: "ARE.NA", href: "https://www.are.na/kiran-scott-de-martinville/" },
+  { label: "CONTACT", href: "mailto:kiran@k-sdm.com" },
+];
+
 export default function About() {
   return (
     <div className="flex min-h-dvh flex-col">
       {/* Header links back to home */}
       <SiteHeader href="/" />
-      <main className="flex-1 px-6 py-10">
-        <div className="max-w-2xl space-y-4 text-foreground/80">
-          <h2 className="text-2xl font-medium tracking-tight text-foreground">
-            About
-          </h2>
-          <p>Placeholder about copy — edit in src/app/about/page.tsx.</p>
+      <main className="flex flex-1 flex-col px-6 md:px-12">
+        {/* Bio, centred on the page */}
+        <div className="flex flex-1 items-center justify-center">
+          <p className={`${TEXT} mx-auto max-w-3xl text-center`}>
+            Industrial designer and technologist working with startups, studios
+            and companies to build new hardware products. I prototype physical
+            interactions, design desirable objects and research emerging
+            technologies, operating as a conduit between the creative and
+            technical sides of your world.
+          </p>
+        </div>
+
+        {/* Links, near the bottom centre */}
+        <div
+          className={`${TEXT} flex flex-wrap items-center justify-center gap-x-8 gap-y-1 pb-10 md:pb-16`}
+        >
+          {LINKS.map((l) => (
+            <a
+              key={l.label}
+              href={l.href}
+              target={l.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel={l.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+              className="underline underline-offset-4"
+            >
+              {l.label}
+            </a>
+          ))}
         </div>
       </main>
     </div>

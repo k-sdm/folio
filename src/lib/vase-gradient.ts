@@ -96,6 +96,10 @@ const CURVE_ABOVE = 300;
 const CURVE_RX = 300;
 const CURVE_RY = 100 + CURVE_ABOVE; // bottom of the image maps to ~100% radial
 
+// Horizontal centre of the blend = centre of the vase reference rectangle
+// (x:134, width 637 in the 1066-wide image), not the image centre.
+const CURVE_CX = ((134 + 637 / 2) / 1066) * 100; // ≈ 42.45%
+
 // Map a vertical fraction (0 = image top, 1 = bottom) to its position along the
 // radial gradient's downward ray.
 const rstop = (frac: number) =>
@@ -108,7 +112,9 @@ const rstop = (frac: number) =>
 export function vaseMasks(t: number): string[] {
   const a = imageAnchors(t).map(toImageOffset); // image-space anchors, ascending
   const band = rstop(VASE_BAND_BOTTOM);
-  const head = `radial-gradient(${CURVE_RX}% ${CURVE_RY}% at 50% -${CURVE_ABOVE}%`;
+  const head = `radial-gradient(${CURVE_RX}% ${CURVE_RY}% at ${CURVE_CX.toFixed(
+    3,
+  )}% -${CURVE_ABOVE}%`;
   return a.map((_, i) => {
     if (i === 0) return "none"; // solid base — the only layer shown below the band
     // Transparent above the previous anchor, ramp to opaque at our own anchor,

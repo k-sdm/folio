@@ -110,7 +110,10 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
           }`}
         />
 
-        {/* Date label — rotated, screen-blended, fades in on hover */}
+        {/* Date label — rotated, gradient fill, 1px blur, screen-blended onto
+            the vase. mix-blend-mode lives here (not on the span): the box's
+            transform makes a stacking context, so blending the span alone would
+            composite against the transparent box, not the vase. */}
         <div
           className={`absolute z-30 flex items-center justify-center transition-opacity duration-500 ease-in-out ${
             hovered ? "opacity-100" : "opacity-0"
@@ -122,14 +125,21 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
             height: DATE_BOX.height,
             transform: "translate(-50%, -50%) rotate(-90deg)",
             containerType: "size",
+            mixBlendMode: "screen",
+            filter: "blur(1px)",
           }}
         >
           <span
             style={{
               fontFamily: "var(--font-kh-teka-mono)",
               fontWeight: 700,
-              color: "#B8B8B8",
-              mixBlendMode: "screen",
+              // Gradient from 991231.svg (across the digits): #525252 → #939393 → #525252
+              backgroundImage:
+                "linear-gradient(to bottom, #525252 0%, #939393 49.04%, #525252 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+              WebkitTextFillColor: "transparent",
               fontSize: "138cqh",
               lineHeight: 1,
               whiteSpace: "nowrap",

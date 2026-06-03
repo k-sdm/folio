@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ArenaFrameProvider } from "@/components/arena-frame-provider";
 
 const khTeka = localFont({
   src: [
@@ -36,7 +35,7 @@ export default function RootLayout({
       className={`${khTeka.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground">
-        <ArenaFrameProvider>{children}</ArenaFrameProvider>
+        {children}
       </body>
     </html>
   );

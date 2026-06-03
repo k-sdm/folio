@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useArenaFrame } from "@/components/arena-frame-provider";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const VIDEO_COUNT = 8;
+const FREEZE_MS = 18_000;
 
 // Frame image is 833 x 1178. The video player is 573 x 950 at (149, 35).
-// Expressed as percentages so it scales with the responsive frame image.
+// Expressed as percentages so it tracks the responsive frame image exactly.
 const SLOT_STYLE: React.CSSProperties = {
   left: `${(149 / 833) * 100}%`,
   top: `${(35 / 1178) * 100}%`,
@@ -13,63 +15,114 @@ const SLOT_STYLE: React.CSSProperties = {
 };
 
 /**
- * Arena Frame — a self-contained project object. Front/back frame photos swap
- * on hover; the playing video (owned by ArenaFrameProvider so it persists across
- * navigation) is glued over the screen-cutout slot registered here.
+ * Arena Frame — a self-contained project object. Front/back frame photos
+ * crossfade on hover; the video lives in the screen-cutout slot, inside the
+ * frame, so it moves natively with frame_front (perfect alignment while the
+ * stage scrolls / overscrolls) and is clipped by the scroll container (it goes
+ * behind the header rather than floating over it).
  *
- * Sized by height: render inside a height-constrained parent and the width
- * follows the 724×1024 aspect ratio.
+ * The video cycles frame_1..frame_8.webm: random start, freeze the first frame
+ * for 18s, play, freeze the last frame for 18s, then advance (8 → 1).
  */
 export function ArenaFrame() {
-  const { setSlot, setHovered } = useArenaFrame();
-  const slotRef = useRef<HTMLDivElement>(null);
-  const [hovered, setHoveredState] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  // null until mounted, then a random start (avoids SSR hydration mismatch).
+  const [index, setIndex] = useState<number | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Tell the provider where to glue its persistent video while this page is shown.
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
   useEffect(() => {
-    setSlot(slotRef.current);
-    return () => setSlot(null);
-  }, [setSlot]);
+    setIndex(Math.floor(Math.random() * VIDEO_COUNT) + 1);
+  }, []);
 
-  const onEnter = () => {
-    setHoveredState(true);
-    setHovered(true);
-  };
-  const onLeave = () => {
-    setHoveredState(false);
-    setHovered(false);
-  };
+  // freeze first frame → play → freeze last frame → advance (8 → 1).
+  useEffect(() => {
+    if (index === null) return;
+    const video = videoRef.current;
+    if (!video) return;
+    clearTimer();
+
+    const startSequence = () => {
+      clearTimer();
+      try {
+        video.pause();
+        video.currentTime = 0;
+      } catch {
+        // currentTime can throw before metadata loads; loadeddata guards this
+      }
+      timerRef.current = setTimeout(() => {
+        void video.play().catch(() => {});
+      }, FREEZE_MS);
+    };
+
+    const handleEnded = () => {
+      clearTimer();
+      timerRef.current = setTimeout(() => {
+        setIndex((prev) => ((prev ?? 1) % VIDEO_COUNT) + 1);
+      }, FREEZE_MS);
+    };
+
+    video.addEventListener("loadeddata", startSequence);
+    video.addEventListener("ended", handleEnded);
+    video.load(); // (re)load the new src and fire loadeddata
+
+    return () => {
+      video.removeEventListener("loadeddata", startSequence);
+      video.removeEventListener("ended", handleEnded);
+      clearTimer();
+    };
+  }, [index, clearTimer]);
 
   return (
     <div
       className="relative h-[var(--obj-mobile-h)] w-auto aspect-[833/1178] select-none md:h-[var(--obj-desktop-h)]"
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       {/* Base: front of the frame — fades out on hover so its shadow doesn't
-          stack with the back image's shadow (crossfade, not overlay). */}
+          stack with the back image's shadow. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/images/frame_front.webp"
         alt="Arena Frame, front"
+        draggable={false}
         className={`absolute inset-0 z-10 h-full w-full object-contain transition-opacity duration-500 ease-in-out ${
           hovered ? "opacity-0" : "opacity-100"
         }`}
-        draggable={false}
       />
 
-      {/* Slot the provider's persistent video is positioned over */}
-      <div ref={slotRef} aria-hidden className="absolute" style={SLOT_STYLE} />
+      {/* Video in the screen cutout — hidden while hovering */}
+      {index !== null && (
+        <video
+          ref={videoRef}
+          src={`/videos/frame_${index}.webm`}
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden
+          style={SLOT_STYLE}
+          className={`absolute z-20 object-cover transition-opacity duration-500 ease-in-out ${
+            hovered ? "opacity-0" : "opacity-100"
+          }`}
+        />
+      )}
 
       {/* Back of the frame — fades in on hover, covering the video */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/images/frame_back.webp"
         alt="Arena Frame, back"
+        draggable={false}
         className={`absolute inset-0 z-30 h-full w-full object-contain transition-opacity duration-500 ease-in-out ${
           hovered ? "opacity-100" : "opacity-0"
         }`}
-        draggable={false}
       />
     </div>
   );

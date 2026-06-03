@@ -3,6 +3,7 @@
 import { useRef, type ReactNode } from "react";
 import { SkyVase } from "./sky-vase";
 import { ArenaFrame } from "./arena-frame";
+import { Journey } from "./journey";
 
 type Project = {
   key: string;
@@ -18,6 +19,7 @@ type Project = {
 const PROJECTS: Project[] = [
   { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 1066, h: 2267 } },
   { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, px: { w: 833, h: 1178 } },
+  { key: "journey", label: "Journey", node: <Journey />, px: { w: 768, h: 1067 } },
 ];
 
 // On-screen height of the tallest object; the rest scale from it by pixel ratio.

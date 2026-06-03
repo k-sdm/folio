@@ -31,7 +31,7 @@ export function Stereophones() {
 
   return (
     <div
-      className="relative h-[var(--obj-mobile-h)] w-auto aspect-[1580/1798] select-none md:h-[var(--obj-desktop-h)]"
+      className="relative w-[var(--obj-mobile-w)] h-auto aspect-[1580/1798] select-none md:h-[var(--obj-desktop-h)] md:w-auto"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

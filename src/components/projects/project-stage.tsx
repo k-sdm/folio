@@ -26,12 +26,14 @@ const PROJECTS: Project[] = [
   { key: "stereophones", label: "Stereophones", node: <Stereophones />, px: { w: 1580, h: 1798 } },
 ];
 
-// Desktop: the tallest object fills the viewport below the 80px header; the rest
-// scale by pixel ratio. Mobile: each object is contained within the viewport box.
+// Desktop: the tallest object fills the viewport below the 80px header.
+// Mobile: stereophones spans the full content width (page has px-6 = 48px) and
+// every object scales from that one factor, so relative sizes are preserved.
 const DESKTOP_REF = "calc(100dvh - 80px)";
 const MAX_PX_H = Math.max(...PROJECTS.map((p) => p.px.h));
-const MOBILE_MAX_H = "68vh";
-const MOBILE_MAX_W = "80vw";
+const MOBILE_BASELINE_PX_W =
+  PROJECTS.find((p) => p.key === "stereophones")?.px.w ??
+  Math.max(...PROJECTS.map((p) => p.px.w));
 
 export function ProjectStage() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -60,9 +62,9 @@ export function ProjectStage() {
       style={{ scrollSnapType: "x proximity" }}
     >
       {PROJECTS.map((p) => {
-        // Mobile: contain within (MOBILE_MAX_W × MOBILE_MAX_H) preserving aspect.
+        // Mobile: scale by pixel-width ratio against stereophones-at-full-width.
         // Desktop: scale by pixel-height ratio against the reference height.
-        const mobileH = `min(${MOBILE_MAX_H}, calc(${MOBILE_MAX_W} * ${p.px.h} / ${p.px.w}))`;
+        const mobileW = `calc((100vw - 48px) * ${p.px.w} / ${MOBILE_BASELINE_PX_W})`;
         const desktopH = `calc(${DESKTOP_REF} * ${(p.px.h / MAX_PX_H).toFixed(4)})`;
         return (
           <div
@@ -70,7 +72,7 @@ export function ProjectStage() {
             className="flex shrink-0 justify-center"
             style={
               {
-                "--obj-mobile-h": mobileH,
+                "--obj-mobile-w": mobileW,
                 "--obj-desktop-h": desktopH,
                 scrollSnapAlign: "center",
               } as CSSProperties

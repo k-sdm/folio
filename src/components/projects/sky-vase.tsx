@@ -40,7 +40,7 @@ export function SkyVase() {
     // wide transparent side padding doesn't skew the spacing. Not clipped: the
     // full image is offset to align that rectangle and overflows into the
     // gutters (the overflow is the transparent padding / thin stems).
-    <div className="relative h-[var(--obj-mobile-h)] w-auto aspect-[637/2267] select-none md:h-[var(--obj-desktop-h)]">
+    <div className="relative w-[var(--obj-mobile-w)] h-auto aspect-[637/2267] select-none md:h-[var(--obj-desktop-h)] md:w-auto">
       <div
         className="absolute top-0 h-full aspect-[1066/2267]"
         style={{ left: `${(-134 / 637) * 100}%` }}

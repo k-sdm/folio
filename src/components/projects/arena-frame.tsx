@@ -82,7 +82,7 @@ export function ArenaFrame() {
 
   return (
     <div
-      className="relative h-[var(--obj-mobile-h)] w-auto aspect-[833/1178] select-none md:h-[var(--obj-desktop-h)]"
+      className="relative w-[var(--obj-mobile-w)] h-auto aspect-[833/1178] select-none md:h-[var(--obj-desktop-h)] md:w-auto"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

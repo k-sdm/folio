@@ -5,12 +5,11 @@ import { DEFAULT_LAT, seasonalT, vaseMasks } from "@/lib/vase-gradient";
 
 const IMAGES = [1, 2, 3, 4, 5, 6];
 
-// Date label box (rotated 90°) within the 1066 × 2267 image. The design places
-// the rotated footprint at x:329, y:772 sized 242 × 1286; the unrotated box is
-// 1286 × 242, so we centre it and rotate. All values as % of the image.
+// Date label box within the 1066 × 2267 image: 1286 × 242, rotated -90° and
+// centred on the vase reference rectangle (x:134 w:637, full height). All as %.
 const DATE_BOX = {
-  left: `${((329 + 242 / 2) / 1066) * 100}%`, // 42.214%
-  top: `${((772 + 1286 / 2) / 2267) * 100}%`, // 62.417%
+  left: `${((134 + 637 / 2) / 1066) * 100}%`, // 42.45% — rect horizontal centre
+  top: "50%", // rect vertical centre
   width: `${(1286 / 1066) * 100}%`, // 120.638%
   height: `${(242 / 2267) * 100}%`, // 10.675%
 };
@@ -119,7 +118,7 @@ export function SkyVase() {
             top: DATE_BOX.top,
             width: DATE_BOX.width,
             height: DATE_BOX.height,
-            transform: "translate(-50%, -50%) rotate(90deg)",
+            transform: "translate(-50%, -50%) rotate(-90deg)",
             containerType: "size",
           }}
         >

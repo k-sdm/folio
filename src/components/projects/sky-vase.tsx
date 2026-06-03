@@ -36,31 +36,40 @@ export function SkyVase() {
   }, []);
 
   return (
-    <div className="relative h-full w-auto aspect-[1066/2267] select-none">
-      {IMAGES.map((n, i) => {
-        const mask = masks[i];
-        const masked = mask && mask !== "none";
-        return (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={n}
-            src={`/images/vase_${n}.webp`}
-            alt={n === 1 ? "Sky Vase" : ""}
-            aria-hidden={n !== 1}
-            draggable={false}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{
-              zIndex: i, // vase_1 at the back, vase_6 on top
-              maskImage: masked ? mask : undefined,
-              WebkitMaskImage: masked ? mask : undefined,
-              maskRepeat: "no-repeat",
-              WebkitMaskRepeat: "no-repeat",
-              maskSize: "100% 100%",
-              WebkitMaskSize: "100% 100%",
-            }}
-          />
-        );
-      })}
+    // Footprint = the vase's reference rectangle (637 × 2267 at x:134), so its
+    // wide transparent side padding doesn't skew the spacing. Not clipped: the
+    // full image is offset to align that rectangle and overflows into the
+    // gutters (the overflow is the transparent padding / thin stems).
+    <div className="relative h-full w-auto aspect-[637/2267] select-none">
+      <div
+        className="absolute top-0 h-full aspect-[1066/2267]"
+        style={{ left: `${(-134 / 637) * 100}%` }}
+      >
+        {IMAGES.map((n, i) => {
+          const mask = masks[i];
+          const masked = mask && mask !== "none";
+          return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={n}
+              src={`/images/vase_${n}.webp`}
+              alt={n === 1 ? "Sky Vase" : ""}
+              aria-hidden={n !== 1}
+              draggable={false}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{
+                zIndex: i, // vase_1 at the back, vase_6 on top
+                maskImage: masked ? mask : undefined,
+                WebkitMaskImage: masked ? mask : undefined,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskSize: "100% 100%",
+                WebkitMaskSize: "100% 100%",
+              }}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

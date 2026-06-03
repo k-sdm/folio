@@ -17,7 +17,9 @@ type Project = {
 // size every object by its real pixel height using one shared scale factor — no
 // per-object fudge. Add a project here and it slots into the scrolling row.
 const PROJECTS: Project[] = [
-  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 1066, h: 2267 } },
+  // Vase footprint uses its reference rectangle (637 wide), not the full image
+  // width, so the transparent side padding doesn't make the gaps uneven.
+  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 637, h: 2267 } },
   { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, px: { w: 833, h: 1178 } },
   { key: "journey", label: "Journey", node: <Journey />, px: { w: 768, h: 1067 } },
 ];

@@ -37,7 +37,7 @@ export default function Home() {
             className="block w-auto shrink-0"
             style={{
               height: "calc(var(--name-h) * 146 / 114)",
-              marginTop: "calc(var(--name-h) * 7 / 114)",
+              marginTop: "calc(var(--name-h) * -7 / 114)",
             }}
           />
         </div>

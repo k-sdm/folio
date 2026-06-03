@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { SkyVase } from "./sky-vase";
 import { ArenaFrame } from "./arena-frame";
 import { Journey } from "./journey";
@@ -36,20 +36,26 @@ const MOBILE_MAX_W = "80vw";
 export function ProjectStage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Map vertical wheel/trackpad movement onto horizontal panning (desktop only;
-  // on mobile the row is vertical so there's no horizontal overflow to pan).
-  const onWheel = (e: React.WheelEvent) => {
+  // Map vertical wheel/trackpad movement onto horizontal panning. Uses a native
+  // non-passive listener so preventDefault() works (React's onWheel is passive,
+  // so it can't claim the gesture). No-ops when there's no horizontal overflow
+  // (mobile vertical layout / wide desktop), leaving native scrolling intact.
+  useEffect(() => {
     const el = scrollRef.current;
-    if (!el || el.scrollWidth <= el.clientWidth) return;
-    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (el.scrollWidth <= el.clientWidth) return;
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      e.preventDefault();
       el.scrollLeft += e.deltaY;
-    }
-  };
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
 
   return (
     <div
       ref={scrollRef}
-      onWheel={onWheel}
       className="flex h-full flex-col items-center gap-10 overflow-y-auto py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-row md:items-end md:gap-16 md:overflow-x-auto md:overflow-y-hidden md:py-0"
       style={{ scrollSnapType: "x proximity" }}
     >

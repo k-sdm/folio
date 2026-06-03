@@ -1,8 +1,8 @@
 import { SiteHeader } from "@/components/site-header";
 
-// Same styling as project body text: KH Teka Light, 100% black,
-// 14px mobile / 42px desktop.
-const TEXT = "text-[14px] md:text-[42px] font-light leading-snug text-black";
+// Same styling/size as project body text: KH Teka Light, 100% black,
+// 14px mobile / 28px desktop.
+const TEXT = "text-[14px] md:text-[28px] font-light leading-snug text-black";
 
 const LINKS = [
   { label: "ig", href: "https://www.instagram.com/kiran.sdm/" },

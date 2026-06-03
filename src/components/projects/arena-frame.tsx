@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useArenaFrame } from "@/components/arena-frame-provider";
 
-// Frame image is 724 x 1024. The video player is 573 x 950 at (95, 35).
+// Frame image is 833 x 1178. The video player is 573 x 950 at (149, 35).
 // Expressed as percentages so it scales with the responsive frame image.
 const SLOT_STYLE: React.CSSProperties = {
-  left: `${(95 / 724) * 100}%`,
-  top: `${(35 / 1024) * 100}%`,
-  width: `${(573 / 724) * 100}%`,
-  height: `${(950 / 1024) * 100}%`,
+  left: `${(149 / 833) * 100}%`,
+  top: `${(35 / 1178) * 100}%`,
+  width: `${(573 / 833) * 100}%`,
+  height: `${(950 / 1178) * 100}%`,
 };
 
 /**
@@ -42,7 +42,7 @@ export function ArenaFrame() {
 
   return (
     <div
-      className="relative h-full w-auto aspect-[724/1024] select-none"
+      className="relative h-full w-auto aspect-[833/1178] select-none"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >

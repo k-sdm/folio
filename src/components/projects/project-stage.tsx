@@ -8,21 +8,21 @@ type Project = {
   key: string;
   label: string;
   node: ReactNode;
-  /** Object height relative to the others (1 = full stage height). */
-  scale: number;
+  /** Source image pixel size — objects are rendered to scale against this. */
+  px: { w: number; h: number };
 };
 
-// Left → right. Each project is a self-contained object sized by height; `scale`
-// sets its size relative to the others (Arena Frame = 50% of Sky Vase). Add a
-// project here and it slots into the horizontally-scrolling row.
+// Left → right. The exported assets are already to scale with each other, so we
+// size every object by its real pixel height using one shared scale factor — no
+// per-object fudge. Add a project here and it slots into the scrolling row.
 const PROJECTS: Project[] = [
-  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, scale: 1 },
-  { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, scale: 0.5 },
+  { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 1066, h: 2267 } },
+  { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, px: { w: 833, h: 1178 } },
 ];
 
-// Tallest object's height; every object is BASE * its own scale, so they share
-// a single reference and stay proportional to each other.
-const BASE_HEIGHT = "min(70vh, 600px)";
+// On-screen height of the tallest object; the rest scale from it by pixel ratio.
+const REF_HEIGHT = "min(82vh, 760px)";
+const MAX_PX_H = Math.max(...PROJECTS.map((p) => p.px.h));
 
 export function ProjectStage() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -44,13 +44,13 @@ export function ProjectStage() {
       style={{ scrollSnapType: "x proximity" }}
     >
       {PROJECTS.map((p) => (
-        // Object box: definite (scaled) height so the project's aspect ratio
-        // sets its width; a flex item so that aspect ratio is honoured.
+        // Object box: definite height (image px ratio × shared reference) so the
+        // project's aspect ratio sets its width; a flex item so it's honoured.
         <div
           key={p.key}
           className="flex shrink-0 items-end"
           style={{
-            height: `calc(${BASE_HEIGHT} * ${p.scale})`,
+            height: `calc(${REF_HEIGHT} * ${p.px.h / MAX_PX_H})`,
             scrollSnapAlign: "center",
           }}
         >

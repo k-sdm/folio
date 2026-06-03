@@ -11,7 +11,7 @@ const IMAGES = [1, 2, 3, 4, 5, 6];
  * date and the visitor's latitude (see src/lib/vase-gradient.ts).
  *
  * Sized by height: render inside a height-constrained parent and the width
- * follows the 1104×1731 aspect ratio, so it scales against sibling projects.
+ * follows the 1066×2267 aspect ratio, so it scales against sibling projects.
  */
 export function SkyVase() {
   // Deterministic mid-season default → identical on server & client (no
@@ -36,7 +36,7 @@ export function SkyVase() {
   }, []);
 
   return (
-    <div className="relative h-full w-auto aspect-[1104/1731] select-none">
+    <div className="relative h-full w-auto aspect-[1066/2267] select-none">
       {IMAGES.map((n, i) => {
         const mask = masks[i];
         const masked = mask && mask !== "none";

@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 
-const VIDEO_COUNT = 9;
+const VIDEO_COUNT = 8;
 const FREEZE_MS = 18_000;
 
 type ArenaFrameCtx = {

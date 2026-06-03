@@ -29,10 +29,10 @@ const Z3_MAX = 0.075; // bottom solid-pink band
 
 export const DEFAULT_LAT = 51.5;
 
-// Vase body band within the source images (1104 × 1731): rows 623 … 1674.
+// Vase body band within the source images (1066 × 2267): rows 761 … 2081.
 // Everything outside this band is identical across all 6 photos.
-export const VASE_BAND_TOP = 623 / 1731;
-export const VASE_BAND_BOTTOM = 1674 / 1731;
+export const VASE_BAND_TOP = 761 / 2267;
+export const VASE_BAND_BOTTOM = 2081 / 2267;
 
 /** Hours of daylight for `date` at latitude `lat` (degrees). Longitude unused. */
 export function daylightHours(date: Date, lat: number): number {

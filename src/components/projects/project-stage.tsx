@@ -4,6 +4,7 @@ import { useRef, type ReactNode } from "react";
 import { SkyVase } from "./sky-vase";
 import { ArenaFrame } from "./arena-frame";
 import { Journey } from "./journey";
+import { Stereophones } from "./stereophones";
 
 type Project = {
   key: string;
@@ -21,7 +22,8 @@ const PROJECTS: Project[] = [
   // width, so the transparent side padding doesn't make the gaps uneven.
   { key: "sky-vase", label: "Sky Vase", node: <SkyVase />, px: { w: 637, h: 2267 } },
   { key: "arena-frame", label: "Arena Frame", node: <ArenaFrame />, px: { w: 833, h: 1178 } },
-  { key: "journey", label: "Journey", node: <Journey />, px: { w: 768, h: 1067 } },
+  { key: "journey", label: "Journey", node: <Journey />, px: { w: 723, h: 1186 } },
+  { key: "stereophones", label: "Stereophones", node: <Stereophones />, px: { w: 1580, h: 1798 } },
 ];
 
 // On-screen height of the tallest object; the rest scale from it by pixel ratio.

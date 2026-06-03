@@ -9,7 +9,7 @@ const VARIANTS = [1, 2, 3];
  * load and crossfades to JOURNEY_hover.webp on hover. The base fades out as the
  * hover fades in (not an overlay) so any baked-in shadows don't stack.
  *
- * Sized by height: width follows the 768×1067 aspect ratio.
+ * Sized by height: width follows the 723×1186 aspect ratio.
  */
 export function Journey() {
   // Random variant chosen on the client → no SSR hydration mismatch.
@@ -22,7 +22,7 @@ export function Journey() {
 
   return (
     <div
-      className="relative h-full w-auto aspect-[768/1067] select-none"
+      className="relative h-full w-auto aspect-[723/1186] select-none"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

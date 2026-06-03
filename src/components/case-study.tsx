@@ -43,21 +43,21 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
   return (
     <div className="flex min-h-dvh flex-col">
       <SiteHeader href="/" />
-      <main className="px-12 pb-64">
+      <main className="px-6 pb-32 md:px-12 md:pb-64">
         {data.hero &&
           (data.hero.image ? (
             <img
               src={data.hero.image}
               alt=""
-              className="mx-auto block w-[65vw]"
+              className="mx-auto block w-[80vw] md:w-[65vw]"
             />
           ) : (
-            <Video media={data.hero} className="mx-auto block w-[65vw]" />
+            <Video media={data.hero} className="mx-auto block w-[80vw] md:w-[65vw]" />
           ))}
 
-        <p className={`${TEXT_CLASS} mt-24`}>{data.credit}</p>
+        <p className={`${TEXT_CLASS} mt-12 md:mt-24`}>{data.credit}</p>
 
-        <div className="mt-32 flex flex-col items-center gap-24">
+        <div className="mt-16 flex flex-col items-center gap-12 md:mt-32 md:gap-24">
           {data.blocks.map((b, i) => {
             if (b.type === "text") return <p key={i} className={TEXT_CLASS}>{b.text}</p>;
             if (b.type === "image")
@@ -67,15 +67,15 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                   src={b.src}
                   alt=""
                   loading="lazy"
-                  className={`block ${b.size === "small" ? "w-[40vw]" : "w-[65vw]"}`}
+                  className={`block w-[80vw] ${b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]"}`}
                 />
               );
-            return <Video key={i} media={b} className="block w-[65vw]" />;
+            return <Video key={i} media={b} className="block w-[80vw] md:w-[65vw]" />;
           })}
         </div>
 
         {data.process.length > 0 && (
-          <div className="mx-auto mt-40 w-[65vw] columns-2 gap-6 md:columns-3 [&>img]:mb-6">
+          <div className="mx-auto mt-20 w-[80vw] columns-2 gap-3 [&>img]:mb-3 md:mt-40 md:w-[65vw] md:columns-3 md:gap-6 md:[&>img]:mb-6">
             {data.process.map((src, i) => (
               <img
                 key={i}

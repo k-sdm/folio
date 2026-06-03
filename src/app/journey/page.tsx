@@ -1,5 +1,5 @@
-import { ProjectPage } from "@/components/project-page";
+import { CaseStudy } from "@/components/case-study";
 
 export default function Page() {
-  return <ProjectPage name="Journey" year="2024" />;
+  return <CaseStudy id="journey" />;
 }

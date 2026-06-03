@@ -1,0 +1,635 @@
+{
+ "postingCard": {
+  "name": "Posting Card",
+  "credit": "Posting Card, 2024 with Industrial Facility",
+  "hero": {
+   "type": "video",
+   "mp4": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.mp4",
+   "webm": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.webm",
+   "poster": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-poster-00001.jpg"
+  },
+  "blocks": [
+   {
+    "type": "text",
+    "text": "A simple networked device for growing and sustaining friendships. It uses a multi-colour e-ink display to let a close group share their lives in a slower, more intentional way."
+   },
+   {
+    "type": "text",
+    "text": "What began as a conversation about our endless, algorithm-driven online culture became a prototype for something more hopeful - a future  where less technology can lead to deeper connection."
+   },
+   {
+    "type": "text",
+    "text": "The internal project was launched under Future Facility — a technology-focused offshoot of the main studio — as a way to develop and communicate the studio’s capabilities."
+   },
+   {
+    "type": "text",
+    "text": "Thank you Sam, Kim and Leo"
+   },
+   {
+    "type": "text",
+    "text": "Posting Card’s display refreshes seven pigments individually to show incoming photos and messages, reminiscent of developing analog film."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/683e0b4b6445204456d7f1b2_RENDERS_-_12.webp"
+   },
+   {
+    "type": "text",
+    "text": "This slow refresh process naturally prevents passive consumption, ensuring each use is deliberate."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6838a5d8e8981810f6c1167f_image_622.webp"
+   },
+   {
+    "type": "text",
+    "text": "Most displays around us glow , demanding attention and leaving us staring at lightbulbs."
+   },
+   {
+    "type": "text",
+    "text": "In contrast, the E-ink display reflects light like a photograph, interacting with shadow and ambient light — working politely in the dark."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6838a5d872962f6e13954c22_vlcsnap-2025-05-29-19h16m16s302_1.webp"
+   },
+   {
+    "type": "text",
+    "text": "Posting Card lives in your space, not on your person. Its ambient nature makes our social connections present in the physical world in a more subtle way."
+   },
+   {
+    "type": "text",
+    "text": "This sustained presence exists somewhere between fleeting digital messages and the permanence of analog print."
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/arena-frame/683de8808be076c7e5e10088_landscape-transcode.mp4",
+    "webm": "/projects/arena-frame/683de8808be076c7e5e10088_landscape-transcode.webm",
+    "poster": "/projects/arena-frame/683de8808be076c7e5e10088_landscape-poster-00001.jpg"
+   },
+   {
+    "type": "text",
+    "text": "The display is bistable - it retains images without using power, consuming energy only when updating."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6838b08190743cc03dd93adf_THREEQ.THREEQUARTER.25_1.webp"
+   },
+   {
+    "type": "text",
+    "text": "This resourceful characteristic led to a dematerilised form: A single PCB, protected by a silicone case and powered by a coin cell battery."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/683614b24f909025057881b7_sleeve.webp"
+   },
+   {
+    "type": "text",
+    "text": "A hanging clip covers both portrait and landscape orientations."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6839dac81c06ae5210d53be2_BOTTOM_H.9-1.webp"
+   },
+   {
+    "type": "text",
+    "text": "This ultralight approach is reflected by a set of simple but meaningful functions"
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6838b100383e60f0b4df708b_SnapInsta.to_482114559_18397654534096214_6035746930035547968_n.jpg"
+   },
+   {
+    "type": "text",
+    "text": "A switch lets you choose between displaying new messages from your personal network in real time, or cycling back through past ones."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6839dcc412cedfa0d8e56d73_Frame_17.webp"
+   },
+   {
+    "type": "text",
+    "text": "The social network is built on a distributed, peer to peer protocol."
+   },
+   {
+    "type": "text",
+    "text": "Private messages and photos are sent directly from friend to friend, without being used to train algorithms or tailor advertisements."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/6838b08095daa185e861df77_image_627.webp"
+   },
+   {
+    "type": "text",
+    "text": "Today's social media is like a stream - a fast, endless timeline filled with content from people you barely know."
+   },
+   {
+    "type": "text",
+    "text": "You plunge your head in, swept along by algorithms designed to maximise engagement and attention, leaving you gasping for air."
+   },
+   {
+    "type": "text",
+    "text": "Posting Card is more like tending a garden, offering a space for slower, more intentional connections to grow."
+   },
+   {
+    "type": "text",
+    "text": "It provides a gentler, more mindful alternative for sharing images and text with a small circle of friends who can truly be themselves, free from the pressure of likes, notifications, and read receipts. Using only a simple network structure and a handful of components."
+   },
+   {
+    "type": "image",
+    "src": "/projects/arena-frame/677d3697eed40584d33caba4_23.webp"
+   }
+  ],
+  "process": [
+   "/projects/arena-frame/683889d3d4d7d634d9b24b68_Insta.webp",
+   "/projects/arena-frame/683ee5c0cf510edf67c5dbd9_IMG_0611_2.webp",
+   "/projects/arena-frame/683889d390732728e41f6fd4_Frame_11.webp",
+   "/projects/arena-frame/683e0ba6b1517bb5541d0601_process_-_5.webp",
+   "/projects/arena-frame/683889da2ac4419ab86acbd6_IMG_1019.webp",
+   "/projects/arena-frame/683889d9dc184dc0758d729e_original_d9f8901fcf4a4b867aea74c3d3bdd1cf_1.webp",
+   "/projects/arena-frame/683ee5c003a63aa548f44d33_IMG_0618.webp",
+   "/projects/arena-frame/683889d957ab524f12edb29d_little_disc.webp",
+   "/projects/arena-frame/683889d995ac08d80ad12489_Frame_1.webp",
+   "/projects/arena-frame/68388bb25a037d6fbe2ef5c4_image_52.webp",
+   "/projects/arena-frame/683889d9c9255206463117dd_monocle.webp",
+   "/projects/arena-frame/683889d99e502dae56523fc0_IMG_1150.webp",
+   "/projects/arena-frame/683e0b4eefa3aa6e2815ff2b_Group_17.webp",
+   "/projects/arena-frame/683889d975e266e54d6eb394_IMG_1288.webp",
+   "/projects/arena-frame/683889d9bdd2cf60a7a7555f_CASE_1.webp",
+   "/projects/arena-frame/683889d91deb503995e001e9_11._Billboards.webp",
+   "/projects/arena-frame/683889d90707644ccb820b47_original_cb51b663df85ce7054cd29b0fbbe6963_1.webp",
+   "/projects/arena-frame/6839dac8f8cb56b1efbcec37_SIDE.webp",
+   "/projects/arena-frame/683889d61deb503995dffdfa_original_92564aec3f45051a7838aef9da14a4a7_1.webp",
+   "/projects/arena-frame/6839e5229f01c27463ac4368_Quote.webp",
+   "/projects/arena-frame/683889d675f9b3541179f423_Option_A.webp",
+   "/projects/arena-frame/683889d3c925520646311501_Instagram_story_-_22.webp",
+   "/projects/arena-frame/6839dac9b51883677769f73d_DETAIL.1.webp",
+   "/projects/arena-frame/683889d3a83626f4cdae7da9_image_617.webp",
+   "/projects/arena-frame/683889d382ca2bff1c82bd94_image_7.webp",
+   "/projects/arena-frame/683889d3fe317d6ca30c4113_Frame_16.webp",
+   "/projects/arena-frame/6839d16a5f1a65ef8242f6d2_eno.webp",
+   "/projects/arena-frame/683889d3c35438aa602b6857_DETAIL.8.webp",
+   "/projects/arena-frame/683889d3a4a99aaed1ce7714_Frame_2.webp",
+   "/projects/arena-frame/683889d385c66157c85f7aa9_DETAIL.3.webp",
+   "/projects/arena-frame/683889d37a64cd07d6a4ec14_Frame_12.webp",
+   "/projects/arena-frame/683889d326818bd0e0e4407c_image_2.webp",
+   "/projects/arena-frame/683ee5bf01a5b7eaf3bb1ab8_IMG_0847_1_.webp",
+   "/projects/arena-frame/68388bb26efb795a0e56c4b9_image_53.webp"
+  ]
+ },
+ "journey": {
+  "name": "Journey",
+  "credit": "Journey, 2024",
+  "hero": null,
+  "blocks": [
+   {
+    "type": "text",
+    "text": "My thesis is a holistic design and research project that proposes product, behaviour and system-level interventions with the objective of tackling the single most preventable cause of death worldwide: tobacco addiction"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d4d652b645f6afac52c32_39.webp"
+   },
+   {
+    "type": "text",
+    "text": "Today, vapes are the most popular tool for smokers to quit..."
+   },
+   {
+    "type": "text",
+    "text": "However they don’t address the root cause of nicotine addiction, perpetuating it in a new medium"
+   },
+   {
+    "type": "text",
+    "text": "Their design leads to passive and continuous use, lacking the start and end points of cigarettes"
+   },
+   {
+    "type": "text",
+    "text": "Driven by a commercial market to deliver higher doses of nicotine in increasingly convenient packages."
+   },
+   {
+    "type": "text",
+    "text": "The result is a single use product containing a rechargeable battery"
+   },
+   {
+    "type": "text",
+    "text": "With bright colours and sweet flavours driving underage usage"
+   },
+   {
+    "type": "text",
+    "text": "What could a vape be if it prioritised cessation instead? If it supported you through your personal and non-linear journey to sobriety?"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3697b0b746306564da20_1.webp"
+   },
+   {
+    "type": "text",
+    "text": "a smarter vaporiser"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d369731d82d5ca3b03ec5_2.webp"
+   },
+   {
+    "type": "text",
+    "text": "two pods"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d369a2c00f773626c042c_3.webp"
+   },
+   {
+    "type": "text",
+    "text": "nicotine and placebo"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36978cae794c96b526b3_4.webp"
+   },
+   {
+    "type": "text",
+    "text": "prototype varying each pods output"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36969dc4f65c06bcfbc0_5.webp"
+   },
+   {
+    "type": "text",
+    "text": "reducing dosage automatically and comfortably"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36977120fc42d04ff7ef_6.webp"
+   },
+   {
+    "type": "text",
+    "text": "charging case"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36972c7e292010c3d5ef_7.webp"
+   },
+   {
+    "type": "text",
+    "text": "1. undock"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36964060a319dc04fc5c_8.webp"
+   },
+   {
+    "type": "text",
+    "text": "2. flick scroll wheel to activate"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3696811b0d3947dcf286_9.webp"
+   },
+   {
+    "type": "text",
+    "text": "3. ‘smoke’ for a finite amount"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3696d2b5d0bccdf0510d_10.webp"
+   },
+   {
+    "type": "text",
+    "text": "4. conclude the activity"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36964060a319dc04fc77_11.webp"
+   },
+   {
+    "type": "text",
+    "text": "mimicking the (familiar) gestural ritual of smoking"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36965226fb8ee9bad64b_12.webp"
+   },
+   {
+    "type": "text",
+    "text": "connected experience"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d369717348db05944470b_13.webp"
+   },
+   {
+    "type": "text",
+    "text": "setting realistic weekly goals of reducing a specific trigger"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3696fb04c28efe70f7eb_14.webp"
+   },
+   {
+    "type": "text",
+    "text": "scroll wheel increases in resistance during target trigger times and locations to nudge adherence,"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36996abb75fc151fbea1_15.webp"
+   },
+   {
+    "type": "text",
+    "text": "addressing both the chemical dependency and behavioural aspects of addiction"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3697018937c1b704a33c_16.webp"
+   },
+   {
+    "type": "text",
+    "text": "through digital and physical interventions"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36987f49ae2890609afd_17.webp"
+   },
+   {
+    "type": "text",
+    "text": "in an enduring and desirable form"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36973722acaac22295ac_18-1.webp"
+   },
+   {
+    "type": "text",
+    "text": "that wears in physically and algorithmically to its user"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36967f49ae2890609a35_19.webp"
+   },
+   {
+    "type": "text",
+    "text": "ensuring they feel proud in their initiative towards a healthier future"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d369600c77c61509b96f9_20.webp"
+   },
+   {
+    "type": "text",
+    "text": "always-present ambient display"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3697d45b959d82d6a2bb_21.webp"
+   },
+   {
+    "type": "text",
+    "text": "growing and wilting based on goal adherence (feedback)"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3696af32e360a46ab6f0_22.webp"
+   },
+   {
+    "type": "text",
+    "text": "the day you quit smoking"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d4ea0f5fe179642766f2c_23.webp"
+   },
+   {
+    "type": "text",
+    "text": "a brand that aligns with cultural trends towards wellbeing and healthier lifestyle choices rather than the clinical nature of current medical interventions"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d369721afa0231e0b7d39_25.webp"
+   },
+   {
+    "type": "text",
+    "text": "marketing that promotes quitting first, with the product as a means to the goal"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d3696af32e360a46ab624_29.svg"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/677d36987120fc42d04ff968_31.webp"
+   },
+   {
+    "type": "text",
+    "text": "research process"
+   },
+   {
+    "type": "image",
+    "src": "/projects/journey/6787e877520166cdaea1e4cf_0.webp"
+   }
+  ],
+  "process": [
+   "/projects/journey/677d36971158f6a6736657b7_32.webp",
+   "/projects/journey/677d484897e85ea0e17d2ea2_36.webp",
+   "/projects/journey/677d36974730f48349071493_30.webp",
+   "/projects/journey/677d3698a86f8bbc2728bcf7_26.webp",
+   "/projects/journey/677d370d6f57caac6c01cb28_331.webp",
+   "/projects/journey/677d3697018937c1b704a352_34.webp",
+   "/projects/journey/677d36982f985543df2f1314_28.webp",
+   "/projects/journey/677d370df78bfe4485b98aa6_332.webp",
+   "/projects/journey/677d36965ba9b8baf1581386_27.webp",
+   "/projects/journey/677d3697a3fb61e306a7eb0e_24.webp",
+   "/projects/journey/67e311010c2b4cfbe465a611_Ethnography.webp",
+   "/projects/journey/677d494fcbe11ffa4cd339bd_38.webp",
+   "/projects/journey/67e31102e29663db680c9914_IMG_2439_2.webp",
+   "/projects/journey/67e3110227462cd6dc659ac4_P1060801_1.webp",
+   "/projects/journey/67e3110260595f10c85c46d5_Frame_28.webp",
+   "/projects/journey/67e311029f560f83eba82898_P1060840.webp"
+  ]
+ },
+ "stereophones": {
+  "name": "Stereophones",
+  "credit": "Stereophones, 2023",
+  "hero": {
+   "type": "video",
+   "mp4": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.mp4",
+   "webm": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.webm",
+   "poster": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-poster-00001.jpg"
+  },
+  "blocks": [
+   {
+    "type": "text",
+    "text": "Touch controls on headphones disrupt the experience of enjoying music."
+   },
+   {
+    "type": "text",
+    "text": "They’re objects we don't use in front of our eyes, so why apply the same swiping gestures as handheld devices?"
+   },
+   {
+    "type": "text",
+    "text": "This project explores a more intuitive alternative..."
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e57137bf5c2f3ddf9b40_1.webp"
+   },
+   {
+    "type": "text",
+    "text": "Initial research into media controls on physical audio products (semiotics, layout, heritage)"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/67b20830db9ff326a068717b_knob.webp"
+   },
+   {
+    "type": "text",
+    "text": "the familiar volume knob"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e570fbe59fdabb45ecc2_3.webp"
+   },
+   {
+    "type": "text",
+    "text": "Made from a motor , magnet and hall effect sensor (a really precise compass)"
+   },
+   {
+    "type": "text",
+    "text": "all talking together to create depth through haptic behaviours"
+   },
+   {
+    "type": "text",
+    "text": "off/on volume (with resistance at higher levels)"
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/stereophones/67879e7629184de8cd5d8e09_RIGHT-transcode.mp4",
+    "webm": "/projects/stereophones/67879e7629184de8cd5d8e09_RIGHT-transcode.webm",
+    "poster": "/projects/stereophones/67879e7629184de8cd5d8e09_RIGHT-poster-00001.jpg"
+   },
+   {
+    "type": "text",
+    "text": "snapping between play/pause and spring loaded song skips"
+   },
+   {
+    "type": "text",
+    "text": "these tactile media controls can be used blindly and intuitively"
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/stereophones/67879d35f4168ddd14be6f34_rotate-transcode.mp4",
+    "webm": "/projects/stereophones/67879d35f4168ddd14be6f34_rotate-transcode.webm",
+    "poster": "/projects/stereophones/67879d35f4168ddd14be6f34_rotate-poster-00001.jpg"
+   },
+   {
+    "type": "text",
+    "text": "magic earcups"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e59118eb58de5000cd88_4.webp"
+   },
+   {
+    "type": "text",
+    "text": "gently held by replaceable branches"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e573fc8dedc507c25faa_5.webp"
+   },
+   {
+    "type": "text",
+    "text": "housing batteries, the first point of failure"
+   },
+   {
+    "type": "video",
+    "mp4": "/projects/stereophones/6787ebd4618033e124b76990_Explode-transcode.mp4",
+    "webm": "/projects/stereophones/6787ebd4618033e124b76990_Explode-transcode.webm",
+    "poster": "/projects/stereophones/6787ebd4618033e124b76990_Explode-poster-00001.jpg"
+   },
+   {
+    "type": "text",
+    "text": "Inviting the same communities that modify and restore vintage hifi to extend the lifespan of the product"
+   },
+   {
+    "type": "text",
+    "text": "purely through the allure of its experience"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e571d9e2d21cee91b7c6_7.webp"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e571978c3844c48a67ba_8.webp"
+   },
+   {
+    "type": "text",
+    "text": "serviceable (test points, large component packages, well-supported microcontrollers)"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e5735f2d9d26d0e1caca_9.webp"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e571c6f4d29b42014ff0_11.webp"
+   },
+   {
+    "type": "text",
+    "text": "folded"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787ed96f7ae6833f9d4406b_10-1.webp"
+   },
+   {
+    "type": "text",
+    "text": "charging case"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e5732d97675cc55d6845_18-1.webp"
+   },
+   {
+    "type": "text",
+    "text": "editorial"
+   },
+   {
+    "type": "image",
+    "src": "/projects/stereophones/6787e575d8f2a8abe2efcaa6_22.webp"
+   },
+   {
+    "type": "text",
+    "text": "at the end of the day, its about enjoying music"
+   }
+  ],
+  "process": [
+   "/projects/stereophones/6787e573d9e2d21cee91baaf_15.webp",
+   "/projects/stereophones/6787e573c37750185b82f4c6_6.webp",
+   "/projects/stereophones/6787e572f159dd2a4d3e6f86_21.webp",
+   "/projects/stereophones/6787e571b209793f1d3d027a_20.webp",
+   "/projects/stereophones/6787e57156dc631bc08f0f09_16.webp",
+   "/projects/stereophones/67e3184e7d15a048a0c948d6_55.webp",
+   "/projects/stereophones/6787e57062997a94e9aa05ec_13.webp",
+   "/projects/stereophones/6787e5716e261d485ea5578d_2.webp",
+   "/projects/stereophones/6787e571c5129e461a297c14_19.webp",
+   "/projects/stereophones/6787e5701f2bb3cf1752feeb_12.webp",
+   "/projects/stereophones/67e31851c04fe81da2908647_47.webp",
+   "/projects/stereophones/67e31851ea7304aeb9b6f7bb_elab3.webp",
+   "/projects/stereophones/67e31880a2de405f56874160_08-ezgif.com-optimize_1_.gif",
+   "/projects/stereophones/67e31850820dbbb1f40359e1_29.webp",
+   "/projects/stereophones/67e3185090a8892a5269ea84_image_512.png",
+   "/projects/stereophones/67e3184ea1662c89b6904ee2_11XX.webp",
+   "/projects/stereophones/67e3184f3b4d65ae5e696e33_PROTOTYPES_1.webp",
+   "/projects/stereophones/67e3184f56f4f6218cbd40e5_SKETCHES.webp",
+   "/projects/stereophones/67e3184ecc6600704f4a292a_PCB_gif.webp",
+   "/projects/stereophones/67e3184ecc6600704f4a288f_bottom.webp",
+   "/projects/stereophones/67e3184e8541f1ed5b50fc48_Surfacing.webp",
+   "/projects/stereophones/67e3184ecc6600704f4a288c_Material.webp",
+   "/projects/stereophones/67e3184d9bc851ddc04e1945_31.webp",
+   "/projects/stereophones/67e31850c7faf77a52200335_DSC_3529_1.webp",
+   "/projects/stereophones/67e3184d2f6ff6f4771d776c_image_657.webp",
+   "/projects/stereophones/67e3184d7ac331f24536441e_42.webp"
+  ]
+ }
+}

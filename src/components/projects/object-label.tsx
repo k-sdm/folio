@@ -1,10 +1,10 @@
 import type { CSSProperties } from "react";
 
 /**
- * Hover label shown inside a project object's bounding box: name top-left, year
- * top-right. KH Teka Light (the site font's 300 weight) at 60% black. Horizontal
- * padding keeps the name/year inset (more compact); vertical placement is set by
- * the caller via `className`/`style`.
+ * Hover label shown above a project object: name top-left, year top-right.
+ * KH Teka Light at 60% black. Desktop: sized to the object's bounding box
+ * (28px). Mobile: body-text size (14px) and spans the page content width so it
+ * hugs the screen edges instead of being constrained to the (narrow) object.
  */
 export function ObjectLabel({
   name,
@@ -12,18 +12,21 @@ export function ObjectLabel({
   show,
   className = "",
   style,
+  padX = "md:px-5",
 }: {
   name: string;
   year: string;
   show: boolean;
   className?: string;
   style?: CSSProperties;
+  /** Desktop horizontal padding (Tailwind class). */
+  padX?: string;
 }) {
   return (
     <div
       aria-hidden
       style={style}
-      className={`pointer-events-none absolute inset-x-0 z-40 flex justify-between px-5 text-[28px] font-light leading-none text-black/60 transition-opacity duration-500 ease-in-out ${
+      className={`pointer-events-none absolute z-40 flex justify-between text-[14px] font-light leading-none text-black/60 transition-opacity duration-500 ease-in-out left-1/2 w-[calc(100vw-3rem)] -translate-x-1/2 px-0 md:left-0 md:right-0 md:w-auto md:translate-x-0 md:text-[28px] ${padX} ${
         show ? "opacity-100" : "opacity-0"
       } ${className}`}
     >

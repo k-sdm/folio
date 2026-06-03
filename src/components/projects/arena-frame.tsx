@@ -142,7 +142,7 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
         year={year}
         show={hovered}
         className="bottom-[110%]"
-        style={{ paddingInline: "calc(1.25rem + 5%)" }}
+        padX="md:px-[calc(1.25rem_+_5%)]"
       />
     </div>
   );

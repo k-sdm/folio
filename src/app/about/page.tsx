@@ -5,10 +5,10 @@ import { SiteHeader } from "@/components/site-header";
 const TEXT = "text-[14px] md:text-[42px] font-light leading-snug text-black";
 
 const LINKS = [
-  { label: "IG", href: "https://www.instagram.com/kiran.sdm/" },
-  { label: "X", href: "https://x.com/kiransdm" },
-  { label: "ARE.NA", href: "https://www.are.na/kiran-scott-de-martinville/" },
-  { label: "CONTACT", href: "mailto:kiran@k-sdm.com" },
+  { label: "ig", href: "https://www.instagram.com/kiran.sdm/" },
+  { label: "x", href: "https://x.com/kiransdm" },
+  { label: "are.na", href: "https://www.are.na/kiran-scott-de-martinville/" },
+  { label: "contact", href: "mailto:kiran@k-sdm.com" },
 ];
 
 export default function About() {
@@ -19,7 +19,7 @@ export default function About() {
       <main className="flex flex-1 flex-col px-6 md:px-12">
         {/* Bio, centred on the page */}
         <div className="flex flex-1 items-center justify-center">
-          <p className={`${TEXT} mx-auto max-w-3xl text-center`}>
+          <p className={`${TEXT} mx-auto max-w-3xl text-center md:w-[60vw] md:max-w-none`}>
             Industrial designer and technologist working with startups, studios
             and companies to build new hardware products. I prototype physical
             interactions, design desirable objects and research emerging

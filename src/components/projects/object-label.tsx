@@ -2,9 +2,9 @@ import type { CSSProperties } from "react";
 
 /**
  * Hover label shown above a project object: name top-left, year top-right.
- * KH Teka Light at 60% black. Desktop: sized to the object's bounding box
- * (28px). Mobile: body-text size (14px) and spans the page content width so it
- * hugs the screen edges instead of being constrained to the (narrow) object.
+ * KH Teka Light at 60% black, 14px. Desktop: sized to the object's bounding
+ * box. Mobile: spans the page content width so it hugs the screen edges instead
+ * of being constrained to the (narrow) object.
  */
 export function ObjectLabel({
   name,
@@ -26,7 +26,7 @@ export function ObjectLabel({
     <div
       aria-hidden
       style={style}
-      className={`pointer-events-none absolute z-40 flex justify-between text-[14px] font-light leading-none text-black/60 transition-opacity duration-500 ease-in-out left-1/2 w-[calc(100vw-3rem)] -translate-x-1/2 px-0 md:left-0 md:right-0 md:w-auto md:translate-x-0 md:text-[28px] ${padX} ${
+      className={`pointer-events-none absolute z-40 flex justify-between text-[14px] font-light leading-none text-black/60 transition-opacity duration-500 ease-in-out left-1/2 w-[calc(100vw-3rem)] -translate-x-1/2 px-0 md:left-0 md:right-0 md:w-auto md:translate-x-0 ${padX} ${
         show ? "opacity-100" : "opacity-0"
       } ${className}`}
     >

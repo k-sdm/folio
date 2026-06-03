@@ -146,7 +146,16 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         onMouseLeave={() => setHovered(false)}
       />
 
-      <ObjectLabel name={name} year={year} show={hovered} />
+      {/* Sit 40px (image-relative) above the date text (box top y:762). */}
+      <ObjectLabel
+        name={name}
+        year={year}
+        show={hovered}
+        style={{
+          top: `${((762 - 40) / 2267) * 100}%`,
+          transform: "translateY(-100%)",
+        }}
+      />
     </div>
   );
 }

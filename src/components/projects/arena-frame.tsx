@@ -126,7 +126,7 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
         }`}
       />
 
-      <ObjectLabel name={name} year={year} show={hovered} />
+      <ObjectLabel name={name} year={year} show={hovered} className="top-5" />
     </div>
   );
 }

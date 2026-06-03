@@ -66,7 +66,7 @@ export function ProjectStage() {
   return (
     <div
       ref={scrollRef}
-      className="flex h-full flex-col items-center gap-10 overflow-y-auto py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-row md:items-end md:gap-16 md:overflow-x-auto md:overflow-y-hidden md:py-0"
+      className="flex h-full flex-col items-center gap-10 overflow-y-auto py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-row md:items-end md:gap-16 md:overflow-x-auto md:overflow-y-hidden md:py-0 md:pl-[calc((100dvh_-_96px)_*_134_/_2267)]"
       style={{ scrollSnapType: "x proximity" }}
     >
       {PROJECTS.map((p) => {

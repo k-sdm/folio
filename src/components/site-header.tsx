@@ -24,17 +24,19 @@ export function SiteHeader({ href }: { href: string }) {
             />
           </Link>
         </h1>
-        <Link href={href} aria-label={label} className="contents">
+        <Link
+          href={href}
+          aria-label={label}
+          className="group block shrink-0 [perspective:300px]"
+          style={{ marginTop: "calc(var(--name-h) * -12 / 114)" }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/vectors/Logo%20-%20Colour.svg"
             alt=""
             aria-hidden
-            className="block w-auto shrink-0"
-            style={{
-              height: "calc(var(--name-h) * 146 / 114)",
-              marginTop: "calc(var(--name-h) * -12 / 114)",
-            }}
+            className="block w-auto transition-transform duration-700 ease-in-out md:group-hover:[transform:rotateY(360deg)]"
+            style={{ height: "calc(var(--name-h) * 146 / 114)" }}
           />
         </Link>
       </div>

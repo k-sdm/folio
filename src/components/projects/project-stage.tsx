@@ -26,9 +26,9 @@ const PROJECTS: Project[] = [
   { key: "stereophones", label: "Stereophones", node: <Stereophones />, px: { w: 1580, h: 1798 } },
 ];
 
-// Desktop: the tallest object fills (close to) the stage height; the rest scale
-// by pixel ratio. Mobile: each object is contained within the viewport box.
-const DESKTOP_REF = "min(82vh, 760px)";
+// Desktop: the tallest object fills the viewport below the 80px header; the rest
+// scale by pixel ratio. Mobile: each object is contained within the viewport box.
+const DESKTOP_REF = "calc(100dvh - 80px)";
 const MAX_PX_H = Math.max(...PROJECTS.map((p) => p.px.h));
 const MOBILE_MAX_H = "68vh";
 const MOBILE_MAX_W = "80vw";

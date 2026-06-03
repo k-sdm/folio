@@ -6,12 +6,10 @@ import { ObjectLabel } from "./object-label";
 const VIDEO_COUNT = 8;
 const FREEZE_MS = 18_000;
 
-type Phase = "start" | "play" | "end";
-
-// Module-level so the video state survives client-side navigation: returning to
-// home resumes the same video and position rather than picking a new random
-// one. (Resets on a full page reload, which is fine.)
-let saved: { index: number; time: number; phase: Phase } | null = null;
+// Module-level so the video index survives client-side navigation: returning to
+// home resumes the same video rather than picking a new random one. (Resets on a
+// full page reload, which is fine.)
+let savedIndex: number | null = null;
 
 // Frame image is 833 x 1178. The video player is 573 x 950 at (149, 35).
 // Expressed as percentages so it tracks the responsive frame image exactly.
@@ -35,12 +33,9 @@ const SLOT_STYLE: React.CSSProperties = {
 export function ArenaFrame({ name, year }: { name: string; year: string }) {
   const [hovered, setHovered] = useState(false);
   // Resume the persisted video if we have one; otherwise pick a random start.
-  const [index, setIndex] = useState<number | null>(saved?.index ?? null);
+  const [index, setIndex] = useState<number | null>(savedIndex);
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const phaseRef = useRef<Phase>(saved?.phase ?? "start");
-  const indexRef = useRef<number | null>(index);
-  const resumeRef = useRef(saved); // consumed once on first load after mount
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
@@ -49,26 +44,14 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
     }
   }, []);
 
+  // Pick a random start only when nothing was persisted (first visit).
   useEffect(() => {
-    indexRef.current = index;
-  }, [index]);
-
-  // Persist the current video state on unmount (e.g. navigating away).
-  useEffect(() => {
-    return () => {
-      if (indexRef.current !== null) {
-        saved = {
-          index: indexRef.current,
-          time: videoRef.current?.currentTime ?? 0,
-          phase: phaseRef.current,
-        };
-      }
-    };
+    if (savedIndex === null) setIndex(Math.floor(Math.random() * VIDEO_COUNT) + 1);
   }, []);
 
-  // Pick a random start only when nothing was persisted.
+  // Keep the persisted index in sync so navigating away & back resumes it.
   useEffect(() => {
-    if (index === null) setIndex(Math.floor(Math.random() * VIDEO_COUNT) + 1);
+    if (index !== null) savedIndex = index;
   }, [index]);
 
   // freeze first frame → play → freeze last frame → advance (8 → 1).
@@ -78,8 +61,7 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
     if (!video) return;
     clearTimer();
 
-    const freezeStart = () => {
-      phaseRef.current = "start";
+    const startSequence = () => {
       clearTimer();
       try {
         video.pause();
@@ -88,55 +70,23 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
         // currentTime can throw before metadata loads; loadeddata guards this
       }
       timerRef.current = setTimeout(() => {
-        phaseRef.current = "play";
         void video.play().catch(() => {});
       }, FREEZE_MS);
     };
 
-    const freezeEnd = () => {
-      phaseRef.current = "end";
+    const handleEnded = () => {
       clearTimer();
       timerRef.current = setTimeout(() => {
         setIndex((prev) => ((prev ?? 1) % VIDEO_COUNT) + 1);
       }, FREEZE_MS);
     };
 
-    const onLoaded = () => {
-      const r = resumeRef.current;
-      resumeRef.current = null; // only resume on the first load after mounting
-      const phase: Phase = r && r.index === index ? r.phase : "start";
-      const time = r && r.index === index ? r.time : 0;
-
-      if (phase === "play") {
-        try {
-          const d = video.duration || 0;
-          video.currentTime = d ? Math.min(time, d - 0.05) : time;
-        } catch {
-          // ignore
-        }
-        phaseRef.current = "play";
-        void video.play().catch(() => {});
-      } else if (phase === "end") {
-        try {
-          video.pause();
-          if (video.duration) video.currentTime = video.duration;
-        } catch {
-          // ignore
-        }
-        freezeEnd();
-      } else {
-        freezeStart();
-      }
-    };
-
-    const handleEnded = () => freezeEnd();
-
-    video.addEventListener("loadeddata", onLoaded);
+    video.addEventListener("loadeddata", startSequence);
     video.addEventListener("ended", handleEnded);
     video.load(); // (re)load the new src and fire loadeddata
 
     return () => {
-      video.removeEventListener("loadeddata", onLoaded);
+      video.removeEventListener("loadeddata", startSequence);
       video.removeEventListener("ended", handleEnded);
       clearTimer();
     };

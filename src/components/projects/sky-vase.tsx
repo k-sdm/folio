@@ -146,13 +146,13 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         onMouseLeave={() => setHovered(false)}
       />
 
-      {/* 10% above the hover content top (alpha row 682 / 2267), then moved
-          down 10% → effectively at the content top. */}
+      {/* 10% above the hover content top (alpha row 682 / 2267), then net
+          moved down 5%. */}
       <ObjectLabel
         name={name}
         year={year}
         show={hovered}
-        style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.1) * 100}%` }}
+        style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%` }}
       />
     </div>
   );

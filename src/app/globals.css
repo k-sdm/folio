@@ -20,3 +20,13 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* One full forward spin (vertical axis) for the header logo on hover. */
+@keyframes logo-spin {
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}

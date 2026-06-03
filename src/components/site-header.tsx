@@ -35,7 +35,7 @@ export function SiteHeader({ href }: { href: string }) {
             src="/vectors/Logo%20-%20Colour.svg"
             alt=""
             aria-hidden
-            className="block w-auto transition-transform duration-700 ease-in-out md:group-hover:[transform:rotateY(360deg)]"
+            className="block w-auto md:group-hover:[animation:logo-spin_0.7s_ease-in-out]"
             style={{ height: "calc(var(--name-h) * 146 / 114)" }}
           />
         </Link>

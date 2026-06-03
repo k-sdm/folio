@@ -93,12 +93,15 @@ const pct = (x: number) => `${(x * 100).toFixed(3)}%`;
  */
 export function vaseMasks(t: number): string[] {
   const a = imageAnchors(t).map(toImageOffset); // image-space anchors, ascending
+  const band = pct(VASE_BAND_BOTTOM);
   return a.map((_, i) => {
-    if (i === 0) return "none"; // solid base layer
-    // transparent above the previous anchor, ramp to opaque at our own anchor,
-    // then opaque all the way down.
+    if (i === 0) return "none"; // solid base — the only layer shown below the band
+    // Transparent above the previous anchor, ramp to opaque at our own anchor,
+    // opaque down to the bottom of the vase body, then hard-cut to transparent.
+    // Below the band every photo is identical (base + shadow), so clipping the
+    // upper layers there leaves a single shadow instead of 6 stacked ones.
     return `linear-gradient(to bottom, transparent 0%, transparent ${pct(
       a[i - 1],
-    )}, #000 ${pct(a[i])}, #000 100%)`;
+    )}, #000 ${pct(a[i])}, #000 ${band}, transparent ${band})`;
   });
 }

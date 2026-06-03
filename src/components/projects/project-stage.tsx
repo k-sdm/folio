@@ -40,26 +40,21 @@ export function ProjectStage() {
     <div
       ref={scrollRef}
       onWheel={onWheel}
-      className="flex items-end gap-16 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="flex items-end gap-16 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       style={{ scrollSnapType: "x proximity" }}
     >
       {PROJECTS.map((p) => (
+        // Object box: definite (scaled) height so the project's aspect ratio
+        // sets its width; a flex item so that aspect ratio is honoured.
         <div
           key={p.key}
-          className="flex shrink-0 flex-col items-center"
-          style={{ scrollSnapAlign: "center" }}
+          className="flex shrink-0 items-end"
+          style={{
+            height: `calc(${BASE_HEIGHT} * ${p.scale})`,
+            scrollSnapAlign: "center",
+          }}
         >
-          {/* Object box: definite height (so the project's aspect ratio sets its
-              width), and a flex item so that aspect ratio is honoured. */}
-          <div
-            className="flex items-end"
-            style={{ height: `calc(${BASE_HEIGHT} * ${p.scale})` }}
-          >
-            {p.node}
-          </div>
-          <span className="mt-4 font-mono text-xs uppercase tracking-widest text-foreground/50">
-            {p.label}
-          </span>
+          {p.node}
         </div>
       ))}
     </div>

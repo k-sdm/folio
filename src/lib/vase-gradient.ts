@@ -85,7 +85,21 @@ export function imageAnchors(t: number): number[] {
 const toImageOffset = (o: number) =>
   VASE_BAND_TOP + o * (VASE_BAND_BOTTOM - VASE_BAND_TOP);
 
-const pct = (x: number) => `${(x * 100).toFixed(3)}%`;
+// --- Blend-line curvature -------------------------------------------------
+// The blends are radial (concentric ellipses centred far above the vase) rather
+// than straight horizontal lines, so each transition bows slightly downward at
+// the centre to match the cylinder's curved surface.
+//   CURVE_ABOVE : how far the centre sits above the image top (% of height) —
+//                 larger = flatter blend lines.
+//   CURVE_RX    : horizontal radius (% of width) — smaller = more curvature.
+const CURVE_ABOVE = 300;
+const CURVE_RX = 300;
+const CURVE_RY = 100 + CURVE_ABOVE; // bottom of the image maps to ~100% radial
+
+// Map a vertical fraction (0 = image top, 1 = bottom) to its position along the
+// radial gradient's downward ray.
+const rstop = (frac: number) =>
+  `${(((frac * 100 + CURVE_ABOVE) / CURVE_RY) * 100).toFixed(3)}%`;
 
 /**
  * CSS mask-image for each of the 6 stacked images (index 0 = vase_1 at the back,
@@ -93,15 +107,16 @@ const pct = (x: number) => `${(x * 100).toFixed(3)}%`;
  */
 export function vaseMasks(t: number): string[] {
   const a = imageAnchors(t).map(toImageOffset); // image-space anchors, ascending
-  const band = pct(VASE_BAND_BOTTOM);
+  const band = rstop(VASE_BAND_BOTTOM);
+  const head = `radial-gradient(${CURVE_RX}% ${CURVE_RY}% at 50% -${CURVE_ABOVE}%`;
   return a.map((_, i) => {
     if (i === 0) return "none"; // solid base — the only layer shown below the band
     // Transparent above the previous anchor, ramp to opaque at our own anchor,
     // opaque down to the bottom of the vase body, then hard-cut to transparent.
     // Below the band every photo is identical (base + shadow), so clipping the
     // upper layers there leaves a single shadow instead of 6 stacked ones.
-    return `linear-gradient(to bottom, transparent 0%, transparent ${pct(
-      a[i - 1],
-    )}, #000 ${pct(a[i])}, #000 ${band}, transparent ${band})`;
+    return `${head}, transparent 0%, transparent ${rstop(a[i - 1])}, #000 ${rstop(
+      a[i],
+    )}, #000 ${band}, transparent ${band})`;
   });
 }

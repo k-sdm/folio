@@ -29,6 +29,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
   const [masks, setMasks] = useState<string[]>(() => vaseMasks(0.5));
   const [hovered, setHovered] = useState(false);
   const [date, setDate] = useState("");
+  const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -139,11 +140,16 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         </div>
       </div>
 
-      {/* Hover-capture = the reference rectangle only (not the overflow) */}
+      {/* Hover-capture = the reference rectangle only (not the overflow).
+          Cursor hidden so the "coming soon" bubble reads as the cursor. */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 cursor-none"
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        onMouseLeave={() => {
+          setHovered(false);
+          setCursor(null);
+        }}
+        onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
       />
 
       {/* 10% above the hover content top (alpha row 682 / 2267), then net
@@ -154,6 +160,16 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         show={hovered}
         style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%` }}
       />
+
+      {/* "coming soon" bubble that follows the cursor over the vase */}
+      {hovered && cursor && (
+        <div
+          className="pointer-events-none fixed z-50 translate-x-4 translate-y-4 rounded-full bg-black px-3 py-1.5 text-[13px] font-light leading-none text-white"
+          style={{ left: cursor.x, top: cursor.y }}
+        >
+          coming soon
+        </div>
+      )}
     </div>
   );
 }

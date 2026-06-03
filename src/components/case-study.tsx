@@ -5,7 +5,7 @@ import caseStudies from "@/data/case-studies.json";
 type Media = { mp4?: string; webm?: string; poster?: string };
 type Block =
   | { type: "text"; text: string }
-  | { type: "image"; src: string }
+  | { type: "image"; src: string; size: "large" | "small" }
   | ({ type: "video" } & Media);
 type ProjectData = {
   name: string;
@@ -45,12 +45,12 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
       <SiteHeader href="/" />
       <main className="px-6 pb-32">
         {data.hero && (
-          <Video media={data.hero} className="mx-auto block w-full max-w-5xl" />
+          <Video media={data.hero} className="mx-auto block w-[80vw]" />
         )}
 
         <p className={`${TEXT_CLASS} mt-12`}>{data.credit}</p>
 
-        <div className="mx-auto mt-16 flex max-w-5xl flex-col items-stretch gap-12">
+        <div className="mt-16 flex flex-col items-center gap-12">
           {data.blocks.map((b, i) => {
             if (b.type === "text") return <p key={i} className={TEXT_CLASS}>{b.text}</p>;
             if (b.type === "image")
@@ -60,10 +60,10 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                   src={b.src}
                   alt=""
                   loading="lazy"
-                  className="mx-auto block w-full max-w-4xl"
+                  className={`block ${b.size === "small" ? "w-[40vw]" : "w-[80vw]"}`}
                 />
               );
-            return <Video key={i} media={b} className="mx-auto block w-full max-w-4xl" />;
+            return <Video key={i} media={b} className="block w-[80vw]" />;
           })}
         </div>
 

@@ -14,7 +14,7 @@ const HEADER_STYLE = {
 export function SiteHeader({ href }: { href: string }) {
   const label = href === "/" ? "Home" : "About";
   return (
-    <header className="flex h-20 items-center px-6">
+    <header className="sticky top-0 z-50 flex h-20 items-center bg-background px-6">
       <div
         className="flex w-full items-start justify-between gap-3"
         style={HEADER_STYLE}

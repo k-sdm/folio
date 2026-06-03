@@ -3,7 +3,6 @@
   "name": "Posting Card",
   "credit": "Posting Card, 2024 with Industrial Facility",
   "hero": {
-   "type": "video",
    "mp4": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.mp4",
    "webm": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-transcode.webm",
    "poster": "/projects/arena-frame/68375b8c5bbb270888db18b9_orbit-poster-00001.jpg"
@@ -31,7 +30,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/683e0b4b6445204456d7f1b2_RENDERS_-_12.webp"
+    "src": "/projects/arena-frame/683e0b4b6445204456d7f1b2_RENDERS_-_12.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -39,7 +39,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6838a5d8e8981810f6c1167f_image_622.webp"
+    "src": "/projects/arena-frame/6838a5d8e8981810f6c1167f_image_622.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -51,7 +52,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6838a5d872962f6e13954c22_vlcsnap-2025-05-29-19h16m16s302_1.webp"
+    "src": "/projects/arena-frame/6838a5d872962f6e13954c22_vlcsnap-2025-05-29-19h16m16s302_1.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -73,7 +75,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6838b08190743cc03dd93adf_THREEQ.THREEQUARTER.25_1.webp"
+    "src": "/projects/arena-frame/6838b08190743cc03dd93adf_THREEQ.THREEQUARTER.25_1.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -81,7 +84,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/683614b24f909025057881b7_sleeve.webp"
+    "src": "/projects/arena-frame/683614b24f909025057881b7_sleeve.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -89,7 +93,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6839dac81c06ae5210d53be2_BOTTOM_H.9-1.webp"
+    "src": "/projects/arena-frame/6839dac81c06ae5210d53be2_BOTTOM_H.9-1.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -97,7 +102,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6838b100383e60f0b4df708b_SnapInsta.to_482114559_18397654534096214_6035746930035547968_n.jpg"
+    "src": "/projects/arena-frame/6838b100383e60f0b4df708b_SnapInsta.to_482114559_18397654534096214_6035746930035547968_n.jpg",
+    "size": "small"
    },
    {
     "type": "text",
@@ -105,7 +111,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6839dcc412cedfa0d8e56d73_Frame_17.webp"
+    "src": "/projects/arena-frame/6839dcc412cedfa0d8e56d73_Frame_17.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -117,7 +124,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/6838b08095daa185e861df77_image_627.webp"
+    "src": "/projects/arena-frame/6838b08095daa185e861df77_image_627.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -137,7 +145,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/arena-frame/677d3697eed40584d33caba4_23.webp"
+    "src": "/projects/arena-frame/677d3697eed40584d33caba4_23.webp",
+    "size": "large"
    }
   ],
   "process": [
@@ -188,7 +197,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d4d652b645f6afac52c32_39.webp"
+    "src": "/projects/journey/677d4d652b645f6afac52c32_39.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -220,7 +230,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3697b0b746306564da20_1.webp"
+    "src": "/projects/journey/677d3697b0b746306564da20_1.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -228,7 +239,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d369731d82d5ca3b03ec5_2.webp"
+    "src": "/projects/journey/677d369731d82d5ca3b03ec5_2.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -236,7 +248,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d369a2c00f773626c042c_3.webp"
+    "src": "/projects/journey/677d369a2c00f773626c042c_3.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -244,7 +257,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36978cae794c96b526b3_4.webp"
+    "src": "/projects/journey/677d36978cae794c96b526b3_4.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -252,7 +266,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36969dc4f65c06bcfbc0_5.webp"
+    "src": "/projects/journey/677d36969dc4f65c06bcfbc0_5.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -260,7 +275,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36977120fc42d04ff7ef_6.webp"
+    "src": "/projects/journey/677d36977120fc42d04ff7ef_6.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -268,7 +284,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36972c7e292010c3d5ef_7.webp"
+    "src": "/projects/journey/677d36972c7e292010c3d5ef_7.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -276,7 +293,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36964060a319dc04fc5c_8.webp"
+    "src": "/projects/journey/677d36964060a319dc04fc5c_8.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -284,7 +302,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3696811b0d3947dcf286_9.webp"
+    "src": "/projects/journey/677d3696811b0d3947dcf286_9.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -292,7 +311,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3696d2b5d0bccdf0510d_10.webp"
+    "src": "/projects/journey/677d3696d2b5d0bccdf0510d_10.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -300,7 +320,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36964060a319dc04fc77_11.webp"
+    "src": "/projects/journey/677d36964060a319dc04fc77_11.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -308,7 +329,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36965226fb8ee9bad64b_12.webp"
+    "src": "/projects/journey/677d36965226fb8ee9bad64b_12.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -316,7 +338,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d369717348db05944470b_13.webp"
+    "src": "/projects/journey/677d369717348db05944470b_13.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -324,7 +347,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3696fb04c28efe70f7eb_14.webp"
+    "src": "/projects/journey/677d3696fb04c28efe70f7eb_14.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -332,7 +356,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36996abb75fc151fbea1_15.webp"
+    "src": "/projects/journey/677d36996abb75fc151fbea1_15.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -340,7 +365,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3697018937c1b704a33c_16.webp"
+    "src": "/projects/journey/677d3697018937c1b704a33c_16.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -348,7 +374,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36987f49ae2890609afd_17.webp"
+    "src": "/projects/journey/677d36987f49ae2890609afd_17.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -356,7 +383,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36973722acaac22295ac_18-1.webp"
+    "src": "/projects/journey/677d36973722acaac22295ac_18-1.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -364,7 +392,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36967f49ae2890609a35_19.webp"
+    "src": "/projects/journey/677d36967f49ae2890609a35_19.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -372,7 +401,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d369600c77c61509b96f9_20.webp"
+    "src": "/projects/journey/677d369600c77c61509b96f9_20.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -380,7 +410,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3697d45b959d82d6a2bb_21.webp"
+    "src": "/projects/journey/677d3697d45b959d82d6a2bb_21.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -388,7 +419,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3696af32e360a46ab6f0_22.webp"
+    "src": "/projects/journey/677d3696af32e360a46ab6f0_22.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -396,7 +428,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d4ea0f5fe179642766f2c_23.webp"
+    "src": "/projects/journey/677d4ea0f5fe179642766f2c_23.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -404,7 +437,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d369721afa0231e0b7d39_25.webp"
+    "src": "/projects/journey/677d369721afa0231e0b7d39_25.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -412,11 +446,13 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d3696af32e360a46ab624_29.svg"
+    "src": "/projects/journey/677d3696af32e360a46ab624_29.svg",
+    "size": "small"
    },
    {
     "type": "image",
-    "src": "/projects/journey/677d36987120fc42d04ff968_31.webp"
+    "src": "/projects/journey/677d36987120fc42d04ff968_31.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -424,7 +460,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/journey/6787e877520166cdaea1e4cf_0.webp"
+    "src": "/projects/journey/6787e877520166cdaea1e4cf_0.webp",
+    "size": "large"
    }
   ],
   "process": [
@@ -450,7 +487,6 @@
   "name": "Stereophones",
   "credit": "Stereophones, 2023",
   "hero": {
-   "type": "video",
    "mp4": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.mp4",
    "webm": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-transcode.webm",
    "poster": "/projects/stereophones/67879ab57d5f400c0387e6bf_LEFT-poster-00001.jpg"
@@ -470,7 +506,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e57137bf5c2f3ddf9b40_1.webp"
+    "src": "/projects/stereophones/6787e57137bf5c2f3ddf9b40_1.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -478,7 +515,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/67b20830db9ff326a068717b_knob.webp"
+    "src": "/projects/stereophones/67b20830db9ff326a068717b_knob.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -486,7 +524,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e570fbe59fdabb45ecc2_3.webp"
+    "src": "/projects/stereophones/6787e570fbe59fdabb45ecc2_3.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -526,7 +565,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e59118eb58de5000cd88_4.webp"
+    "src": "/projects/stereophones/6787e59118eb58de5000cd88_4.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -534,7 +574,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e573fc8dedc507c25faa_5.webp"
+    "src": "/projects/stereophones/6787e573fc8dedc507c25faa_5.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -556,11 +597,13 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e571d9e2d21cee91b7c6_7.webp"
+    "src": "/projects/stereophones/6787e571d9e2d21cee91b7c6_7.webp",
+    "size": "small"
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e571978c3844c48a67ba_8.webp"
+    "src": "/projects/stereophones/6787e571978c3844c48a67ba_8.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -568,11 +611,13 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e5735f2d9d26d0e1caca_9.webp"
+    "src": "/projects/stereophones/6787e5735f2d9d26d0e1caca_9.webp",
+    "size": "large"
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e571c6f4d29b42014ff0_11.webp"
+    "src": "/projects/stereophones/6787e571c6f4d29b42014ff0_11.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -580,7 +625,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787ed96f7ae6833f9d4406b_10-1.webp"
+    "src": "/projects/stereophones/6787ed96f7ae6833f9d4406b_10-1.webp",
+    "size": "small"
    },
    {
     "type": "text",
@@ -588,7 +634,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e5732d97675cc55d6845_18-1.webp"
+    "src": "/projects/stereophones/6787e5732d97675cc55d6845_18-1.webp",
+    "size": "large"
    },
    {
     "type": "text",
@@ -596,7 +643,8 @@
    },
    {
     "type": "image",
-    "src": "/projects/stereophones/6787e575d8f2a8abe2efcaa6_22.webp"
+    "src": "/projects/stereophones/6787e575d8f2a8abe2efcaa6_22.webp",
+    "size": "small"
    },
    {
     "type": "text",

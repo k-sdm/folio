@@ -9,7 +9,7 @@ const IMAGES = [1, 2, 3, 4, 5, 6];
 // centred on the vase reference rectangle (x:134 w:637, full height). All as %.
 const DATE_BOX = {
   left: `${((134 + 637 / 2) / 1066) * 100}%`, // 42.45% — rect horizontal centre
-  top: "50%", // rect vertical centre
+  top: `${((772 + 1286 / 2) / 2267) * 100}%`, // 62.417% — design y:772 reference
   width: `${(1286 / 1066) * 100}%`, // 120.638%
   height: `${(242 / 2267) * 100}%`, // 10.675%
 };

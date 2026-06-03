@@ -6,6 +6,11 @@ import { ObjectLabel } from "./object-label";
 const LEVELS = [1, 2, 3];
 const STEP_MS = 10 * 60 * 1000; // 10 minutes
 
+// Module-level so the timer is consistent across client-side navigation: the
+// level is derived from elapsed time since first view, not since this mount.
+// (Resets on a full page reload, which is fine.)
+let journeyStart: number | null = null;
+
 /**
  * Journey — a self-contained project object. Starts on JOURNEY_1.webp and
  * crossfades to JOURNEY_2 after 10 minutes on the site, then JOURNEY_3 after
@@ -15,16 +20,28 @@ const STEP_MS = 10 * 60 * 1000; // 10 minutes
  * Sized by width on mobile, height on desktop (see ProjectStage).
  */
 export function Journey({ name, year }: { name: string; year: string }) {
-  const [level, setLevel] = useState(1); // 1 → 2 (10 min) → 3 (20 min)
+  // Start from the level the elapsed time implies (avoids a level-1 flash when
+  // returning to home). journeyStart is null on the server / first paint → 1.
+  const [level, setLevel] = useState(() => {
+    if (journeyStart === null) return 1;
+    const elapsed = Date.now() - journeyStart;
+    return elapsed >= STEP_MS * 2 ? 3 : elapsed >= STEP_MS ? 2 : 1;
+  });
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
-    const t2 = setTimeout(() => setLevel(2), STEP_MS);
-    const t3 = setTimeout(() => setLevel(3), STEP_MS * 2);
-    return () => {
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
+    if (journeyStart === null) journeyStart = Date.now();
+    const elapsed = Date.now() - journeyStart;
+    setLevel(elapsed >= STEP_MS * 2 ? 3 : elapsed >= STEP_MS ? 2 : 1);
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    if (elapsed < STEP_MS) {
+      timers.push(setTimeout(() => setLevel(2), STEP_MS - elapsed));
+    }
+    if (elapsed < STEP_MS * 2) {
+      timers.push(setTimeout(() => setLevel(3), STEP_MS * 2 - elapsed));
+    }
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   return (

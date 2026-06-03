@@ -34,30 +34,30 @@ function Video({ media, className }: { media: Media; className?: string }) {
   );
 }
 
-// Centred KH Teka Light, 28px, 100% black — same size as the object labels.
+// Centred KH Teka Light, 100% black. Mobile 14px, desktop 42px.
 const TEXT_CLASS =
-  "mx-auto max-w-2xl text-center text-[28px] font-light leading-snug text-black";
+  "mx-auto max-w-3xl text-center text-[14px] md:text-[42px] font-light leading-snug text-black";
 
 export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
   const data = DATA[id];
   return (
     <div className="flex min-h-dvh flex-col">
       <SiteHeader href="/" />
-      <main className="px-6 pb-32">
+      <main className="px-12 pb-64">
         {data.hero &&
           (data.hero.image ? (
             <img
               src={data.hero.image}
               alt=""
-              className="mx-auto block w-[80vw]"
+              className="mx-auto block w-[65vw]"
             />
           ) : (
-            <Video media={data.hero} className="mx-auto block w-[80vw]" />
+            <Video media={data.hero} className="mx-auto block w-[65vw]" />
           ))}
 
-        <p className={`${TEXT_CLASS} mt-12`}>{data.credit}</p>
+        <p className={`${TEXT_CLASS} mt-24`}>{data.credit}</p>
 
-        <div className="mt-16 flex flex-col items-center gap-12">
+        <div className="mt-32 flex flex-col items-center gap-24">
           {data.blocks.map((b, i) => {
             if (b.type === "text") return <p key={i} className={TEXT_CLASS}>{b.text}</p>;
             if (b.type === "image")
@@ -67,15 +67,15 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                   src={b.src}
                   alt=""
                   loading="lazy"
-                  className={`block ${b.size === "small" ? "w-[40vw]" : "w-[80vw]"}`}
+                  className={`block ${b.size === "small" ? "w-[40vw]" : "w-[65vw]"}`}
                 />
               );
-            return <Video key={i} media={b} className="block w-[80vw]" />;
+            return <Video key={i} media={b} className="block w-[65vw]" />;
           })}
         </div>
 
         {data.process.length > 0 && (
-          <div className="mx-auto mt-20 max-w-5xl columns-2 gap-3 md:columns-3 [&>img]:mb-3">
+          <div className="mx-auto mt-40 w-[65vw] columns-2 gap-6 md:columns-3 [&>img]:mb-6">
             {data.process.map((src, i) => (
               <img
                 key={i}

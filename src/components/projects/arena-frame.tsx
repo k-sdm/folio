@@ -46,12 +46,15 @@ export function ArenaFrame() {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      {/* Base: front of the frame */}
+      {/* Base: front of the frame — fades out on hover so its shadow doesn't
+          stack with the back image's shadow (crossfade, not overlay). */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/images/frame_front.webp"
         alt="Arena Frame, front"
-        className="absolute inset-0 z-10 h-full w-full object-contain"
+        className={`absolute inset-0 z-10 h-full w-full object-contain transition-opacity duration-500 ease-in-out ${
+          hovered ? "opacity-0" : "opacity-100"
+        }`}
         draggable={false}
       />
 

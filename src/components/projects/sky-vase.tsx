@@ -126,7 +126,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
             transform: "translate(-50%, -50%) rotate(-90deg)",
             containerType: "size",
             mixBlendMode: "screen",
-            filter: "blur(1px)",
+            filter: "blur(0.5px)",
           }}
         >
           <span

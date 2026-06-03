@@ -22,7 +22,7 @@ export function Journey() {
 
   return (
     <div
-      className="relative h-full w-auto aspect-[723/1186] select-none"
+      className="relative h-[var(--obj-mobile-h)] w-auto aspect-[723/1186] select-none md:h-[var(--obj-desktop-h)]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

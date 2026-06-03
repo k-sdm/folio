@@ -61,9 +61,9 @@ function Video({ media, className }: { media: Media; className?: string }) {
   );
 }
 
-// Centred KH Teka Light, 100% black. Mobile 14px, desktop 42px.
+// Centred KH Teka Light, 100% black. Mobile 14px, desktop 28px.
 const TEXT_CLASS =
-  "mx-auto max-w-3xl text-center text-[14px] md:text-[42px] font-light leading-snug text-black";
+  "mx-auto max-w-3xl text-center text-[14px] md:text-[28px] font-light leading-snug text-black";
 
 // Masonry grid: 80vw mobile / 65vw desktop, 2 → 3 columns.
 function Masonry({ images }: { images: string[] }) {

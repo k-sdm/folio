@@ -126,7 +126,13 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
         }`}
       />
 
-      <ObjectLabel name={name} year={year} show={hovered} className="bottom-[110%]" />
+      <ObjectLabel
+        name={name}
+        year={year}
+        show={hovered}
+        className="bottom-[110%]"
+        style={{ paddingInline: "calc(1.25rem + 5%)" }}
+      />
     </div>
   );
 }

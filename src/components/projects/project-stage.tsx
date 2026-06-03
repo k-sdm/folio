@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { SkyVase } from "./sky-vase";
 import { ArenaFrame } from "./arena-frame";
@@ -13,6 +14,9 @@ type Project = {
   name: string;
   year: string;
   Component: (props: ObjectProps) => React.ReactNode;
+  /** Click target. external → new tab; otherwise an in-app route. */
+  href: string;
+  external?: boolean;
   /** Source image pixel size — objects are rendered to scale against this. */
   px: { w: number; h: number };
 };
@@ -23,10 +27,10 @@ type Project = {
 const PROJECTS: Project[] = [
   // Vase footprint uses its reference rectangle (637 wide), not the full image
   // width, so the transparent side padding doesn't make the gaps uneven.
-  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, px: { w: 637, h: 2267 } },
-  { key: "arena-frame", name: "Arena Frame", year: "2026", Component: ArenaFrame, px: { w: 833, h: 1178 } },
-  { key: "journey", name: "Journey", year: "2024", Component: Journey, px: { w: 723, h: 1186 } },
-  { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, px: { w: 1580, h: 1798 } },
+  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, href: "https://skyva.se", external: true, px: { w: 637, h: 2267 } },
+  { key: "arena-frame", name: "Arena Frame", year: "2026", Component: ArenaFrame, href: "/arena-frame", px: { w: 833, h: 1178 } },
+  { key: "journey", name: "Journey", year: "2024", Component: Journey, href: "/journey", px: { w: 723, h: 1186 } },
+  { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, href: "/stereophones", px: { w: 1580, h: 1798 } },
 ];
 
 // Desktop: the tallest object fills the viewport below the 80px header.
@@ -69,10 +73,11 @@ export function ProjectStage() {
         // Desktop: scale by pixel-height ratio against the reference height.
         const mobileW = `calc((100vw - 48px) * ${p.px.w} / ${MOBILE_BASELINE_PX_W})`;
         const desktopH = `calc(${DESKTOP_REF} * ${(p.px.h / MAX_PX_H).toFixed(4)})`;
+        const node = <p.Component name={p.name} year={p.year} />;
         return (
           <div
             key={p.key}
-            className="flex shrink-0 justify-center"
+            className="flex shrink-0 cursor-pointer justify-center"
             style={
               {
                 "--obj-mobile-w": mobileW,
@@ -81,7 +86,20 @@ export function ProjectStage() {
               } as CSSProperties
             }
           >
-            <p.Component name={p.name} year={p.year} />
+            {p.external ? (
+              <a
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contents"
+              >
+                {node}
+              </a>
+            ) : (
+              <Link href={p.href} className="contents">
+                {node}
+              </Link>
+            )}
           </div>
         );
       })}

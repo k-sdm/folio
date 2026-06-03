@@ -34,10 +34,10 @@ const PROJECTS: Project[] = [
   { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, href: "/stereophones", px: { w: 1580, h: 1798 } },
 ];
 
-// Desktop: the tallest object fills the viewport below the 120px header.
+// Desktop: the tallest object fills the viewport below the 96px header.
 // Mobile: stereophones spans the full content width (page has px-6 = 48px) and
 // every object scales from that one factor, so relative sizes are preserved.
-const DESKTOP_REF = "calc(100dvh - 120px)";
+const DESKTOP_REF = "calc(100dvh - 96px)";
 const MAX_PX_H = Math.max(...PROJECTS.map((p) => p.px.h));
 const MOBILE_BASELINE_PX_W =
   PROJECTS.find((p) => p.key === "stereophones")?.px.w ??

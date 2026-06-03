@@ -3,17 +3,43 @@ import { SiteHeader } from "@/components/site-header";
 import caseStudies from "@/data/case-studies.json";
 
 type Media = { mp4?: string; webm?: string; poster?: string; image?: string };
+type Run = { t: string; href?: string };
 type Block =
-  | { type: "text"; text: string }
+  | { type: "text"; text: string; runs?: Run[] }
   | { type: "image"; src: string; size: "large" | "small" }
   | ({ type: "video" } & Media);
 type ProjectData = {
   name: string;
   credit: string;
+  creditRuns?: Run[];
   hero: Media | null;
   blocks: Block[];
   process: string[];
 };
+
+// Render plain text, or rich runs with inline links (underlined, new tab).
+function RichText({ text, runs }: { text: string; runs?: Run[] }) {
+  if (!runs) return <>{text}</>;
+  return (
+    <>
+      {runs.map((r, i) =>
+        r.href ? (
+          <a
+            key={i}
+            href={r.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-4"
+          >
+            {r.t}
+          </a>
+        ) : (
+          <span key={i}>{r.t}</span>
+        ),
+      )}
+    </>
+  );
+}
 
 const DATA = caseStudies as unknown as Record<string, ProjectData>;
 
@@ -55,11 +81,18 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
             <Video media={data.hero} className="mx-auto block w-[80vw] md:w-[65vw]" />
           ))}
 
-        <p className={`${TEXT_CLASS} mt-12 md:mt-24`}>{data.credit}</p>
+        <p className={`${TEXT_CLASS} mt-12 md:mt-24`}>
+          <RichText text={data.credit} runs={data.creditRuns} />
+        </p>
 
         <div className="mt-16 flex flex-col items-center gap-12 md:mt-32 md:gap-24">
           {data.blocks.map((b, i) => {
-            if (b.type === "text") return <p key={i} className={TEXT_CLASS}>{b.text}</p>;
+            if (b.type === "text")
+              return (
+                <p key={i} className={TEXT_CLASS}>
+                  <RichText text={b.text} runs={b.runs} />
+                </p>
+              );
             if (b.type === "image")
               return (
                 <img

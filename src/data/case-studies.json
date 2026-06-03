@@ -18,7 +18,19 @@
    },
    {
     "type": "text",
-    "text": "The internal project was launched under Future Facility — a technology-focused offshoot of the main studio — as a way to develop and communicate the studio’s capabilities."
+    "text": "The internal project was launched under Future Facility — a technology-focused offshoot of the main studio — as a way to develop and communicate the studio’s capabilities.",
+    "runs": [
+     {
+      "t": "The internal project was launched under "
+     },
+     {
+      "t": "Future Facility",
+      "href": "https://www.futurefacility.co.uk/about"
+     },
+     {
+      "t": " — a technology-focused offshoot of the main studio — as a way to develop and communicate the studio’s capabilities."
+     }
+    ]
    },
    {
     "type": "text",
@@ -50,7 +62,19 @@
    },
    {
     "type": "text",
-    "text": "Most displays around us glow , demanding attention and leaving us staring at lightbulbs."
+    "text": "Most displays around us glow , demanding attention and leaving us staring at lightbulbs.",
+    "runs": [
+     {
+      "t": "Most displays around us "
+     },
+     {
+      "t": "glow",
+      "href": "https://macwright.com/2018/08/28/glow.html"
+     },
+     {
+      "t": ", demanding attention and leaving us staring at lightbulbs."
+     }
+    ]
    },
    {
     "type": "text",
@@ -185,6 +209,18 @@
    "/projects/arena-frame/683889d326818bd0e0e4407c_image_2.webp",
    "/projects/arena-frame/683ee5bf01a5b7eaf3bb1ab8_IMG_0847_1_.webp",
    "/projects/arena-frame/68388bb26efb795a0e56c4b9_image_53.webp"
+  ],
+  "creditRuns": [
+   {
+    "t": "Posting Card, 2024"
+   },
+   {
+    "t": "with "
+   },
+   {
+    "t": "Industrial Facility",
+    "href": "https://www.industrialfacility.co.uk/"
+   }
   ]
  },
  "journey": {

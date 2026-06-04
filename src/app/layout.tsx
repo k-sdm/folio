@@ -27,7 +27,7 @@ const khTekaMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Kiran Scott — Personal Site",
+  title: "Kiran Scott de Martinville",
   description: "Personal website and portfolio of Kiran Scott.",
 };
 

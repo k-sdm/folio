@@ -671,9 +671,9 @@
    },
    {
     "type": "video",
-    "mp4": "/projects/stereophones/67879d35f4168ddd14be6f34_rotate-transcode.mp4",
-    "webm": "/projects/stereophones/67879d35f4168ddd14be6f34_rotate-transcode.webm",
-    "poster": "/projects/stereophones/67879d35f4168ddd14be6f34_rotate-poster-00001.jpg"
+    "mp4": "/projects/stereophones/orbit-transcode.mp4",
+    "webm": "/projects/stereophones/orbit-transcode.webm",
+    "poster": "/projects/stereophones/orbit-poster.jpg"
    },
    {
     "type": "text",

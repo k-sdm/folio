@@ -38,6 +38,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
   const lastAngleRef = useRef(0);
   const centerRef = useRef({ x: 0, y: 0 });
   const trackRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
 
   // --- background audio (only mounted here, i.e. only on the home page) ---
   useEffect(() => {
@@ -80,20 +81,80 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     if (audioRef.current) audioRef.current.volume = clamped / MAX_DEG;
   };
 
+  // Load the rotate video up front so it can be scrubbed smoothly.
+  useEffect(() => {
+    videoRef.current?.load();
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  // Scrub video.currentTime → target with ease-in-out at 2× the normal pace.
+  // (Browsers can't play video backwards, so reverse is the same scrub to 0.)
+  const easeInOut = (t: number) =>
+    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+  const scrubTo = (target: number, onDone: () => void) => {
+    const v = videoRef.current;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    if (!v || !v.duration || Number.isNaN(v.duration)) {
+      onDone();
+      return;
+    }
+    const start = v.currentTime;
+    const dist = Math.abs(target - start);
+    if (dist < 0.02) {
+      onDone();
+      return;
+    }
+    try {
+      v.pause();
+    } catch {
+      // ignore
+    }
+    const total = (dist / 2) * 1000; // 2× speed
+    const t0 = performance.now();
+    const step = (now: number) => {
+      const f = Math.min((now - t0) / total, 1);
+      try {
+        v.currentTime = start + (target - start) * easeInOut(f);
+      } catch {
+        // ignore mid-seek errors
+      }
+      if (f < 1) {
+        rafRef.current = requestAnimationFrame(step);
+      } else {
+        rafRef.current = null;
+        onDone();
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
+  };
+
   const onEnter = () => {
     setHovered(true);
-    if (phase === "front") {
-      setPhase("video");
-      const v = videoRef.current;
-      if (v) {
-        try {
-          v.currentTime = 0;
-        } catch {
-          // not ready yet
-        }
-        void v.play().catch(() => {});
-      }
+    const v = videoRef.current;
+    if (!v) return;
+    const dur = v.duration || 0;
+    if (dur && v.currentTime >= dur - 0.02) {
+      setPhase("sides");
+      return;
     }
+    setPhase("video");
+    scrubTo(dur, () => setPhase("sides"));
+  };
+
+  const onLeave = () => {
+    setHovered(false);
+    if (draggingRef.current) return; // don't reverse mid knob-drag
+    const v = videoRef.current;
+    if (!v) return;
+    if (v.currentTime <= 0.02) {
+      setPhase("front");
+      return;
+    }
+    setPhase("video");
+    scrubTo(0, () => setPhase("front"));
   };
 
   // --- DOT rotary drag (around the knob's own centre) ---
@@ -145,7 +206,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     <div
       className="relative w-[var(--obj-mobile-w)] h-auto aspect-[1580/1798] cursor-pointer select-none md:h-[var(--obj-desktop-h)] md:w-auto"
       onMouseEnter={onEnter}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={onLeave}
       onClick={onClick}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -165,7 +226,6 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         playsInline
         preload="auto"
         aria-hidden
-        onEnded={() => setPhase("sides")}
         className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
           phase === "video" ? "opacity-100" : "opacity-0"
         }`}

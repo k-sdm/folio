@@ -63,12 +63,13 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
           layer below (= the rectangle) triggers hover. isolate keeps the date's
           screen blend mixing with the vase only. */}
       <div
-        className="pointer-events-none absolute top-0 h-full aspect-[1066/2267] isolate blur-[16px]"
+        className="pointer-events-none absolute top-0 h-full aspect-[1066/2267] isolate"
         style={{ left: `${(-134 / 637) * 100}%` }}
       >
-        {/* Gradient stack — fades out on hover */}
+        {/* Gradient stack — fades out on hover. Blurred as the "coming soon"
+            teaser; the hover image and date stay sharp. */}
         <div
-          className={`absolute inset-0 z-10 transition-opacity duration-500 ease-in-out ${
+          className={`absolute inset-0 z-10 blur-[16px] transition-opacity duration-500 ease-in-out ${
             hovered ? "opacity-0" : "opacity-100"
           }`}
         >
@@ -168,7 +169,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         name={name}
         year={year}
         show={hovered}
-        style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%` }}
+        style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%`, color: "#fff" }}
       />
 
       {/* "coming soon" bubble that follows the cursor over the vase */}

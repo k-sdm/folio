@@ -16,19 +16,24 @@ const DOT_STYLE: React.CSSProperties = {
 type Props = { name: string; year: string; tracks?: string[] };
 
 /**
- * Stereophones — the earcup is a volume knob. Hover plays rotate.webm, then the
- * side view + DOT (knob) fade in. Drag the DOT around its own centre (clockwise
- * 0–160°) to set the music volume. A track from /music plays continuously in the
- * background (random order); the knob only changes its loudness. Click (without
- * dragging) opens the project page. Audio only exists on the home page.
+ * Stereophones — the earcup is a volume knob. Hover plays rotate.webm (a 2×-speed
+ * spin), then the side view + DOT (knob) fade in. On leave it plays the spin in
+ * reverse (rotate-rev.webm, the same clip reversed — browsers can't play video
+ * backwards) and returns to the front view. The two clips are frame-aligned, so a
+ * mid-spin enter/leave hands off seamlessly. Drag the DOT around its own centre
+ * (clockwise 0–160°) to set the music volume; while dragging, the side view swaps
+ * to stereophones_sides2.webp. A track from /music plays continuously in the
+ * background (random order). Click (without dragging) opens the project page.
  */
 export function Stereophones({ name, year, tracks = [] }: Props) {
   const router = useRouter();
   const [hovered, setHovered] = useState(false);
-  const [phase, setPhase] = useState<"front" | "video" | "sides">("front");
+  const [phase, setPhase] = useState<"front" | "fwd" | "sides" | "rev">("front");
   const [rotation, setRotation] = useState(0);
+  const [dragging, setDragging] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const fwdVideoRef = useRef<HTMLVideoElement>(null);
+  const revVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const dotRef = useRef<HTMLImageElement>(null);
 
@@ -38,7 +43,6 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
   const lastAngleRef = useRef(0);
   const centerRef = useRef({ x: 0, y: 0 });
   const trackRef = useRef(0);
-  const rafRef = useRef<number | null>(null);
 
   // --- background audio (only mounted here, i.e. only on the home page) ---
   useEffect(() => {
@@ -81,80 +85,50 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     if (audioRef.current) audioRef.current.volume = clamped / MAX_DEG;
   };
 
-  // Load the rotate video up front so it can be scrubbed smoothly.
+  // Buffer both clips up front so the first hover/leave plays immediately.
   useEffect(() => {
-    videoRef.current?.load();
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
+    fwdVideoRef.current?.load();
+    revVideoRef.current?.load();
   }, []);
 
-  // Scrub video.currentTime → target with ease-in-out at 2× the normal pace.
-  // (Browsers can't play video backwards, so reverse is the same scrub to 0.)
-  const easeInOut = (t: number) =>
-    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-
-  const scrubTo = (target: number, onDone: () => void) => {
-    const v = videoRef.current;
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    if (!v || !v.duration || Number.isNaN(v.duration)) {
-      onDone();
-      return;
-    }
-    const start = v.currentTime;
-    const dist = Math.abs(target - start);
-    if (dist < 0.02) {
-      onDone();
-      return;
-    }
-    try {
-      v.pause();
-    } catch {
-      // ignore
-    }
-    const total = (dist / 2) * 1000; // 2× speed
-    const t0 = performance.now();
-    const step = (now: number) => {
-      const f = Math.min((now - t0) / total, 1);
-      try {
-        v.currentTime = start + (target - start) * easeInOut(f);
-      } catch {
-        // ignore mid-seek errors
-      }
-      if (f < 1) {
-        rafRef.current = requestAnimationFrame(step);
-      } else {
-        rafRef.current = null;
-        onDone();
-      }
-    };
-    rafRef.current = requestAnimationFrame(step);
-  };
-
+  // Hover → spin forward; the side view fades in when it ends.
   const onEnter = () => {
     setHovered(true);
-    const v = videoRef.current;
-    if (!v) return;
-    const dur = v.duration || 0;
-    if (dur && v.currentTime >= dur - 0.02) {
+    if (phase === "sides" || phase === "fwd") return;
+    const fwd = fwdVideoRef.current;
+    const rev = revVideoRef.current;
+    if (!fwd) {
       setPhase("sides");
       return;
     }
-    setPhase("video");
-    scrubTo(dur, () => setPhase("sides"));
+    // Coming out of a reverse mid-spin: continue forward from the same frame.
+    if (phase === "rev" && rev && fwd.duration) {
+      fwd.currentTime = Math.max(0, fwd.duration - rev.currentTime);
+    } else {
+      fwd.currentTime = 0;
+    }
+    rev?.pause();
+    setPhase("fwd");
+    void fwd.play().catch(() => setPhase("sides"));
   };
 
+  // Leave → spin backward, then return to the front view.
   const onLeave = () => {
     setHovered(false);
     if (draggingRef.current) return; // don't reverse mid knob-drag
-    const v = videoRef.current;
-    if (!v) return;
-    if (v.currentTime <= 0.02) {
+    if (phase === "front" || phase === "rev") return;
+    const fwd = fwdVideoRef.current;
+    const rev = revVideoRef.current;
+    if (!rev) {
       setPhase("front");
       return;
     }
-    setPhase("video");
-    scrubTo(0, () => setPhase("front"));
+    // Reverse starts at the frame matching the current forward position
+    // (rev is fwd reversed, so rev t ↔ fwd dur − t). From "sides" that's 0.
+    rev.currentTime = Math.max(0, (rev.duration || 0) - (fwd?.currentTime ?? 0));
+    fwd?.pause();
+    setPhase("rev");
+    void rev.play().catch(() => setPhase("front"));
   };
 
   // --- DOT rotary drag (around the knob's own centre) ---
@@ -167,6 +141,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     lastAngleRef.current = angleAt(e.clientX, e.clientY);
     draggingRef.current = true;
     draggedRef.current = false;
+    setDragging(true);
     dotRef.current!.setPointerCapture(e.pointerId);
   };
 
@@ -182,6 +157,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
 
   const onDotUp = (e: React.PointerEvent) => {
     draggingRef.current = false;
+    setDragging(false);
     try {
       dotRef.current?.releasePointerCapture(e.pointerId);
     } catch {
@@ -220,14 +196,28 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
       />
 
       <video
-        ref={videoRef}
+        ref={fwdVideoRef}
         src="/videos/rotate.webm"
         muted
         playsInline
         preload="auto"
         aria-hidden
+        onEnded={() => setPhase("sides")}
         className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
-          phase === "video" ? "opacity-100" : "opacity-0"
+          phase === "fwd" ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      <video
+        ref={revVideoRef}
+        src="/videos/rotate-rev.webm"
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden
+        onEnded={() => setPhase("front")}
+        className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
+          phase === "rev" ? "opacity-100" : "opacity-0"
         }`}
       />
 
@@ -238,7 +228,19 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         aria-hidden
         draggable={false}
         className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
-          phase === "sides" ? "opacity-100" : "opacity-0"
+          phase === "sides" && !dragging ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      {/* While the knob is being dragged, swap to the alternate side view. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/stereophones_sides2.webp"
+        alt=""
+        aria-hidden
+        draggable={false}
+        className={`absolute inset-0 z-10 h-full w-full object-contain transition-opacity duration-150 ease-in-out ${
+          phase === "sides" && dragging ? "opacity-100" : "opacity-0"
         }`}
       />
 

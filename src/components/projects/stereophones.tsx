@@ -21,8 +21,8 @@ type Props = { name: string; year: string; tracks?: string[] };
  * reverse (rotate-rev.webm, the same clip reversed — browsers can't play video
  * backwards) and returns to the front view. The two clips are frame-aligned, so a
  * mid-spin enter/leave hands off seamlessly. Drag the DOT around its own centre
- * (clockwise 0–160°) to set the music volume; while dragging, the side view swaps
- * to stereophones_sides2.webp. A track from /music plays continuously in the
+ * (clockwise 0–160°) to set the music volume; while the knob is actively turning
+ * the side view swaps to stereophones_sides2.webp. A track from /music plays in the
  * background (random order). Click (without dragging) opens the project page.
  */
 export function Stereophones({ name, year, tracks = [] }: Props) {
@@ -30,7 +30,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
   const [hovered, setHovered] = useState(false);
   const [phase, setPhase] = useState<"front" | "fwd" | "sides" | "rev">("front");
   const [rotation, setRotation] = useState(0);
-  const [dragging, setDragging] = useState(false);
+  const [turning, setTurning] = useState(false);
 
   const fwdVideoRef = useRef<HTMLVideoElement>(null);
   const revVideoRef = useRef<HTMLVideoElement>(null);
@@ -43,6 +43,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
   const lastAngleRef = useRef(0);
   const centerRef = useRef({ x: 0, y: 0 });
   const trackRef = useRef(0);
+  const turnTimerRef = useRef<number | null>(null);
 
   // --- background audio (only mounted here, i.e. only on the home page) ---
   useEffect(() => {
@@ -141,7 +142,6 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     lastAngleRef.current = angleAt(e.clientX, e.clientY);
     draggingRef.current = true;
     draggedRef.current = false;
-    setDragging(true);
     dotRef.current!.setPointerCapture(e.pointerId);
   };
 
@@ -150,14 +150,22 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     const a = angleAt(e.clientX, e.clientY);
     let delta = a - lastAngleRef.current;
     delta = ((((delta + 180) % 360) + 360) % 360) - 180; // normalise to (-180,180]
-    if (Math.abs(delta) > 0.5) draggedRef.current = true;
+    if (Math.abs(delta) > 0.5) {
+      draggedRef.current = true;
+      // sides2 shows only while the knob is actually moving; revert shortly
+      // after it goes still (even if the pointer is still held down).
+      setTurning(true);
+      if (turnTimerRef.current) clearTimeout(turnTimerRef.current);
+      turnTimerRef.current = window.setTimeout(() => setTurning(false), 120);
+    }
     lastAngleRef.current = a;
     setRotationAndVolume(rotationRef.current + delta);
   };
 
   const onDotUp = (e: React.PointerEvent) => {
     draggingRef.current = false;
-    setDragging(false);
+    if (turnTimerRef.current) clearTimeout(turnTimerRef.current);
+    setTurning(false);
     try {
       dotRef.current?.releasePointerCapture(e.pointerId);
     } catch {
@@ -190,20 +198,20 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         src="/images/stereophones.webp"
         alt="Stereophones"
         draggable={false}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
+        className={`absolute inset-0 z-10 h-full w-full object-contain ${
           phase === "front" ? "opacity-100" : "opacity-0"
         }`}
       />
 
       <video
         ref={fwdVideoRef}
-        src="/videos/rotate.webm"
+        src="/videos/rotate-fwd.webm"
         muted
         playsInline
         preload="auto"
         aria-hidden
         onEnded={() => setPhase("sides")}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
+        className={`absolute inset-0 z-10 h-full w-full object-contain ${
           phase === "fwd" ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -216,7 +224,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         preload="auto"
         aria-hidden
         onEnded={() => setPhase("front")}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
+        className={`absolute inset-0 z-10 h-full w-full object-contain ${
           phase === "rev" ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -227,20 +235,21 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         alt=""
         aria-hidden
         draggable={false}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${fade} ${
-          phase === "sides" && !dragging ? "opacity-100" : "opacity-0"
+        className={`absolute inset-0 z-10 h-full w-full object-contain ${
+          phase === "sides" ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      {/* While the knob is being dragged, swap to the alternate side view. */}
+      {/* Stacked on top of the side view; shown (no fade) only while the knob
+          is actively turning. When still it's hidden and sides.webp reads. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/images/stereophones_sides2.webp"
         alt=""
         aria-hidden
         draggable={false}
-        className={`absolute inset-0 z-10 h-full w-full object-contain transition-opacity duration-150 ease-in-out ${
-          phase === "sides" && dragging ? "opacity-100" : "opacity-0"
+        className={`absolute inset-0 z-10 h-full w-full object-contain ${
+          phase === "sides" && turning ? "opacity-100" : "opacity-0"
         }`}
       />
 

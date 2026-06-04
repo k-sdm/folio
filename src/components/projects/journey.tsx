@@ -6,8 +6,14 @@ import { ObjectLabel } from "./object-label";
 const LEVELS = [1, 2, 3];
 
 // Hover-unhover cycles to advance the variant: 5 → JOURNEY_2, 10 → JOURNEY_3.
-// Module-level so the count survives client-side navigation; resets on refresh.
-let journeyHoverCount = 0;
+// Stored on `window` so the count survives client-side navigation (same window)
+// and resets on a full refresh (new window). A module-level var could be reset
+// if the route chunk re-initialises on navigation, so window is more reliable.
+const KEY = "__journeyHoverCount";
+const readCount = (): number =>
+  typeof window === "undefined"
+    ? 0
+    : ((window as unknown as Record<string, number>)[KEY] ?? 0);
 
 const levelFor = (count: number) => (count >= 10 ? 3 : count >= 5 ? 2 : 1);
 
@@ -21,7 +27,7 @@ const levelFor = (count: number) => (count >= 10 ? 3 : count >= 5 ? 2 : 1);
  */
 export function Journey({ name, year }: { name: string; year: string }) {
   // Init from the persisted count so it's consistent across navigation.
-  const [count, setCount] = useState(journeyHoverCount);
+  const [count, setCount] = useState(readCount);
   const [hovered, setHovered] = useState(false);
   const level = levelFor(count);
 
@@ -31,8 +37,9 @@ export function Journey({ name, year }: { name: string; year: string }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => {
         setHovered(false);
-        journeyHoverCount = Math.min(journeyHoverCount + 1, 10);
-        setCount(journeyHoverCount);
+        const next = Math.min(readCount() + 1, 10);
+        (window as unknown as Record<string, number>)[KEY] = next;
+        setCount(next);
       }}
     >
       {/* Hover-count base variants — only the current level is shown (and only

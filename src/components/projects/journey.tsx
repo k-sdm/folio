@@ -1,56 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ObjectLabel } from "./object-label";
 
 const LEVELS = [1, 2, 3];
-const STEP_MS = 10 * 60 * 1000; // 10 minutes
 
-// Module-level so the timer is consistent across client-side navigation: the
-// level is derived from elapsed time since first view, not since this mount.
-// (Resets on a full page reload, which is fine.)
-let journeyStart: number | null = null;
+// Hover-unhover cycles to advance the variant: 5 → JOURNEY_2, 10 → JOURNEY_3.
+// Module-level so the count survives client-side navigation; resets on refresh.
+let journeyHoverCount = 0;
+
+const levelFor = (count: number) => (count >= 10 ? 3 : count >= 5 ? 2 : 1);
 
 /**
  * Journey — a self-contained project object. Starts on JOURNEY_1.webp and
- * crossfades to JOURNEY_2 after 10 minutes on the site, then JOURNEY_3 after
- * another 10. On hover it crossfades to JOURNEY_hover.webp (the base fades out
- * as the hover fades in, so any baked-in shadows don't stack).
+ * advances to JOURNEY_2 after 5 hover-unhover cycles, then JOURNEY_3 after 5
+ * more. On hover it crossfades to JOURNEY_hover.webp (the base fades out as the
+ * hover fades in, so any baked-in shadows don't stack).
  *
  * Sized by width on mobile, height on desktop (see ProjectStage).
  */
 export function Journey({ name, year }: { name: string; year: string }) {
-  // Start from the level the elapsed time implies (avoids a level-1 flash when
-  // returning to home). journeyStart is null on the server / first paint → 1.
-  const [level, setLevel] = useState(() => {
-    if (journeyStart === null) return 1;
-    const elapsed = Date.now() - journeyStart;
-    return elapsed >= STEP_MS * 2 ? 3 : elapsed >= STEP_MS ? 2 : 1;
-  });
+  // Init from the persisted count so it's consistent across navigation.
+  const [count, setCount] = useState(journeyHoverCount);
   const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    if (journeyStart === null) journeyStart = Date.now();
-    const elapsed = Date.now() - journeyStart;
-    setLevel(elapsed >= STEP_MS * 2 ? 3 : elapsed >= STEP_MS ? 2 : 1);
-
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    if (elapsed < STEP_MS) {
-      timers.push(setTimeout(() => setLevel(2), STEP_MS - elapsed));
-    }
-    if (elapsed < STEP_MS * 2) {
-      timers.push(setTimeout(() => setLevel(3), STEP_MS * 2 - elapsed));
-    }
-    return () => timers.forEach(clearTimeout);
-  }, []);
+  const level = levelFor(count);
 
   return (
     <div
       className="relative w-[var(--obj-mobile-w)] h-auto aspect-[723/1186] select-none md:h-[var(--obj-desktop-h)] md:w-auto"
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={() => {
+        setHovered(false);
+        journeyHoverCount = Math.min(journeyHoverCount + 1, 10);
+        setCount(journeyHoverCount);
+      }}
     >
-      {/* Time-based base variants — only the current level is shown (and only
+      {/* Hover-count base variants — only the current level is shown (and only
           while not hovering); changing level crossfades between them. */}
       {LEVELS.map((n) => (
         // eslint-disable-next-line @next/next/no-img-element

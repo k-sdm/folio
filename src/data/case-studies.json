@@ -101,17 +101,24 @@
    },
    {
     "type": "text",
-    "text": "The internal project was comissioned by Future Facility — a technology-focused offshoot of Industrial facility — as a way to develop and communicate the studio’s capabilities.",
+    "text": "Developed for Future Facility — a technology-focused offshoot of Industrial facility — as a way to develop and communicate the studio’s capabilities.",
     "runs": [
      {
-      "t": "The internal project was comissioned by "
+      "t": "Developed for "
      },
      {
       "t": "Future Facility",
       "href": "https://www.futurefacility.co.uk/about"
      },
      {
-      "t": " — a technology-focused offshoot of Industrial facility — as a way to develop and communicate the studio’s capabilities."
+      "t": " — a technology-focused offshoot of "
+     },
+     {
+      "t": "Industrial facility",
+      "href": "https://www.industrialfacility.co.uk/"
+     },
+     {
+      "t": " — as a way to develop and communicate the studio’s capabilities."
      }
     ]
    },
@@ -303,7 +310,7 @@
   "blocks": [
    {
     "type": "text",
-    "text": "My thesis is a holistic design and research project that proposes product, behaviour and system-level interventions with the objective of tackling the single most preventable cause of death worldwide: tobacco addiction"
+    "text": "A design and research company that proposes product, behaviour and system-level interventions with the objective of tackling the single most preventable cause of death worldwide: tobacco addiction"
    },
    {
     "type": "image",

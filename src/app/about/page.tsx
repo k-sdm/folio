@@ -22,8 +22,8 @@ export default function About() {
           <p className={`${TEXT} mx-auto max-w-3xl text-center md:w-[60vw] md:max-w-none`}>
             Industrial designer and technologist working with startups, studios
             and companies to build new hardware products. I prototype physical
-            interactions, design desirable objects and research emerging
-            technologies, operating as a conduit between the creative and
+            interactions, design desirable objects and research embedding
+            intelligence, operating as a conduit between the creative and
             technical sides of your world.
           </p>
         </div>

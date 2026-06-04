@@ -63,7 +63,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
           layer below (= the rectangle) triggers hover. isolate keeps the date's
           screen blend mixing with the vase only. */}
       <div
-        className="pointer-events-none absolute top-0 h-full aspect-[1066/2267] isolate"
+        className="pointer-events-none absolute top-0 h-full aspect-[1066/2267] isolate blur-[10px]"
         style={{ left: `${(-134 / 637) * 100}%` }}
       >
         {/* Gradient stack — fades out on hover */}

@@ -21,12 +21,14 @@ html {
   scroll-behavior: smooth;
 }
 
-/* One full forward spin (vertical axis) for the header logo on hover. */
+/* One full forward spin (vertical axis) for the header logo on hover.
+   perspective() is in the transform (not a parent property) so the 3D is
+   self-contained and doesn't skew with scroll inside the sticky header. */
 @keyframes logo-spin {
   from {
-    transform: rotateY(0);
+    transform: perspective(300px) rotateY(0);
   }
   to {
-    transform: rotateY(360deg);
+    transform: perspective(300px) rotateY(360deg);
   }
 }

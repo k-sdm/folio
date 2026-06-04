@@ -27,7 +27,7 @@ export function SiteHeader({ href }: { href: string }) {
         <Link
           href={href}
           aria-label={label}
-          className="group block shrink-0 [perspective:300px]"
+          className="group block shrink-0"
           style={{ marginTop: "calc(var(--name-h) * -12 / 114)" }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}

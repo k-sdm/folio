@@ -7,7 +7,7 @@ import { ArenaFrame } from "./arena-frame";
 import { Journey } from "./journey";
 import { Stereophones } from "./stereophones";
 
-type ObjectProps = { name: string; year: string };
+type ObjectProps = { name: string; year: string; tracks?: string[] };
 
 type Project = {
   key: string;
@@ -31,7 +31,8 @@ const PROJECTS: Project[] = [
   { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, px: { w: 637, h: 2267 } },
   { key: "arena-frame", name: "Arena Frame", year: "2026", Component: ArenaFrame, href: "/arena-frame", px: { w: 833, h: 1178 } },
   { key: "journey", name: "Journey", year: "2024", Component: Journey, href: "/journey", px: { w: 723, h: 1186 } },
-  { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, href: "/stereophones", px: { w: 1580, h: 1798 } },
+  // Stereophones handles its own navigation (knob drag vs. click), so no link.
+  { key: "stereophones", name: "Stereophones", year: "2023", Component: Stereophones, px: { w: 1580, h: 1798 } },
 ];
 
 // Desktop: the tallest object fills the viewport below the 96px header.
@@ -43,7 +44,7 @@ const MOBILE_BASELINE_PX_W =
   PROJECTS.find((p) => p.key === "stereophones")?.px.w ??
   Math.max(...PROJECTS.map((p) => p.px.w));
 
-export function ProjectStage() {
+export function ProjectStage({ tracks = [] }: { tracks?: string[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Map vertical wheel/trackpad movement onto horizontal panning. Uses a native
@@ -74,7 +75,7 @@ export function ProjectStage() {
         // Desktop: scale by pixel-height ratio against the reference height.
         const mobileW = `calc((100vw - 48px) * ${p.px.w} / ${MOBILE_BASELINE_PX_W})`;
         const desktopH = `calc(${DESKTOP_REF} * ${(p.px.h / MAX_PX_H).toFixed(4)})`;
-        const node = <p.Component name={p.name} year={p.year} />;
+        const node = <p.Component name={p.name} year={p.year} tracks={tracks} />;
         return (
           <div
             key={p.key}

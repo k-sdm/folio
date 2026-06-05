@@ -8,7 +8,7 @@ type Block =
   | { type: "text"; text: string; runs?: Run[] }
   | { type: "image"; src: string; size: "large" | "small" }
   | { type: "grid"; images: string[] }
-  | ({ type: "video"; size?: "large" | "small" } & Media);
+  | ({ type: "video"; size?: "large" | "small"; ratio?: string } & Media);
 type ProjectData = {
   name: string;
   credit: string;
@@ -124,12 +124,21 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                 />
               );
             if (b.type === "grid") return <Masonry key={i} images={b.images} />;
+            const widthClass = b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]";
+            // Optional fixed-ratio box: the box stretches to the width and the
+            // video fills it (used to force the orbit clip into a 16:9 frame).
+            if (b.ratio)
+              return (
+                <div
+                  key={i}
+                  className={`relative w-[80vw] overflow-hidden ${widthClass}`}
+                  style={{ aspectRatio: b.ratio.replace("/", " / ") }}
+                >
+                  <Video media={b} className="absolute inset-0 h-full w-full object-cover" />
+                </div>
+              );
             return (
-              <Video
-                key={i}
-                media={b}
-                className={`block w-[80vw] ${b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]"}`}
-              />
+              <Video key={i} media={b} className={`block w-[80vw] ${widthClass}`} />
             );
           })}
         </div>

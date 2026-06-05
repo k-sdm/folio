@@ -671,7 +671,8 @@
    },
    {
     "type": "video",
-    "webm": "/videos/orbit.webm"
+    "webm": "/videos/orbit.webm",
+    "ratio": "16/9"
    },
    {
     "type": "text",

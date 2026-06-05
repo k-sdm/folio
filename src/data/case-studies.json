@@ -671,9 +671,7 @@
    },
    {
     "type": "video",
-    "mp4": "/projects/stereophones/orbit-transcode.mp4",
-    "webm": "/projects/stereophones/orbit-transcode.webm",
-    "poster": "/projects/stereophones/orbit-poster.jpg"
+    "webm": "/videos/orbit.webm"
    },
    {
     "type": "text",

@@ -7,7 +7,7 @@ import { ArenaFrame } from "./arena-frame";
 import { Journey } from "./journey";
 import { Stereophones } from "./stereophones";
 
-type ObjectProps = { name: string; year: string; tracks?: string[] };
+type ObjectProps = { name: string; year: string };
 
 type Project = {
   key: string;
@@ -44,7 +44,7 @@ const MOBILE_BASELINE_PX_W =
   PROJECTS.find((p) => p.key === "stereophones")?.px.w ??
   Math.max(...PROJECTS.map((p) => p.px.w));
 
-export function ProjectStage({ tracks = [] }: { tracks?: string[] }) {
+export function ProjectStage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Map vertical wheel/trackpad movement onto horizontal panning. Uses a native
@@ -75,7 +75,7 @@ export function ProjectStage({ tracks = [] }: { tracks?: string[] }) {
         // Desktop: scale by pixel-height ratio against the reference height.
         const mobileW = `calc((100vw - 48px) * ${p.px.w} / ${MOBILE_BASELINE_PX_W})`;
         const desktopH = `calc(${DESKTOP_REF} * ${(p.px.h / MAX_PX_H).toFixed(4)})`;
-        const node = <p.Component name={p.name} year={p.year} tracks={tracks} />;
+        const node = <p.Component name={p.name} year={p.year} />;
         return (
           <div
             key={p.key}

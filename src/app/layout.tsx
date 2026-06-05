@@ -1,7 +1,23 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { readdirSync } from "fs";
+import { join } from "path";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { AudioProvider } from "@/components/audio-provider";
+
+// Read /public/music at build time so new mp3s are picked up on rebuild. Lives
+// in the layout (not the home page) so the player persists across navigation.
+function getTracks(): string[] {
+  try {
+    return readdirSync(join(process.cwd(), "public", "music"))
+      .filter((f) => f.toLowerCase().endsWith(".mp3"))
+      .sort()
+      .map((f) => `/music/${encodeURIComponent(f)}`);
+  } catch {
+    return [];
+  }
+}
 
 const khTeka = localFont({
   src: [
@@ -36,13 +52,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const tracks = getTracks();
   return (
     <html
       lang="en"
       className={`${khTeka.variable} ${khTekaMono.variable} antialiased`}
     >
       <body className="bg-background text-foreground">
-        {children}
+        <AudioProvider tracks={tracks}>{children}</AudioProvider>
         <Analytics />
       </body>
     </html>

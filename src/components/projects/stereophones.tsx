@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAudioVolume } from "@/components/audio-provider";
 import { ObjectLabel } from "./object-label";
 
 const MAX_DEG = 160; // knob travel: 0 (silent) → 160 (full volume)
+const OVER_DEG = 26; // how far past a limit the knob can be rubber-banded
+const FADE_MS = 220; // crossfade between the front image and the spin clips
 
 // DOT.webp is 522×522 at x:359 y:1157 within the 1580×1798 image.
 const DOT_STYLE: React.CSSProperties = {
@@ -13,86 +16,84 @@ const DOT_STYLE: React.CSSProperties = {
   width: `${(522 / 1580) * 100}%`,
 };
 
-type Props = { name: string; year: string; tracks?: string[] };
+type Props = { name: string; year: string };
+
+// Rubber-band a raw knob angle: linear inside [0, MAX], saturating past either
+// end so dragging beyond a limit moves less and less (toward ±OVER_DEG).
+const rubber = (v: number) => {
+  if (v < 0) {
+    const o = -v;
+    return -((OVER_DEG * o) / (o + OVER_DEG));
+  }
+  if (v > MAX_DEG) {
+    const o = v - MAX_DEG;
+    return MAX_DEG + (OVER_DEG * o) / (o + OVER_DEG);
+  }
+  return v;
+};
+
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 /**
- * Stereophones — the earcup is a volume knob. Hover plays rotate.webm (a 2×-speed
- * spin), then the side view + DOT (knob) fade in. On leave it plays the spin in
- * reverse (rotate-rev.webm, the same clip reversed — browsers can't play video
- * backwards) and returns to the front view. The two clips are frame-aligned, so a
- * mid-spin enter/leave hands off seamlessly. Drag the DOT around its own centre
- * (clockwise 0–160°) to set the music volume; while the knob is actively turning
- * the side view swaps to stereophones_sides2.webp. A track from /music plays in the
- * background (random order). Click (without dragging) opens the project page.
+ * Stereophones — the earcup is a volume knob. Hover plays a 2×-speed spin
+ * (rotate-fwd.webm) and the side view + DOT (knob) appear; leaving plays the
+ * reverse clip (rotate-rev.webm — browsers can't play video backwards) back to
+ * the front. The two clips are frame-aligned, so leaving mid-spin hands straight
+ * to the reverse from the same frame. The front image (stereophones.webp)
+ * crossfades with the clips' first/last frame, which is held underneath until
+ * the image has fully resolved. Drag the DOT around its own centre (0–160°,
+ * clockwise) to set the music volume — it rubber-bands past the limits and
+ * springs back. While the knob is actively turning the side view swaps to
+ * stereophones_sides2.webp. Music is owned by AudioProvider so it keeps playing
+ * across navigation; the volume persists too. Click (no drag) opens the page.
  */
-export function Stereophones({ name, year, tracks = [] }: Props) {
+export function Stereophones({ name, year }: Props) {
   const router = useRouter();
+  const { setVolume, getVolume } = useAudioVolume();
+
+  const initDeg = getVolume() * MAX_DEG;
   const [hovered, setHovered] = useState(false);
   const [phase, setPhase] = useState<"front" | "fwd" | "sides" | "rev">("front");
-  const [rotation, setRotation] = useState(0);
+  const [rotation, setRotation] = useState(initDeg);
   const [turning, setTurning] = useState(false);
+  const [revHold, setRevHold] = useState(false); // keep rev's last frame during fade
 
   const fwdVideoRef = useRef<HTMLVideoElement>(null);
   const revVideoRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
   const dotRef = useRef<HTMLImageElement>(null);
 
-  const rotationRef = useRef(0);
+  const rotationRef = useRef(initDeg); // displayed angle (rubber-banded)
+  const logicalRef = useRef(initDeg); // raw accumulated angle (can exceed limits)
   const draggingRef = useRef(false);
   const draggedRef = useRef(false); // a drag happened → suppress the click
   const lastAngleRef = useRef(0);
   const centerRef = useRef({ x: 0, y: 0 });
-  const trackRef = useRef(0);
   const turnTimerRef = useRef<number | null>(null);
-
-  // --- background audio (only mounted here, i.e. only on the home page) ---
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || tracks.length === 0) return;
-
-    trackRef.current = Math.floor(Math.random() * tracks.length); // random start
-    audio.src = tracks[trackRef.current];
-    audio.volume = rotationRef.current / MAX_DEG;
-
-    const onEnded = () => {
-      if (tracks.length > 1) {
-        let n = trackRef.current;
-        while (n === trackRef.current) n = Math.floor(Math.random() * tracks.length);
-        trackRef.current = n;
-      }
-      audio.src = tracks[trackRef.current];
-      audio.volume = rotationRef.current / MAX_DEG;
-      void audio.play().catch(() => {});
-    };
-    audio.addEventListener("ended", onEnded);
-
-    // Autoplay needs a user gesture — start on the first one anywhere.
-    const start = () => void audio.play().catch(() => {});
-    window.addEventListener("pointerdown", start, { once: true });
-    window.addEventListener("keydown", start, { once: true });
-
-    return () => {
-      audio.removeEventListener("ended", onEnded);
-      window.removeEventListener("pointerdown", start);
-      window.removeEventListener("keydown", start);
-      audio.pause();
-    };
-  }, [tracks]);
-
-  const setRotationAndVolume = (deg: number) => {
-    const clamped = Math.min(MAX_DEG, Math.max(0, deg));
-    rotationRef.current = clamped;
-    setRotation(clamped);
-    if (audioRef.current) audioRef.current.volume = clamped / MAX_DEG;
-  };
+  const enterTimerRef = useRef<number | null>(null);
+  const revHoldTimerRef = useRef<number | null>(null);
+  const springRef = useRef<number | null>(null);
 
   // Buffer both clips up front so the first hover/leave plays immediately.
   useEffect(() => {
     fwdVideoRef.current?.load();
     revVideoRef.current?.load();
+    return () => {
+      [turnTimerRef, enterTimerRef, revHoldTimerRef].forEach((t) => {
+        if (t.current) clearTimeout(t.current);
+      });
+      if (springRef.current) cancelAnimationFrame(springRef.current);
+    };
   }, []);
 
-  // Hover → spin forward; the side view fades in when it ends.
+  const applyKnob = (display: number, logical: number) => {
+    rotationRef.current = display;
+    logicalRef.current = logical;
+    setRotation(display);
+    setVolume(Math.min(1, Math.max(0, logical / MAX_DEG)));
+  };
+
+  // Hover → spin forward; the front image crossfades out over the held first
+  // frame, then the clip plays through to the side view.
   const onEnter = () => {
     setHovered(true);
     if (phase === "sides" || phase === "fwd") return;
@@ -102,44 +103,65 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
       setPhase("sides");
       return;
     }
-    // Coming out of a reverse mid-spin: continue forward from the same frame.
-    if (phase === "rev" && rev && fwd.duration) {
-      fwd.currentTime = Math.max(0, fwd.duration - rev.currentTime);
-    } else {
-      fwd.currentTime = 0;
+    if (phase === "rev") {
+      // Reversing → forward mid-spin: continue from the same frame, no fade.
+      if (rev && fwd.duration) fwd.currentTime = Math.max(0, fwd.duration - rev.currentTime);
+      else fwd.currentTime = 0;
+      rev?.pause();
+      if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
+      setRevHold(false);
+      setPhase("fwd");
+      void fwd.play().catch(() => setPhase("sides"));
+      return;
     }
+    // From the front image: hold frame 0, crossfade the image out, then play.
+    fwd.currentTime = 0;
+    fwd.pause();
     rev?.pause();
     setPhase("fwd");
-    void fwd.play().catch(() => setPhase("sides"));
+    if (enterTimerRef.current) clearTimeout(enterTimerRef.current);
+    enterTimerRef.current = window.setTimeout(() => {
+      void fwd.play().catch(() => setPhase("sides"));
+    }, FADE_MS);
   };
 
-  // Leave → spin backward, then return to the front view.
+  // Leave → spin backward, then crossfade the front image back in.
   const onLeave = () => {
     setHovered(false);
     if (draggingRef.current) return; // don't reverse mid knob-drag
     if (phase === "front" || phase === "rev") return;
+    if (enterTimerRef.current) clearTimeout(enterTimerRef.current);
     const fwd = fwdVideoRef.current;
     const rev = revVideoRef.current;
     if (!rev) {
       setPhase("front");
       return;
     }
-    // Reverse starts at the frame matching the current forward position
-    // (rev is fwd reversed, so rev t ↔ fwd dur − t). From "sides" that's 0.
+    // rev is fwd reversed (rev t ↔ fwd dur − t), so start at the matching frame
+    // — seamless whether we leave from "sides" (fwd ended) or mid-"fwd".
     rev.currentTime = Math.max(0, (rev.duration || 0) - (fwd?.currentTime ?? 0));
     fwd?.pause();
     setPhase("rev");
     void rev.play().catch(() => setPhase("front"));
   };
 
-  // --- DOT rotary drag (around the knob's own centre) ---
+  const onRevEnded = () => {
+    setPhase("front"); // front image crossfades in
+    setRevHold(true); // keep rev's last frame underneath until it's in
+    if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
+    revHoldTimerRef.current = window.setTimeout(() => setRevHold(false), FADE_MS + 60);
+  };
+
+  // --- DOT rotary drag (around the knob's own centre), with rubber-band ---
   const angleAt = (x: number, y: number) =>
     (Math.atan2(y - centerRef.current.y, x - centerRef.current.x) * 180) / Math.PI;
 
   const onDotDown = (e: React.PointerEvent) => {
+    if (springRef.current) cancelAnimationFrame(springRef.current);
     const r = dotRef.current!.getBoundingClientRect();
     centerRef.current = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
     lastAngleRef.current = angleAt(e.clientX, e.clientY);
+    logicalRef.current = rotationRef.current; // resume from the settled angle
     draggingRef.current = true;
     draggedRef.current = false;
     dotRef.current!.setPointerCapture(e.pointerId);
@@ -150,6 +172,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     const a = angleAt(e.clientX, e.clientY);
     let delta = a - lastAngleRef.current;
     delta = ((((delta + 180) % 360) + 360) % 360) - 180; // normalise to (-180,180]
+    lastAngleRef.current = a;
     if (Math.abs(delta) > 0.5) {
       draggedRef.current = true;
       // sides2 shows only while the knob is actually moving; revert shortly
@@ -158,8 +181,23 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
       if (turnTimerRef.current) clearTimeout(turnTimerRef.current);
       turnTimerRef.current = window.setTimeout(() => setTurning(false), 120);
     }
-    lastAngleRef.current = a;
-    setRotationAndVolume(rotationRef.current + delta);
+    const logical = Math.max(-300, Math.min(MAX_DEG + 300, logicalRef.current + delta));
+    applyKnob(rubber(logical), logical);
+  };
+
+  const springTo = (target: number) => {
+    if (springRef.current) cancelAnimationFrame(springRef.current);
+    const start = rotationRef.current;
+    const t0 = performance.now();
+    const step = (now: number) => {
+      const f = Math.min((now - t0) / 280, 1);
+      const val = start + (target - start) * easeOut(f);
+      rotationRef.current = val;
+      setRotation(val);
+      if (f < 1) springRef.current = requestAnimationFrame(step);
+      else springRef.current = null;
+    };
+    springRef.current = requestAnimationFrame(step);
   };
 
   const onDotUp = (e: React.PointerEvent) => {
@@ -171,8 +209,13 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     } catch {
       // ignore
     }
+    // Spring back into range if the knob was pushed past a limit.
+    const bound = logicalRef.current < 0 ? 0 : logicalRef.current > MAX_DEG ? MAX_DEG : null;
+    if (bound !== null) {
+      logicalRef.current = bound;
+      springTo(bound);
+    }
     if (draggedRef.current) {
-      // keep flag true through the click that may follow, then clear it
       setTimeout(() => {
         draggedRef.current = false;
       }, 0);
@@ -184,8 +227,6 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
     router.push("/stereophones");
   };
 
-  const fade = "transition-opacity duration-500 ease-in-out";
-
   return (
     <div
       className="relative w-[var(--obj-mobile-w)] h-auto aspect-[1580/1798] cursor-pointer select-none md:h-[var(--obj-desktop-h)] md:w-auto"
@@ -193,16 +234,6 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
       onMouseLeave={onLeave}
       onClick={onClick}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/images/stereophones.webp"
-        alt="Stereophones"
-        draggable={false}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${
-          phase === "front" ? "opacity-100" : "opacity-0"
-        }`}
-      />
-
       <video
         ref={fwdVideoRef}
         src="/videos/rotate-fwd.webm"
@@ -211,7 +242,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         preload="auto"
         aria-hidden
         onEnded={() => setPhase("sides")}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${
+        className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-contain ${
           phase === "fwd" ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -223,9 +254,9 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         playsInline
         preload="auto"
         aria-hidden
-        onEnded={() => setPhase("front")}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${
-          phase === "rev" ? "opacity-100" : "opacity-0"
+        onEnded={onRevEnded}
+        className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-contain ${
+          phase === "rev" || revHold ? "opacity-100" : "opacity-0"
         }`}
       />
 
@@ -235,7 +266,7 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         alt=""
         aria-hidden
         draggable={false}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${
+        className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-contain ${
           phase === "sides" ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -248,12 +279,25 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         alt=""
         aria-hidden
         draggable={false}
-        className={`absolute inset-0 z-10 h-full w-full object-contain ${
+        className={`pointer-events-none absolute inset-0 z-10 h-full w-full object-contain ${
           phase === "sides" && turning ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      {/* DOT knob — drag to rotate (volume). Fades in with the side view. */}
+      {/* Front image — sits above the clips so it can crossfade over their
+          held first/last frame on hover/leave. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/stereophones.webp"
+        alt="Stereophones"
+        draggable={false}
+        style={{ transitionDuration: `${FADE_MS}ms` }}
+        className={`pointer-events-none absolute inset-0 z-30 h-full w-full object-contain transition-opacity ease-in-out ${
+          phase === "front" ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      {/* DOT knob — drag to rotate (volume). Appears with the side view. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={dotRef}
@@ -265,12 +309,10 @@ export function Stereophones({ name, year, tracks = [] }: Props) {
         onPointerMove={onDotMove}
         onPointerUp={onDotUp}
         style={{ ...DOT_STYLE, transform: `rotate(${rotation}deg)` }}
-        className={`absolute z-20 touch-none cursor-grab active:cursor-grabbing ${fade} ${
+        className={`absolute z-40 touch-none cursor-grab active:cursor-grabbing ${
           phase === "sides" ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
-
-      <audio ref={audioRef} preload="auto" />
 
       <ObjectLabel name={name} year={year} show={hovered} className="bottom-[110%]" />
     </div>

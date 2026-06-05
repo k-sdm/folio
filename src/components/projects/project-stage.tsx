@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { SkyVase } from "./sky-vase";
 import { ArenaFrame } from "./arena-frame";
 import { Journey } from "./journey";
@@ -47,6 +47,15 @@ const MOBILE_BASELINE_PX_W =
 export function ProjectStage() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Fade each object in sequentially on first load. Besides looking nice, it
+  // hides the Sky Vase gradient "jump" when it recalculates from the visitor's
+  // detected date/location after mount.
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setShown(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   // Map vertical wheel/trackpad movement onto horizontal panning. Uses a native
   // non-passive listener so preventDefault() works (React's onWheel is passive,
   // so it can't claim the gesture). No-ops when there's no horizontal overflow
@@ -70,7 +79,7 @@ export function ProjectStage() {
       className="flex h-full flex-col items-center gap-10 overflow-y-auto pt-2 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-row md:items-end md:gap-16 md:overflow-x-auto md:overflow-y-hidden md:py-0 md:pl-[calc((100dvh_-_96px)_*_134_/_2267)]"
       style={{ scrollSnapType: "x proximity" }}
     >
-      {PROJECTS.map((p) => {
+      {PROJECTS.map((p, idx) => {
         // Mobile: scale by pixel-width ratio against stereophones-at-full-width.
         // Desktop: scale by pixel-height ratio against the reference height.
         const mobileW = `calc((100vw - 48px) * ${p.px.w} / ${MOBILE_BASELINE_PX_W})`;
@@ -79,12 +88,15 @@ export function ProjectStage() {
         return (
           <div
             key={p.key}
-            className={`flex shrink-0 justify-center ${p.href ? "cursor-pointer" : ""}`}
+            className={`flex shrink-0 justify-center transition-opacity duration-500 ease-out ${
+              p.href ? "cursor-pointer" : ""
+            } ${shown ? "opacity-100" : "opacity-0"}`}
             style={
               {
                 "--obj-mobile-w": mobileW,
                 "--obj-desktop-h": desktopH,
                 scrollSnapAlign: "center",
+                transitionDelay: shown ? `${idx * 150}ms` : "0ms",
               } as CSSProperties
             }
           >

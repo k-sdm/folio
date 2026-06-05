@@ -21,6 +21,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* iOS Safari draws a hairline border around inline <video> elements; clip the
+   outermost pixel (the clips have white/transparent edges, so it's invisible)
+   and drop any UA border/outline. */
+video {
+  border: 0;
+  outline: 0;
+  clip-path: inset(1px);
+}
+
 /* One full forward spin (vertical axis) for the header logo on hover.
    perspective() is in the transform (not a parent property) so the 3D is
    self-contained and doesn't skew with scroll inside the sticky header. */

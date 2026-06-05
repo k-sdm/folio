@@ -6,7 +6,7 @@ import { useAudioVolume } from "@/components/audio-provider";
 import { ObjectLabel } from "./object-label";
 
 const MAX_DEG = 160; // knob travel: 0 (silent) → 160 (full volume)
-const OVER_DEG = 26; // how far past a limit the knob can be rubber-banded
+const TOP_GIVE = 52; // rubber-band give past the top (max) limit; bottom is a hard stop
 const FADE_MS = 220; // crossfade between the front image and the spin clips
 
 // DOT.webp is 522×522 at x:359 y:1157 within the 1580×1798 image.
@@ -18,16 +18,13 @@ const DOT_STYLE: React.CSSProperties = {
 
 type Props = { name: string; year: string };
 
-// Rubber-band a raw knob angle: linear inside [0, MAX], saturating past either
-// end so dragging beyond a limit moves less and less (toward ±OVER_DEG).
+// Rubber-band a raw knob angle: hard stop at the bottom (0), and past the top
+// (MAX) it saturates with give, moving less and less toward +TOP_GIVE.
 const rubber = (v: number) => {
-  if (v < 0) {
-    const o = -v;
-    return -((OVER_DEG * o) / (o + OVER_DEG));
-  }
+  if (v <= 0) return 0; // hard stop — no give at the bottom
   if (v > MAX_DEG) {
     const o = v - MAX_DEG;
-    return MAX_DEG + (OVER_DEG * o) / (o + OVER_DEG);
+    return MAX_DEG + (TOP_GIVE * o) / (o + TOP_GIVE);
   }
   return v;
 };
@@ -254,7 +251,9 @@ export function Stereophones({ name, year }: Props) {
       if (turnTimerRef.current) clearTimeout(turnTimerRef.current);
       turnTimerRef.current = window.setTimeout(() => setTurning(false), 120);
     }
-    const logical = Math.max(-300, Math.min(MAX_DEG + 300, logicalRef.current + delta));
+    // Clamp the raw angle at 0 (hard stop, so dragging back up responds at once)
+    // and allow overshoot above MAX for the top rubber-band.
+    const logical = Math.max(0, Math.min(MAX_DEG + 300, logicalRef.current + delta));
     applyKnob(rubber(logical), logical);
   };
 
@@ -283,7 +282,7 @@ export function Stereophones({ name, year }: Props) {
       // ignore
     }
     // Spring back into range if the knob was pushed past a limit.
-    const bound = logicalRef.current < 0 ? 0 : logicalRef.current > MAX_DEG ? MAX_DEG : null;
+    const bound = logicalRef.current > MAX_DEG ? MAX_DEG : null; // only the top springs back
     if (bound !== null) {
       logicalRef.current = bound;
       springTo(bound);

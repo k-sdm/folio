@@ -44,7 +44,7 @@ const khTekaMono = localFont({
 
 export const metadata: Metadata = {
   title: "Kiran Scott de Martinville",
-  description: "Personal website and portfolio of Kiran Scott.",
+  description: "physical technology",
 };
 
 export default function RootLayout({

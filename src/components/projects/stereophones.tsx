@@ -66,6 +66,7 @@ export function Stereophones({ name, year }: Props) {
   const logicalRef = useRef(initDeg); // raw accumulated angle (can exceed limits)
   const draggingRef = useRef(false);
   const draggedRef = useRef(false); // a drag happened → suppress the click
+  const hoveredRef = useRef(false);
   const lastAngleRef = useRef(0);
   const centerRef = useRef({ x: 0, y: 0 });
   const turnTimerRef = useRef<number | null>(null);
@@ -120,6 +121,7 @@ export function Stereophones({ name, year }: Props) {
   // Hover → spin forward; the front image crossfades out over the held first
   // frame, then the clip plays through to the side view.
   const onEnter = () => {
+    hoveredRef.current = true;
     setHovered(true);
     if (phase === "sides" || phase === "fwd") return;
     const fwd = fwdVideoRef.current;
@@ -142,19 +144,25 @@ export function Stereophones({ name, year }: Props) {
       });
       return;
     }
-    // From the front image: hold frame 0, crossfade the image out, then play.
-    fwd.currentTime = 0;
+    // From the front image: the clip may be resting on its last (side) frame,
+    // so seek to frame 0 while the front image still fully covers it; only then
+    // reveal (front image starts fading out over the held first frame) and,
+    // after the crossfade, play. Without the seek-first the side frame flashes.
     fwd.pause();
     rev?.pause();
-    setPhase("fwd");
-    if (enterTimerRef.current) clearTimeout(enterTimerRef.current);
-    enterTimerRef.current = window.setTimeout(() => {
-      void fwd.play().catch(() => setPhase("sides"));
-    }, FADE_MS);
+    seekThenReveal(fwd, 0, () => {
+      if (!hoveredRef.current) return; // pointer already left during the seek
+      setPhase("fwd");
+      if (enterTimerRef.current) clearTimeout(enterTimerRef.current);
+      enterTimerRef.current = window.setTimeout(() => {
+        void fwd.play().catch(() => setPhase("sides"));
+      }, FADE_MS);
+    });
   };
 
   // Leave → spin backward, then crossfade the front image back in.
   const onLeave = () => {
+    hoveredRef.current = false;
     setHovered(false);
     if (draggingRef.current) return; // don't reverse mid knob-drag
     if (phase === "front" || phase === "rev") return;

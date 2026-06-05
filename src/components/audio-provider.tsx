@@ -45,6 +45,10 @@ export function AudioProvider({
     const audio = audioRef.current;
     if (!audio || tracks.length === 0) return;
 
+    // Desktop only: the volume knob is a hover/drag interaction, so disable the
+    // music feature entirely on touch/mobile (otherwise any tap starts it).
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
     trackRef.current = Math.floor(Math.random() * tracks.length); // random start
     audio.src = tracks[trackRef.current];
     audio.volume = volumeRef.current;

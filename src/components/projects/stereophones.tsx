@@ -104,18 +104,28 @@ export function Stereophones({ name, year }: Props) {
     reveal: () => void,
   ) => {
     const token = ++seekTokenRef.current;
+    // Reveal on the next animation frame so the (already-correct or just-seeked)
+    // frame has actually composited first.
+    const revealNextFrame = () =>
+      requestAnimationFrame(() => {
+        if (token === seekTokenRef.current) reveal();
+      });
     if (Math.abs(video.currentTime - target) <= 0.01) {
-      reveal();
+      revealNextFrame();
       return;
     }
-    const fire = () => {
-      if (token !== seekTokenRef.current) return; // superseded by a newer seek
-      video.removeEventListener("seeked", fire);
-      reveal();
+    let done = false;
+    const onSeeked = () => {
+      if (done || token !== seekTokenRef.current) return;
+      done = true;
+      video.removeEventListener("seeked", onSeeked);
+      revealNextFrame();
     };
+    video.addEventListener("seeked", onSeeked);
     video.currentTime = target;
-    video.addEventListener("seeked", fire);
-    window.setTimeout(fire, 100); // fallback if 'seeked' never fires
+    // Long safety net only if 'seeked' never fires — never short enough to win
+    // the race against a normal seek (which would flash the pre-seek frame).
+    window.setTimeout(onSeeked, 500);
   };
 
   // Hover → spin forward; the front image crossfades out over the held first
@@ -188,6 +198,9 @@ export function Stereophones({ name, year }: Props) {
   const onRevEnded = () => {
     setPhase("front"); // front image crossfades in
     setRevHold(true); // keep rev's last frame underneath until it's in
+    // Pre-seek the forward clip back to frame 0 now (it's hidden), so the next
+    // hover from the front needs no seek and can't flash its resting side frame.
+    if (fwdVideoRef.current) fwdVideoRef.current.currentTime = 0;
     if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
     revHoldTimerRef.current = window.setTimeout(() => {
       setRevHold(false);

@@ -88,7 +88,7 @@ export function ProjectStage() {
         return (
           <div
             key={p.key}
-            className={`flex shrink-0 justify-center transition-opacity duration-500 ease-out ${
+            className={`flex shrink-0 justify-center transition-opacity duration-1000 ease-out ${
               p.href ? "cursor-pointer" : ""
             } ${shown ? "opacity-100" : "opacity-0"}`}
             style={
@@ -96,7 +96,7 @@ export function ProjectStage() {
                 "--obj-mobile-w": mobileW,
                 "--obj-desktop-h": desktopH,
                 scrollSnapAlign: "center",
-                transitionDelay: shown ? `${idx * 150}ms` : "0ms",
+                transitionDelay: shown ? `${idx * 300}ms` : "0ms",
               } as CSSProperties
             }
           >

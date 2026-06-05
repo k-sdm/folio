@@ -32,26 +32,15 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
   const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
-
-    const apply = (lat: number) => {
-      if (!cancelled) setMasks(vaseMasks(seasonalT(new Date(), lat)));
-    };
-
-    fetch("/api/here")
-      .then((r) => r.json())
-      .then((d: { lat?: number }) => apply(typeof d.lat === "number" ? d.lat : DEFAULT_LAT))
-      .catch(() => apply(DEFAULT_LAT));
-
+    // Compute the gradient immediately from today's date + a default latitude.
+    // (Previously this awaited a /api/here location fetch whose latency caused
+    // the gradient to visibly jump after the object had already faded in.)
     const now = new Date();
+    setMasks(vaseMasks(seasonalT(now, DEFAULT_LAT)));
     const yy = String(now.getFullYear()).slice(-2);
     const mm = String(now.getMonth() + 1).padStart(2, "0");
     const dd = String(now.getDate()).padStart(2, "0");
     setDate(`${yy}${mm}${dd}`);
-
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   return (

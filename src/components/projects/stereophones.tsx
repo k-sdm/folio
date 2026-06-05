@@ -72,6 +72,7 @@ export function Stereophones({ name, year }: Props) {
   const enterTimerRef = useRef<number | null>(null);
   const revHoldTimerRef = useRef<number | null>(null);
   const springRef = useRef<number | null>(null);
+  const seekTokenRef = useRef(0);
 
   // Buffer both clips up front so the first hover/leave plays immediately.
   useEffect(() => {
@@ -92,6 +93,30 @@ export function Stereophones({ name, year }: Props) {
     setVolume(Math.min(1, Math.max(0, logical / MAX_DEG)));
   };
 
+  // Seek a clip to `target`, then reveal it only once that frame has painted.
+  // Until then the previously visible layer stays put, so we never flash the
+  // clip's resting frame (e.g. its front-facing first/last frame) before the
+  // seek lands — which is what caused the stereophones.webp flash on interrupt.
+  const seekThenReveal = (
+    video: HTMLVideoElement,
+    target: number,
+    reveal: () => void,
+  ) => {
+    const token = ++seekTokenRef.current;
+    if (Math.abs(video.currentTime - target) <= 0.01) {
+      reveal();
+      return;
+    }
+    const fire = () => {
+      if (token !== seekTokenRef.current) return; // superseded by a newer seek
+      video.removeEventListener("seeked", fire);
+      reveal();
+    };
+    video.currentTime = target;
+    video.addEventListener("seeked", fire);
+    window.setTimeout(fire, 100); // fallback if 'seeked' never fires
+  };
+
   // Hover → spin forward; the front image crossfades out over the held first
   // frame, then the clip plays through to the side view.
   const onEnter = () => {
@@ -104,14 +129,17 @@ export function Stereophones({ name, year }: Props) {
       return;
     }
     if (phase === "rev") {
-      // Reversing → forward mid-spin: continue from the same frame, no fade.
-      if (rev && fwd.duration) fwd.currentTime = Math.max(0, fwd.duration - rev.currentTime);
-      else fwd.currentTime = 0;
+      // Reversing → forward mid-spin: continue from the matching frame. Seek
+      // first so we don't flash fwd's resting frame, keeping rev visible until
+      // fwd is ready.
+      const target = rev && fwd.duration ? Math.max(0, fwd.duration - rev.currentTime) : 0;
       rev?.pause();
       if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
       setRevHold(false);
-      setPhase("fwd");
-      void fwd.play().catch(() => setPhase("sides"));
+      seekThenReveal(fwd, target, () => {
+        setPhase("fwd");
+        void fwd.play().catch(() => setPhase("sides"));
+      });
       return;
     }
     // From the front image: hold frame 0, crossfade the image out, then play.
@@ -138,18 +166,27 @@ export function Stereophones({ name, year }: Props) {
       return;
     }
     // rev is fwd reversed (rev t ↔ fwd dur − t), so start at the matching frame
-    // — seamless whether we leave from "sides" (fwd ended) or mid-"fwd".
-    rev.currentTime = Math.max(0, (rev.duration || 0) - (fwd?.currentTime ?? 0));
+    // — seamless whether we leave from "sides" (fwd ended) or mid-"fwd". Seek
+    // before revealing so rev's resting (front) frame never flashes; the fwd /
+    // sides layer stays visible until rev's target frame is ready.
+    const target = Math.max(0, (rev.duration || 0) - (fwd?.currentTime ?? 0));
     fwd?.pause();
-    setPhase("rev");
-    void rev.play().catch(() => setPhase("front"));
+    seekThenReveal(rev, target, () => {
+      setPhase("rev");
+      void rev.play().catch(() => setPhase("front"));
+    });
   };
 
   const onRevEnded = () => {
     setPhase("front"); // front image crossfades in
     setRevHold(true); // keep rev's last frame underneath until it's in
     if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
-    revHoldTimerRef.current = window.setTimeout(() => setRevHold(false), FADE_MS + 60);
+    revHoldTimerRef.current = window.setTimeout(() => {
+      setRevHold(false);
+      // Rest on the side frame, not the front one, so a later interrupt never
+      // briefly shows the front-facing frame.
+      if (revVideoRef.current) revVideoRef.current.currentTime = 0;
+    }, FADE_MS + 60);
   };
 
   // --- DOT rotary drag (around the knob's own centre), with rubber-band ---
@@ -308,8 +345,12 @@ export function Stereophones({ name, year }: Props) {
         onPointerDown={onDotDown}
         onPointerMove={onDotMove}
         onPointerUp={onDotUp}
-        style={{ ...DOT_STYLE, transform: `rotate(${rotation}deg)` }}
-        className={`absolute z-40 touch-none cursor-grab active:cursor-grabbing ${
+        style={{
+          ...DOT_STYLE,
+          transform: `rotate(${rotation}deg)`,
+          transitionDuration: `${FADE_MS}ms`,
+        }}
+        className={`absolute z-40 touch-none cursor-grab transition-opacity ease-in-out active:cursor-grabbing ${
           phase === "sides" ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />

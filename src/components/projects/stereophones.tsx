@@ -144,10 +144,18 @@ export function Stereophones({ name, year }: Props) {
       // Reversing → forward mid-spin: continue from the matching frame. Seek
       // first so we don't flash fwd's resting frame, keeping rev visible until
       // fwd is ready.
-      const target = rev && fwd.duration ? Math.max(0, fwd.duration - rev.currentTime) : 0;
+      const dur = fwd.duration || 0;
+      const target = rev && dur ? Math.max(0, dur - rev.currentTime) : 0;
       rev?.pause();
       if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
       setRevHold(false);
+      // Barely reversed (target at fwd's end): we're already at the side view —
+      // go straight there. play() at the very end would reset to 0 and replay
+      // the whole forward spin.
+      if (dur && target >= dur - 0.02) {
+        setPhase("sides");
+        return;
+      }
       seekThenReveal(fwd, target, () => {
         setPhase("fwd");
         void fwd.play().catch(() => setPhase("sides"));
@@ -187,8 +195,16 @@ export function Stereophones({ name, year }: Props) {
     // — seamless whether we leave from "sides" (fwd ended) or mid-"fwd". Seek
     // before revealing so rev's resting (front) frame never flashes; the fwd /
     // sides layer stays visible until rev's target frame is ready.
-    const target = Math.max(0, (rev.duration || 0) - (fwd?.currentTime ?? 0));
+    const dur = rev.duration || 0;
+    const target = Math.max(0, dur - (fwd?.currentTime ?? 0));
     fwd?.pause();
+    // Barely entered (target at rev's end): nothing to reverse, and play() at the
+    // very end would reset to 0 and replay the whole reverse (flashing the side
+    // frame). Go straight back to the front instead.
+    if (dur && target >= dur - 0.02) {
+      setPhase("front");
+      return;
+    }
     seekThenReveal(rev, target, () => {
       setPhase("rev");
       void rev.play().catch(() => setPhase("front"));
@@ -202,12 +218,11 @@ export function Stereophones({ name, year }: Props) {
     // hover from the front needs no seek and can't flash its resting side frame.
     if (fwdVideoRef.current) fwdVideoRef.current.currentTime = 0;
     if (revHoldTimerRef.current) clearTimeout(revHoldTimerRef.current);
-    revHoldTimerRef.current = window.setTimeout(() => {
-      setRevHold(false);
-      // Rest on the side frame, not the front one, so a later interrupt never
-      // briefly shows the front-facing frame.
-      if (revVideoRef.current) revVideoRef.current.currentTime = 0;
-    }, FADE_MS + 60);
+    revHoldTimerRef.current = window.setTimeout(() => setRevHold(false), FADE_MS + 60);
+    // NB: don't reset rev's currentTime here — doing so while it's still
+    // opacity-1 (before the setRevHold re-render) flashed the side frame. The
+    // leave path always seeks rev before revealing it, so its resting frame
+    // doesn't matter.
   };
 
   // --- DOT rotary drag (around the knob's own centre), with rubber-band ---

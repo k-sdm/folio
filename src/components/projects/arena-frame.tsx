@@ -32,8 +32,10 @@ const SLOT_STYLE: React.CSSProperties = {
  */
 export function ArenaFrame({ name, year }: { name: string; year: string }) {
   const [hovered, setHovered] = useState(false);
-  // Resume the persisted video if we have one; otherwise pick a random start.
-  const [index, setIndex] = useState<number | null>(savedIndex);
+  // Resume the persisted video if we have one; otherwise default to frame 1 so
+  // the <video> is in the first (server) render and the browser starts loading
+  // it immediately. A random start frame is chosen on mount (below).
+  const [index, setIndex] = useState<number>(savedIndex ?? 1);
   const videoRef = useRef<HTMLVideoElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -51,12 +53,11 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
 
   // Keep the persisted index in sync so navigating away & back resumes it.
   useEffect(() => {
-    if (index !== null) savedIndex = index;
+    savedIndex = index;
   }, [index]);
 
   // freeze first frame → play → freeze last frame → advance (8 → 1).
   useEffect(() => {
-    if (index === null) return;
     const video = videoRef.current;
     if (!video) return;
     clearTimer();
@@ -77,7 +78,7 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
     const handleEnded = () => {
       clearTimer();
       timerRef.current = setTimeout(() => {
-        setIndex((prev) => ((prev ?? 1) % VIDEO_COUNT) + 1);
+        setIndex((prev) => (prev % VIDEO_COUNT) + 1);
       }, FREEZE_MS);
     };
 
@@ -111,20 +112,18 @@ export function ArenaFrame({ name, year }: { name: string; year: string }) {
       />
 
       {/* Video in the screen cutout — hidden while hovering */}
-      {index !== null && (
-        <video
-          ref={videoRef}
-          src={`/videos/frame_${index}.webm`}
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden
-          style={SLOT_STYLE}
-          className={`absolute z-20 object-cover transition-opacity duration-500 ease-in-out ${
-            hovered ? "opacity-0" : "opacity-100"
-          }`}
-        />
-      )}
+      <video
+        ref={videoRef}
+        src={`/videos/frame_${index}.webm`}
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden
+        style={SLOT_STYLE}
+        className={`absolute z-20 object-cover transition-opacity duration-500 ease-in-out ${
+          hovered ? "opacity-0" : "opacity-100"
+        }`}
+      />
 
       {/* Back of the frame — fades in on hover, covering the video */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

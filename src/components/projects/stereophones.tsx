@@ -309,7 +309,7 @@ export function Stereophones({ name, year }: Props) {
     >
       <video
         ref={fwdVideoRef}
-        src="/videos/rotate-fwd-2.webm"
+        src="/videos/rotate-fwd-3.webm"
         muted
         playsInline
         preload="auto"
@@ -322,7 +322,7 @@ export function Stereophones({ name, year }: Props) {
 
       <video
         ref={revVideoRef}
-        src="/videos/rotate-rev-2.webm"
+        src="/videos/rotate-rev-3.webm"
         muted
         playsInline
         preload="auto"

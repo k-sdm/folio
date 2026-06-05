@@ -126,15 +126,16 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
             if (b.type === "grid") return <Masonry key={i} images={b.images} />;
             const widthClass = b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]";
             // Optional fixed-ratio box: the box stretches to the width and the
-            // video fills it (used to force the orbit clip into a 16:9 frame).
+            // whole video is fitted inside it (no cropping; letterboxed if its
+            // native ratio differs). Used to frame the orbit clip as 16:9.
             if (b.ratio)
               return (
                 <div
                   key={i}
-                  className={`relative w-[80vw] overflow-hidden ${widthClass}`}
+                  className={`relative w-[80vw] ${widthClass}`}
                   style={{ aspectRatio: b.ratio.replace("/", " / ") }}
                 >
-                  <Video media={b} className="absolute inset-0 h-full w-full object-cover" />
+                  <Video media={b} className="absolute inset-0 h-full w-full object-contain" />
                 </div>
               );
             return (

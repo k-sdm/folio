@@ -150,10 +150,10 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                 width="200%"
                 height="320%"
               >
-                <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
                 <feTurbulence
                   type="fractalNoise"
-                  baseFrequency="0.045"
+                  baseFrequency="0.11"
                   numOctaves="2"
                   seed="7"
                   result="noise"
@@ -161,7 +161,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                 <feDisplacementMap
                   in="blur"
                   in2="noise"
-                  scale="22"
+                  scale="6"
                   xChannelSelector="R"
                   yChannelSelector="G"
                   result="rough"
@@ -169,7 +169,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                 <feColorMatrix
                   in="rough"
                   type="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -12"
                 />
               </filter>
               <mask id="skyvaseDateMask">

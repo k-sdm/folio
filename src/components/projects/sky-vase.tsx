@@ -216,7 +216,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         name={name}
         year={year}
         show={hovered}
-        style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%`, color: "#fff" }}
+        style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%` }}
       />
     </div>
   );

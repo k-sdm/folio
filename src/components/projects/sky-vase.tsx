@@ -121,29 +121,55 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
           <svg
             viewBox="0 0 1286 242"
             preserveAspectRatio="xMidYMid meet"
+            overflow="visible"
             className="h-full w-full overflow-visible"
           >
             <defs>
-              {/* Gradient from 991231.svg (across the digits): #525252 → #939393 → #525252 */}
-              <linearGradient id="skyvaseDateGrad" x1="0" y1="0" x2="0" y2="1">
+              {/* Gradient from 991231.svg (across the digits): #525252 → #939393
+                  → #525252. userSpaceOnUse so it always maps to the digit band
+                  (y 0–242), independent of the oversized fill rect below. */}
+              <linearGradient
+                id="skyvaseDateGrad"
+                gradientUnits="userSpaceOnUse"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="242"
+              >
                 <stop offset="0%" stopColor="#525252" />
                 <stop offset="49.04%" stopColor="#939393" />
                 <stop offset="100%" stopColor="#525252" />
               </linearGradient>
-              {/* Ink bleed: blur the text, then push the alpha through a hard
-                  threshold so the edges bloom and merge like wet ink. */}
+              {/* Ink bleed: blur the text, jitter it with fractal-noise
+                  displacement (the inky/pixelated edge texture), then push the
+                  alpha through a hard threshold so it blooms like wet ink. */}
               <filter
                 id="skyvaseInk"
-                x="-30%"
-                y="-60%"
-                width="160%"
-                height="220%"
+                x="-50%"
+                y="-100%"
+                width="200%"
+                height="320%"
               >
-                <feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur" />
-                <feColorMatrix
+                <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.045"
+                  numOctaves="2"
+                  seed="7"
+                  result="noise"
+                />
+                <feDisplacementMap
                   in="blur"
+                  in2="noise"
+                  scale="22"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                  result="rough"
+                />
+                <feColorMatrix
+                  in="rough"
                   type="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
                 />
               </filter>
               <mask id="skyvaseDateMask">
@@ -152,6 +178,8 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                   y="121"
                   textAnchor="middle"
                   dominantBaseline="central"
+                  textLength="1200"
+                  lengthAdjust="spacingAndGlyphs"
                   fontWeight={700}
                   fontSize="334"
                   fill="#fff"
@@ -162,11 +190,12 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                 </text>
               </mask>
             </defs>
+            {/* Oversized so the inky bleed past the digit band isn't clipped. */}
             <rect
-              x="0"
-              y="0"
-              width="1286"
-              height="242"
+              x="-120"
+              y="-140"
+              width="1526"
+              height="522"
               fill="url(#skyvaseDateGrad)"
               mask="url(#skyvaseDateMask)"
             />

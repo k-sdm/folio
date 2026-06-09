@@ -139,7 +139,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                 width="160%"
                 height="220%"
               >
-                <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="11" result="blur" />
                 <feColorMatrix
                   in="blur"
                   type="matrix"
@@ -153,7 +153,7 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
                   textAnchor="middle"
                   dominantBaseline="central"
                   fontWeight={700}
-                  fontSize="200"
+                  fontSize="334"
                   fill="#fff"
                   filter="url(#skyvaseInk)"
                   style={{ fontFamily: "var(--font-kh-teka-mono)" }}

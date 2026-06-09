@@ -21,7 +21,8 @@ const DATE_BOX = {
  * date and the visitor's latitude (see src/lib/vase-gradient.ts).
  *
  * Hovering the vase (its reference rectangle) crossfades to vase_hover.webp and
- * reveals today's date (YYMMDD) as a rotated, screen-blended label.
+ * reveals today's date (YYMMDD) as a rotated, screen-blended ink-bleed label.
+ * Clicking opens skyva.se (linked from ProjectStage).
  */
 export function SkyVase({ name, year }: { name: string; year: string }) {
   // Deterministic mid-season default → identical on server & client (no
@@ -29,7 +30,6 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
   const [masks, setMasks] = useState<string[]>(() => vaseMasks(0.5));
   const [hovered, setHovered] = useState(false);
   const [date, setDate] = useState("");
-  const [cursor, setCursor] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     // Compute the gradient immediately from today's date + a default latitude.
@@ -55,10 +55,9 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         className="pointer-events-none absolute top-0 h-full aspect-[1066/2267] isolate"
         style={{ left: `${(-134 / 637) * 100}%` }}
       >
-        {/* Gradient stack — fades out on hover. Blurred as the "coming soon"
-            teaser; the hover image and date stay sharp. */}
+        {/* Gradient stack — fades out on hover. */}
         <div
-          className={`absolute inset-0 z-10 blur-[16px] transition-opacity duration-500 ease-in-out ${
+          className={`absolute inset-0 z-10 transition-opacity duration-500 ease-in-out ${
             hovered ? "opacity-0" : "opacity-100"
           }`}
         >
@@ -100,12 +99,14 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
           }`}
         />
 
-        {/* Date label — rotated, gradient fill, 1px blur, screen-blended onto
-            the vase. mix-blend-mode lives here (not on the span): the box's
-            transform makes a stacking context, so blending the span alone would
-            composite against the transparent box, not the vase. */}
+        {/* Date label — rotated, screen-blended onto the vase, drawn as an
+            ink-bleed: the date text is blurred then alpha-thresholded into a
+            gooey shape (SVG filter) that masks a vertical gradient fill.
+            mix-blend-mode lives on this box (not inside the SVG): the box's
+            transform makes a stacking context, so blending composites against
+            the vase below rather than the transparent box. */}
         <div
-          className={`absolute z-30 flex items-center justify-center transition-opacity duration-500 ease-in-out ${
+          className={`absolute z-30 transition-opacity duration-500 ease-in-out ${
             hovered ? "opacity-100" : "opacity-0"
           }`}
           style={{
@@ -114,42 +115,70 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
             width: DATE_BOX.width,
             height: DATE_BOX.height,
             transform: "translate(-50%, -50%) rotate(-90deg)",
-            containerType: "size",
             mixBlendMode: "screen",
-            filter: "blur(0.5px)",
           }}
         >
-          <span
-            style={{
-              fontFamily: "var(--font-kh-teka-mono)",
-              fontWeight: 700,
-              // Gradient from 991231.svg (across the digits): #525252 → #939393 → #525252
-              backgroundImage:
-                "linear-gradient(to bottom, #525252 0%, #939393 49.04%, #525252 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              color: "transparent",
-              WebkitTextFillColor: "transparent",
-              fontSize: "138cqh",
-              lineHeight: 1,
-              whiteSpace: "nowrap",
-            }}
+          <svg
+            viewBox="0 0 1286 242"
+            preserveAspectRatio="xMidYMid meet"
+            className="h-full w-full overflow-visible"
           >
-            {date}
-          </span>
+            <defs>
+              {/* Gradient from 991231.svg (across the digits): #525252 → #939393 → #525252 */}
+              <linearGradient id="skyvaseDateGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#525252" />
+                <stop offset="49.04%" stopColor="#939393" />
+                <stop offset="100%" stopColor="#525252" />
+              </linearGradient>
+              {/* Ink bleed: blur the text, then push the alpha through a hard
+                  threshold so the edges bloom and merge like wet ink. */}
+              <filter
+                id="skyvaseInk"
+                x="-30%"
+                y="-60%"
+                width="160%"
+                height="220%"
+              >
+                <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+                <feColorMatrix
+                  in="blur"
+                  type="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"
+                />
+              </filter>
+              <mask id="skyvaseDateMask">
+                <text
+                  x="643"
+                  y="121"
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fontWeight={700}
+                  fontSize="200"
+                  fill="#fff"
+                  filter="url(#skyvaseInk)"
+                  style={{ fontFamily: "var(--font-kh-teka-mono)" }}
+                >
+                  {date}
+                </text>
+              </mask>
+            </defs>
+            <rect
+              x="0"
+              y="0"
+              width="1286"
+              height="242"
+              fill="url(#skyvaseDateGrad)"
+              mask="url(#skyvaseDateMask)"
+            />
+          </svg>
         </div>
       </div>
 
-      {/* Hover-capture = the reference rectangle only (not the overflow).
-          Cursor hidden so the "coming soon" bubble reads as the cursor. */}
+      {/* Hover-capture = the reference rectangle only (not the overflow). */}
       <div
-        className="absolute inset-0 cursor-none"
+        className="absolute inset-0"
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => {
-          setHovered(false);
-          setCursor(null);
-        }}
-        onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
+        onMouseLeave={() => setHovered(false)}
       />
 
       {/* 10% above the hover content top (alpha row 682 / 2267), then net
@@ -160,16 +189,6 @@ export function SkyVase({ name, year }: { name: string; year: string }) {
         show={hovered}
         style={{ bottom: `${(1 - (682 / 2267 - 0.1) - 0.05) * 100}%`, color: "#fff" }}
       />
-
-      {/* "coming soon" bubble that follows the cursor over the vase */}
-      {hovered && cursor && (
-        <div
-          className="pointer-events-none fixed z-50 translate-x-4 translate-y-4 rounded-full bg-black px-3 py-1.5 text-[13px] font-light leading-none text-white"
-          style={{ left: cursor.x, top: cursor.y }}
-        >
-          coming soon
-        </div>
-      )}
     </div>
   );
 }

@@ -27,7 +27,8 @@ type Project = {
 const PROJECTS: Project[] = [
   // Vase footprint uses its reference rectangle (637 wide), not the full image
   // width, so the transparent side padding doesn't make the gaps uneven.
-  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, href: "https://skyva.se", external: true, px: { w: 637, h: 2267 } },
+  // Sky Vase is unlinked for now (skyva.se not released yet).
+  { key: "sky-vase", name: "Sky Vase", year: "2026", Component: SkyVase, px: { w: 637, h: 2267 } },
   { key: "arena-frame", name: "Arena Frame", year: "2026", Component: ArenaFrame, href: "/arena-frame", px: { w: 833, h: 1178 } },
   { key: "journey", name: "Journey", year: "2024", Component: Journey, href: "/journey", px: { w: 723, h: 1186 } },
   // Stereophones handles its own navigation (knob drag vs. click), so no link.

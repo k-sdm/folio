@@ -60,15 +60,33 @@
    },
    {
     "type": "video",
-    "webm": "/projects/sky-vase/web.webm",
-    "size": "portrait"
+    "webm": "/projects/sky-vase/web.webm"
    },
    {
     "type": "text",
     "text": "The website opens with this question, prompting reflection and contemplation rather than immediately trying to sell the object, subverting typical e-commerce sites."
    }
   ],
-  "process": []
+  "process": [
+   "/projects/sky-vase/sv1.webp",
+   "/projects/sky-vase/sv2.webp",
+   "/projects/sky-vase/sv3.webp",
+   "/projects/sky-vase/sv4.webp",
+   "/projects/sky-vase/sv5.webp",
+   "/projects/sky-vase/sv6.webp",
+   "/projects/sky-vase/sv7.webp",
+   "/projects/sky-vase/sv8.webp",
+   "/projects/sky-vase/sv9.webp",
+   "/projects/sky-vase/sv10.webp",
+   "/projects/sky-vase/sv11.webp",
+   "/projects/sky-vase/sv12.webp",
+   "/projects/sky-vase/sv13.webp",
+   "/projects/sky-vase/sv14.webp",
+   "/projects/sky-vase/sv15.webp",
+   "/projects/sky-vase/sv16.webp",
+   "/projects/sky-vase/sv17.webp",
+   "/projects/sky-vase/sv18.webp"
+  ]
  },
  "postingCard": {
   "name": "Arena Frame",

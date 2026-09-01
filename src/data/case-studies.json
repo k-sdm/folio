@@ -3,7 +3,7 @@
   "name": "Sky Vase",
   "credit": "",
   "hero": {
-   "webm": "/projects/sky-vase/hero.webm",
+   "webm": "/projects/sky-vase/vases.webm",
    "size": "portrait"
   },
   "blocks": [
@@ -27,7 +27,7 @@
    },
    {
     "type": "text",
-    "text": "It began as a search for a common point of beauty in the human experience, across all borders, cultures, languages and generations\nThis led to the sky as it crosses between day and night: a moment that moves across the earth every twelve hours, seen and shared by all\nHow many pictures of the sunset do you have in your camera roll? Do you notice others stopping to take in this moment?"
+    "text": "It began as a search for a common point of beauty in the human experience, across all borders, cultures, languages and generations\n\nThis led to the sky as it crosses between day and night: a moment that moves across the earth every twelve hours, seen and shared by all\n\nHow many pictures of the sunset do you have in your camera roll? Do you notice others stopping to take in this moment?"
    },
    {
     "type": "video",
@@ -37,6 +37,35 @@
    {
     "type": "text",
     "text": "The vase is anodised titanium, a process that naturally creates colours that follow the hues of the sky."
+   },
+   {
+    "type": "video",
+    "webm": "/projects/sky-vase/dates.webm"
+   },
+   {
+    "type": "text",
+    "text": "Each piece starts with a date and place of a moment important to the user. The gradient changes, based on the daylight of that memory, embedding it into the piece.",
+    "runs": [
+     {
+      "t": "Each piece starts with a date and place of a moment important to the user. The gradient changes, based on the "
+     },
+     {
+      "t": "daylight of that memory,",
+      "href": "https://sunclock.net/"
+     },
+     {
+      "t": " embedding it into the piece."
+     }
+    ]
+   },
+   {
+    "type": "video",
+    "webm": "/projects/sky-vase/web.webm",
+    "size": "portrait"
+   },
+   {
+    "type": "text",
+    "text": "The website opens with this question, prompting reflection and contemplation rather than immediately trying to sell the object, subverting typical e-commerce sites."
    }
   ],
   "process": []

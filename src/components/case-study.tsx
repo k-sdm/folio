@@ -6,6 +6,7 @@ type Media = { mp4?: string; webm?: string; poster?: string; image?: string };
 type Run = { t: string; href?: string };
 type Block =
   | { type: "text"; text: string; runs?: Run[] }
+  | { type: "button"; text: string; href: string }
   | { type: "image"; src: string; size: "large" | "small" }
   | { type: "grid"; images: string[] }
   | ({ type: "video"; size?: "large" | "small"; ratio?: string } & Media);
@@ -109,9 +110,22 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
           {data.blocks.map((b, i) => {
             if (b.type === "text")
               return (
-                <p key={i} className={TEXT_CLASS}>
+                <p key={i} className={`${TEXT_CLASS} whitespace-pre-line`}>
                   <RichText text={b.text} runs={b.runs} />
                 </p>
+              );
+            // Pill link (black stroke, white fill) that fades to 40% grey on hover.
+            if (b.type === "button")
+              return (
+                <a
+                  key={i}
+                  href={b.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block rounded-full border border-black bg-white px-5 py-2 text-[14px] font-light leading-none text-black transition-colors duration-200 hover:border-black/40 hover:text-black/40 md:px-8 md:py-3 md:text-[28px]"
+                >
+                  {b.text}
+                </a>
               );
             if (b.type === "image")
               return (

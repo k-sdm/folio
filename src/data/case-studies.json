@@ -3,12 +3,38 @@
   "name": "Sky Vase",
   "credit": "",
   "hero": {
-   "image": "/images/vase_hover.webp"
+   "webm": "/projects/sky-vase/hero.webm"
   },
   "blocks": [
    {
     "type": "text",
-    "text": "Sky Vase is an anodised aluminium vase whose gradient is set by the date and the hours of daylight where it stands."
+    "text": "Sky Vase, 2026"
+   },
+   {
+    "type": "button",
+    "text": "Limited edition of 40",
+    "href": "https://skyva.se"
+   },
+   {
+    "type": "text",
+    "text": "A physical manifesto exploring using memory and personalised manufacture to create an object people care for and keep around. My first product released entirely independently, available for purchase"
+   },
+   {
+    "type": "image",
+    "src": "/projects/sky-vase/sunset.webp",
+    "size": "small"
+   },
+   {
+    "type": "text",
+    "text": "It began as a search for a common point of beauty in the human experience, across all borders, cultures, languages and generations\nThis led to the sky as it crosses between day and night: a moment that moves across the earth every twelve hours, seen and shared by all\nHow many pictures of the sunset do you have in your camera roll? Do you notice others stopping to take in this moment?"
+   },
+   {
+    "type": "video",
+    "webm": "/projects/sky-vase/anodise.webm"
+   },
+   {
+    "type": "text",
+    "text": "The vase is anodised titanium, a process that naturally creates colours that follow the hues of the sky."
    }
   ],
   "process": []

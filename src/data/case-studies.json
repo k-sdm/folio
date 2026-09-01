@@ -1,4 +1,18 @@
 {
+ "skyVase": {
+  "name": "Sky Vase",
+  "credit": "",
+  "hero": {
+   "image": "/images/vase_hover.webp"
+  },
+  "blocks": [
+   {
+    "type": "text",
+    "text": "Sky Vase is an anodised aluminium vase whose gradient is set by the date and the hours of daylight where it stands."
+   }
+  ],
+  "process": []
+ },
  "postingCard": {
   "name": "Arena Frame",
   "credit": "",

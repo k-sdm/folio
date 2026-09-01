@@ -3,7 +3,8 @@
   "name": "Sky Vase",
   "credit": "",
   "hero": {
-   "webm": "/projects/sky-vase/hero.webm"
+   "webm": "/projects/sky-vase/hero.webm",
+   "size": "portrait"
   },
   "blocks": [
    {
@@ -30,7 +31,8 @@
    },
    {
     "type": "video",
-    "webm": "/projects/sky-vase/anodise.webm"
+    "webm": "/projects/sky-vase/anodise.webm",
+    "size": "portrait"
    },
    {
     "type": "text",

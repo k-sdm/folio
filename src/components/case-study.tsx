@@ -2,14 +2,24 @@
 import { SiteHeader } from "@/components/site-header";
 import caseStudies from "@/data/case-studies.json";
 
-type Media = { mp4?: string; webm?: string; poster?: string; image?: string };
+type Size = "large" | "small" | "portrait";
+type Media = { mp4?: string; webm?: string; poster?: string; image?: string; size?: Size };
 type Run = { t: string; href?: string };
 type Block =
   | { type: "text"; text: string; runs?: Run[] }
   | { type: "button"; text: string; href: string }
   | { type: "image"; src: string; size: "large" | "small" }
   | { type: "grid"; images: string[] }
-  | ({ type: "video"; size?: "large" | "small"; ratio?: string } & Media);
+  | ({ type: "video"; ratio?: string } & Media);
+
+// Responsive display width. "portrait" is 60% of the large width — for vertical
+// videos that would otherwise be too big.
+const mediaWidth = (size?: Size) =>
+  size === "portrait"
+    ? "w-[48vw] md:w-[39vw]"
+    : size === "small"
+      ? "w-[80vw] md:w-[40vw]"
+      : "w-[80vw] md:w-[65vw]";
 type ProjectData = {
   name: string;
   credit: string;
@@ -94,10 +104,13 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
             <img
               src={data.hero.image}
               alt=""
-              className="mx-auto block w-[80vw] md:w-[65vw]"
+              className={`mx-auto block ${mediaWidth(data.hero.size)}`}
             />
           ) : (
-            <Video media={data.hero} className="mx-auto block w-[80vw] md:w-[65vw]" />
+            <Video
+              media={data.hero}
+              className={`mx-auto block ${mediaWidth(data.hero.size)}`}
+            />
           ))}
 
         {(data.credit || data.creditRuns) && (
@@ -122,7 +135,7 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                   href={b.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block rounded-full border border-black bg-white px-5 py-2 text-[14px] font-light leading-none text-black transition-colors duration-200 hover:border-black/40 hover:text-black/40 md:px-8 md:py-3 md:text-[28px]"
+                  className="inline-block rounded-full border border-black bg-white px-5 pt-[0.55em] pb-[0.35em] text-[14px] font-light leading-none text-black transition-colors duration-200 hover:border-black/40 hover:text-black/40 md:px-8 md:text-[28px]"
                 >
                   {b.text}
                 </a>
@@ -134,11 +147,11 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
                   src={b.src}
                   alt=""
                   loading="lazy"
-                  className={`block w-[80vw] ${b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]"}`}
+                  className={`block ${mediaWidth(b.size)}`}
                 />
               );
             if (b.type === "grid") return <Masonry key={i} images={b.images} />;
-            const widthClass = b.size === "small" ? "md:w-[40vw]" : "md:w-[65vw]";
+            const widthClass = mediaWidth(b.size);
             // Optional fixed-ratio box: the box stretches to the width and the
             // whole video is fitted inside it (no cropping; letterboxed if its
             // native ratio differs). Used to frame the orbit clip as 16:9.
@@ -146,15 +159,13 @@ export function CaseStudy({ id }: { id: keyof typeof caseStudies }) {
               return (
                 <div
                   key={i}
-                  className={`relative w-[80vw] ${widthClass}`}
+                  className={`relative ${widthClass}`}
                   style={{ aspectRatio: b.ratio.replace("/", " / ") }}
                 >
                   <Video media={b} className="absolute inset-0 h-full w-full object-contain" />
                 </div>
               );
-            return (
-              <Video key={i} media={b} className={`block w-[80vw] ${widthClass}`} />
-            );
+            return <Video key={i} media={b} className={`block ${widthClass}`} />;
           })}
         </div>
 
